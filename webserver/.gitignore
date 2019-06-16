@@ -116,6 +116,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+c4-website/
 
 # Spyder project settings
 .spyderproject

@@ -1,0 +1,5 @@
+setx C4_DEV_DATABASE_NAME "c4websitetest"
+setx C4_DEV_DATABASE_PSWD "c4WebsiteDatabaseTestAccount"
+setx C4_DEV_DATABASE_HOST "localhost"
+setx C4_DEV_DATABASE_USER "c4WebsiteTest"
+setx C4_DEV_SECRET_KEY "^pav=)74g!=*+vc-1k(e2swhqb6%vw908yh%zdl@3hrr%lgm3!"

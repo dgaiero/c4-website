@@ -14,8 +14,24 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from django.conf.urls import url
+from rest_framework.authtoken.views import obtain_auth_token
+
+from .views import login
+
+from c4Backend.views import handler404, handler500
+
+def trigger_error(request):
+    division_by_zero = 1 / 0
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path(r'api/v1/', include('c4Backend.urls')),
+   #  path('api/login', login),
+   #  url(r'^api-token-auth/', obtain_auth_token),
+   #  path('sentry-debug/', trigger_error),
 ]
+
+handler404 = handler404
+handler500 = handler500

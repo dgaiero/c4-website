@@ -117,6 +117,10 @@ class Collaborations(models.Model):
          verbose_name="Collaboration Name",
          unique=True
    )
+   class Meta:
+      verbose_name = 'Collaboration'
+      verbose_name_plural = 'Collaborations'
+
    def __str__(self):
       return self.collaborationName
 

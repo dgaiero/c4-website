@@ -10,14 +10,15 @@ class OrganizationAdmin(ImportExportModelAdmin):
    date_hierarchy = 'dateAdded'
    fieldsets = [
       ('Org Information', {'fields' : ['orgName', 'orgType']}),
-      ('Extended Information', {'fields' : ['department', 'website']})
+      ('Extended Information', {'fields' : ['department', 'website']}),
+      # ('Debug Information', {'fields': ['orgNameUnique', ]}),
    ]
    search_fields = ['orgName', 'orgType', 'department']
    list_display = ('orgName', 'department', 'orgType')
    list_filter = ('orgName', 'department', 'orgType')
 
 
-# @admin.register(User)
+@admin.register(User)
 class UserAdmin(ImportExportModelAdmin):
    date_hierarchy = 'dateAdded'
    resource_class = UserResource
@@ -25,17 +26,19 @@ class UserAdmin(ImportExportModelAdmin):
        ('Basic Information', {'fields': ['firstName', 'lastName', 'emailAddress']}),
        ('Extended Information', {'fields': ['userType', 'website', 'description']}),
        ('Organization Information', {'fields': ['keywords', 'collaborations','organization', 'jobTitle']}),
+
    ]
    search_fields = ['firstName', 'lastName', 'emailAddress',
                     'userType', 'keywords', 'collaborations', 'organization', 'jobTitle']
-   list_display = ('firstName', 'lastName', 'userType', 'organization')
+   list_display = ('firstName', 'lastName', 'userType')
    list_filter = ('userType', 'keywords', 'organization', 'jobTitle')
+   filter_horizontal = ('keywords','collaborations', 'organization')
 
 
 @admin.register(Keyword)
 class KeywordAdmin(ImportExportModelAdmin):
-   date_hierarchy = 'dateAdded'
    resource_class = KeywordResource
+   date_hierarchy = 'dateAdded'
    fieldsets = [
        ('Keyword Information', {'fields': ['keywordType', 'keywordName', 'sortOrder']}),
        ('Extended Information', {'fields': ['keywordDescription']}),
@@ -55,7 +58,7 @@ class CollaborationAdmin(ImportExportModelAdmin):
    list_filter = ('collaborationName',)
 
 # admin.site.register(Organization)
-admin.site.register(User, UserAdmin)
+# admin.site.register(User, UserAdmin)
 # admin.site.register(Keyword)
 
 admin.site.site_header = 'Central Coast Climate Collaborative Database\

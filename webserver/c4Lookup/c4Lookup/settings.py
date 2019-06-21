@@ -33,6 +33,8 @@ environ.Env.read_env(env_file=os.path.join(SITE_ROOT))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BACKEND_DIR = BASE_DIR
+FRONTEND_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "c4frontend")
 
 LOGGING_CONFIG = None
 LOGLEVEL = env('LOGLEVEL', default='INFO').upper()
@@ -61,25 +63,31 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'import_export',
+    'django_filters',
+    'crispy_forms',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
     'rest_framework_latex',
     'corsheaders',
+    'whitenoise.runserver_nostatic',
 
     'c4Backend',
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ]
-   #  'DEFAULT_RENDERER_CLASSES': [
-      #   'rest_framework_latex.renderers.LatexRenderer',
-   #  ]
+   'DEFAULT_PERMISSION_CLASSES': [
+      'rest_framework.permissions.AllowAny',
+   ],
+   'DEFAULT_AUTHENTICATION_CLASSES': [
+      'rest_framework.authentication.TokenAuthentication',
+   ],
+   # 'DEFAULT_RENDERER_CLASSES': [
+   #    'rest_framework.renderers.JSONRenderer',
+   # ],
+   'DEFAULT_FILTER_BACKENDS': [
+      'django_filters.rest_framework.DjangoFilterBackend',
+   ],
 }
 
 LATEX_RESOURCES = os.path.join(BASE_DIR, 'latex_resources')
@@ -96,6 +104,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 CORS_ORIGIN_WHITELIST = (
@@ -108,7 +117,9 @@ ROOT_URLCONF = 'c4Lookup.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(FRONTEND_DIR, 'build'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -185,5 +196,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+STATICFILES_DIRS = [os.path.join(FRONTEND_DIR, 'build', 'static')]
+STATICFILES_STORAGE = (
+    'whitenoise.storage.CompressedManifestStaticFilesStorage')
+
+STATIC_ROOT = os.path.join(BACKEND_DIR, 'static')
+
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+WHITENOISE_ROOT = os.path.join(FRONTEND_DIR, 'build', 'root')

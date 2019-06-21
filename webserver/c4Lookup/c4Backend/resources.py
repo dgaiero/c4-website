@@ -4,6 +4,15 @@ from import_export.widgets import ForeignKeyWidget, ManyToManyWidget
 import import_export.fields as fields
 from .models import Organization, User, Keyword, Collaborations
 
+
+
+class CollaborationResource(resources.ModelResource):
+   id = fields.Field(column_name='ID', attribute='id')
+   collaborationName = fields.Field(
+      attribute='collaborationName',
+      column_name=('Collaboration Name')
+   )
+
 class OrganizationResource(resources.ModelResource):
 
    id = fields.Field(column_name='ID',attribute='id')
@@ -25,24 +34,19 @@ class OrganizationResource(resources.ModelResource):
       fields = ('id', 'orgName', 'orgType', 'website', 'department')
       export_order = ('id', 'orgName', 'orgType', 'website', 'department')
 
+# class KeywordResource(resources.ModelResource):
+#    id = fields.Field(column_name='ID', attribute='id')
+#    keywordName = fields.Field(column_name='Keyword Name', attribute='keywordName')
 
-class CollaborationResource(resources.ModelResource):
-   id = fields.Field(column_name='ID', attribute='id')
-   collaborationName = fields.Field(
-      attribute='collaborationName',
-      column_name=('Collaboration Name')
-   )
 
 class KeywordResource(resources.ModelResource):
 
    id = fields.Field(column_name='ID', attribute='id')
    keywordType = fields.Field(
-      # attribute='get_keywordType_display',
-       attribute='keyword',
+       attribute='keywordType',
        column_name=('Keyword Type')
    )
    sortOrder = fields.Field(
-      # attribute='get_sortOrder_display',
        attribute='sortOrder',
        column_name=('Sort Order')
    )
@@ -53,9 +57,9 @@ class KeywordResource(resources.ModelResource):
    class Meta:
       skip_unchanged = True
       report_skipped = False
-      model = Organization
+      model = Keyword
       exclude = ('id', 'dateAdded')
-      import_id_fields = ('keywordName')
+      import_id_fields = ('keywordName',)
       fields = ('id', 'keywordName', 'keywordType', 'sortOrder', 'keywordDescription')
       export_order = ('id', 'keywordName', 'keywordType', 'sortOrder', 'keywordDescription')
 
@@ -67,6 +71,10 @@ class UserResource(resources.ModelResource):
          super(name, self).save_instance(instance, using_transactions, dry_run)
       except IntegrityError:
          pass
+
+   # def import_obj(instance, row):
+   #    super(UserResource, self).import_obj(instance, row)
+   #    instance.name = "%s: %s" % (row['organization'])
 
    id = fields.Field(column_name='ID',attribute='id')
 
@@ -81,9 +89,11 @@ class UserResource(resources.ModelResource):
    jobTitle = fields.Field(column_name='Job Title',attribute='jobTitle')
 
    organization = fields.Field(
-         column_name='Organization',
-         attribute='organization',
-         widget=ForeignKeyWidget(Organization, 'orgName'))
+      column_name='Organization',
+      attribute='organization',
+      widget=ManyToManyWidget(Organization, field='orgNameUnique')
+      # widget=ForeignKeyWidget(Organization, 'orgName')
+   )
 
    userType = fields.Field(
       # attribute='get_userType_display',
@@ -106,7 +116,7 @@ class UserResource(resources.ModelResource):
 
    collaborations = fields.Field(
       column_name='Collaborations',
-      attribute='Collaborations',
+      attribute='collaborations',
       widget=ManyToManyWidget(Collaborations, field='collaborationName')
    )
 

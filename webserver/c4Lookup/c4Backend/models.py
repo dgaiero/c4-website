@@ -39,6 +39,17 @@ class Organization(models.Model):
    )
    dateAdded = models.DateTimeField(auto_now_add=True, null=True)
 
+   orgNameUnique = models.CharField(
+      max_length=100,
+      editable=False,
+   )
+
+   def save(self, *args, **kwargs):
+      self.orgNameUnique = self.orgName
+      if self.department is not None:
+         self.orgNameUnique += ": {}".format(self.department)
+      super().save(*args, **kwargs)  # Call the "real" save() method.
+
    def __str__(self):
       orgFullName = self.orgName
       if self.department is not None:
@@ -80,9 +91,11 @@ class User(models.Model):
       blank=True,
       null=True
    )
+
    emailAddress = models.EmailField(
       verbose_name="Email Address",
       unique=True)
+
    keywords = models.ManyToManyField(
       'Keyword',
       verbose_name="Keywords"
@@ -90,15 +103,16 @@ class User(models.Model):
    collaborations = models.ManyToManyField(
       'Collaborations',
       verbose_name='Collaborations',
+      blank=True
    )
    website = models.URLField(
       verbose_name="Website",
       blank=True,
       null=True
    )
-   organization = models.ForeignKey(
-      Organization,
-      on_delete=models.CASCADE,
+   organization = models.ManyToManyField(
+      'Organization',
+      # on_delete=models.CASCADE,
       verbose_name="Affiliated Organization"
    )
    description = models.TextField(
@@ -151,7 +165,8 @@ class Keyword(models.Model):
       max_length=2,
       choices=SORT_ORDER,
       verbose_name="Sort Order",
-      help_text="How high level is this keyword?"
+      help_text="How high level is this keyword? (Fruit would be high level, \
+         Apple would be medium level, and Fuji Apple would be low level."
    )
    keywordName = models.CharField(
       max_length=100,

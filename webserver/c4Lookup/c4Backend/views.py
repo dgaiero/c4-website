@@ -2,6 +2,9 @@
 
 from rest_framework import generics, viewsets
 
+from django_filters import rest_framework as filters
+# from rest_framework import filters
+
 from django.shortcuts import render_to_response
 
 from .models import Organization, User, Keyword, Collaborations
@@ -32,22 +35,40 @@ from rest_framework.permissions import IsAuthenticated
 class OrganizationViewSet(viewsets.ModelViewSet):
    queryset = Organization.objects.all()
    serializer_class = OrganizationSerializer
-   permission_classes = (IsAuthenticated,)
+   # permission_classes = (IsAuthenticated,)
+   filterset_fields = ('orgName', 'orgType', 'department')
 
 class UserViewSet(viewsets.ModelViewSet):
    queryset = User.objects.all()
    serializer_class = UserSerializer
-   permission_classes = (IsAuthenticated,)
+   filterset_fields = ('userType', 'jobTitle', 'keywords', 'collaborations', 'organization')
+   # permission_classes = (IsAuthenticated,)
 
 class KeywordViewSet(viewsets.ModelViewSet):
    queryset = Keyword.objects.all()
    serializer_class = KeywordSerializer
-   permission_classes = (IsAuthenticated,)
+   # permission_classes = (IsAuthenticated,)
+   filterset_fields = ('keywordType', 'sortOrder')
+
+
+# class KeywordList(viewsets.ModelViewSet):
+#    queryset = Keyword.objects.all()
+#    serializer_class = KeywordSerializer
+#    # permission_classes = (IsAuthenticated,)
+#    filter_backends = (filters.DjangoFilterBackend,)
+#    filterset_sields = ('keywordType', 'sortOrder')
+
 
 class CollaborationViewSet(viewsets.ModelViewSet):
    queryset = Collaborations.objects.all()
    serializer_class = CollaborationSerializer
-   permission_classes = (IsAuthenticated,)
+   # permission_classes = (IsAuthenticated,)
+
+
+# class HighLevelKeywords(viewsets.ViewSet):
+#    queryset = Keyword.objects.filter(keywordType=Keyword.SORT_HIGH)
+#    serializer_class = KeywordSerializer
+#    permission_classes = (IsAuthenticated,)
 
 
 def handler404(request, exception, template_name="404.html"):

@@ -22,11 +22,6 @@ from django.utils.log import DEFAULT_LOGGING
 root_path = environ.Path(__file__) - 3
 env = environ.Env()
 
-sentry_sdk.init(
-    dsn=env('SENTRY_DSN'),
-    integrations=[DjangoIntegration()]
-)
-
 # ENV = env('DJANGO_ENV')
 SITE_ROOT = root_path()
 environ.Env.read_env(env_file=os.path.join(SITE_ROOT))
@@ -43,7 +38,8 @@ LOGLEVEL = env('LOGLEVEL', default='INFO').upper()
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+# SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = '8lu*6g0lg)9z!ba+a$ehk)xt)x%rxgb$i1&amp;022shmi1jcgihb*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
@@ -95,7 +91,6 @@ LATEX_RESOURCES = os.path.join(BASE_DIR, 'latex_resources')
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -104,7 +99,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+   #  'corsheaders.middleware.CorsMiddleware',
+   #  'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 CORS_ORIGIN_WHITELIST = (
@@ -191,6 +187,11 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+sentry_sdk.init(
+    dsn=env('SENTRY_DSN'),
+    integrations=[DjangoIntegration()]
+)
 
 
 # Static files (CSS, JavaScript, Images)

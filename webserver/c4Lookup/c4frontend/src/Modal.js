@@ -55,11 +55,12 @@ async function parseKeywordData(keywordType) {
 }
 
 
-class memberSearchModal extends Component {
+export default class memberSearchModal extends Component {
    constructor(props) {
       super(props);
       this.state = {
          // selectedActivityKeyword: '',
+         queryData: this.props.selectedQuery,
          activityKeywords: [],
 
          topicalKeywords: [],
@@ -73,17 +74,17 @@ class memberSearchModal extends Component {
       }
       this.handleChange = this.handleChange.bind(this);
       this.submitForm = this.submitForm.bind(this);
-      this.toggle = this.toggle.bind(this);
+      // this.toggle = this.toggle.bind(this);
    }
 
-   handleChangeDropDown = selectedOption => {
-      this.setState({ selectedOption });
-      console.log(`Option selected:`, selectedOption);
-   };
+   // handleChangeDropDown = selectedOption => {
+   //    this.setState({ selectedOption });
+   //    console.log(`Option selected:`, selectedOption);
+   // };
 
-   handleActivityDropdown(property) {
+   // handleActivityDropdown(property) {
       // let newVal = property;
-      let stateVal = this.state.activityKeywords;
+      // let stateVal = this.state.activityKeywords;
 
       // console.log(property);
       // console.log(stateVal);
@@ -93,10 +94,10 @@ class memberSearchModal extends Component {
       //       ? (stateVal = [])
       //       : stateVal.splice(stateVal.indexOf(newVal), 1);
 
-      this.setState({
-         activityKeywords: property,
-         selectedActivityKeyword: property });
-   }
+      // this.setState({
+         // activityKeywords: property,
+         // selectedActivityKeyword: property });
+   // }
 
    // validateEmail(e) {
    //    const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -109,14 +110,14 @@ class memberSearchModal extends Component {
    //    this.setState({ validate })
    // }
 
-   handleChange = async (event) => {
-      const { target } = event;
-      const value = target.type === 'checkbox' ? target.checked : target.value;
-      const { name } = target;
-      await this.setState({
-         [name]: value,
-      });
-   }
+   // handleChange = async (event) => {
+   //    const { target } = event;
+   //    const value = target.type === 'checkbox' ? target.checked : target.value;
+   //    const { name } = target;
+   //    await this.setState({
+   //       [name]: value,
+   //    });
+   // }
 
    submitForm(e) {
       e.preventDefault();
@@ -135,6 +136,7 @@ class memberSearchModal extends Component {
          url += '&keywords=' + this.state.topicalKeywords[i].value;
       }
       console.log(url);
+      return url;
 
    }
 
@@ -152,23 +154,33 @@ class memberSearchModal extends Component {
       }
    }
 
-   toggle() {
-      this.setState(prevState => ({
-         modal: !prevState.modal
-      }));
-   }
+   // toggle() {
+   //    this.setState(prevState => ({
+   //       modal: !prevState.modal
+   //    }));
+   // }
+
+   handleChange = (e) => {
+      // console.log(event);
+      let { name, value } = e.target;
+      if (e.target.type === "checkbox") {
+         value = e.target.checked;
+      }
+      const queryData = { ...this.state.queryData, [name]: value };
+      this.setState({ queryData });
+   };
 
    render() {
+      const { toggle, submitHandler } = this.props;
 
       return (
-         <React.Fragment>
-            <Container className="Modal">
-               <Button color="danger" onClick={this.toggle}>Open Me</Button>
-               {/* <h2>4C Member Database Query</h2> */}
-            <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-               <ModalHeader toggle={this.toggle}>Searching for a 4C Member</ModalHeader>
+         // <React.Fragment>
+         //    <Container className="Modal">
+         //       <Button color="danger" onClick={this.toggle}>Open Me</Button>
+            <Modal isOpen={true} toggle={toggle}>
+               <ModalHeader toggle={toggle}>Searching for a 4C Member</ModalHeader>
                <ModalBody>
-               <Form className="form" onSubmit={(e) => this.submitForm(e)}>
+               <Form>
                   <Col>
                      <FormGroup>
                         <Label>University Selection</Label>
@@ -176,12 +188,9 @@ class memberSearchModal extends Component {
                            ref="universitySelection"
                            cacheOptions
                            defaultOptions
-                           value={this.state.selectedUniversities}
+                           value={this.state.queryData.selectedUniversities}
                            loadOptions={this.getUnivertisyTypes}
-                           onChange={(property, value) => {
-                              {/* console.log(property) */}
-                              this.setState({ selectedUniversities: property })
-                           }}
+                           onChange={(val) => this.handleChange({ target: { name: 'selectedUniversities', value: val}})}
                            isMulti={true}
                            isSearchable={false}
                            autoBlur={false}
@@ -197,12 +206,9 @@ class memberSearchModal extends Component {
                            ref="activityKeywords"
                            cacheOptions
                            defaultOptions
-                           value={this.state.selectedActivityKeyword}
+                           value={this.state.queryData.selectedActivityKeyword}
                            loadOptions={() => parseKeywordData('AK')}
-                           onChange={(property, value) => {
-                              console.log(this)
-                              this.setState({ activityKeywords: property })
-                           }}
+                           onChange={(val) => this.handleChange({ target: { name: 'activityKeywords', value: val } })}
                            isMulti={true}
                            isSearchable={false}
                            autoBlur={false}
@@ -218,12 +224,9 @@ class memberSearchModal extends Component {
                            ref="topicalKeywordSelection"
                            cacheOptions
                            defaultOptions
-                           value={this.state.topicalKeywords}
+                           value={this.state.queryData.topicalKeywords}
                            loadOptions={() => parseKeywordData('TK')}
-                           onChange={(property, value) => {
-                              {/* console.log(property) */}
-                              this.setState({ topicalKeywords: property })
-                           }}
+                           onChange={(val) => this.handleChange({ target: { name: 'topicalKeywords', value: val } })}
                            isMulti={true}
                            isSearchable={false}
                            autoBlur={false}
@@ -238,14 +241,12 @@ class memberSearchModal extends Component {
                </Form>
                </ModalBody>
                <ModalFooter>
-                  <Button color="danger" onClick={this.toggle}>Cancel</Button>
-                  <Button color="success" onClick={this.submitForm}>Run Query</Button>
+                  <Button color="danger" onClick={toggle}>Cancel</Button>
+               <Button color="success" onClick={() => submitHandler(this.state.queryData)}>Run Query</Button>
                </ModalFooter>
                </Modal>
-            </Container>
-         </React.Fragment>
+         //    {/* </Container> */}
+         // {/* </React.Fragment> */}
       );
    }
 }
-
-export default memberSearchModal;

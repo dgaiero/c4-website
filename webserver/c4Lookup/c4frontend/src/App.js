@@ -87,14 +87,20 @@ class App extends Component {
       console.log(activityKeywords)
       console.log(topicalKeywords)
       var url = "/api/v1/users/?format=json";
-      for (let i = 0; i < org.length; i++) {
-         url += '&organization=' + org[i].value;
+      if (org) {
+         for (let i = 0; i < org.length; i++) {
+            url += '&organization=' + org[i].value;
+         }
       }
-      for (let i = 0; i < activityKeywords.length; i++) {
-         url += '&keywords=' + activityKeywords[i].value;
+      if (activityKeywords) {
+         for (let i = 0; i < activityKeywords.length; i++) {
+            url += '&keywords=' + activityKeywords[i].value;
+         }
       }
-      for (let i = 0; i < topicalKeywords.length; i++) {
-         url += '&keywords=' + topicalKeywords[i].value;
+      if (topicalKeywords) {
+         for (let i = 0; i < topicalKeywords.length; i++) {
+            url += '&keywords=' + topicalKeywords[i].value;
+         }
       }
       console.log('Final URL before returning is: ' + url);
       // console.log(this);

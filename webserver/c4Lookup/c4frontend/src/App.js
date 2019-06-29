@@ -193,7 +193,7 @@ class App extends Component {
       let title = <div>{this.state.orgData[orgID].orgNameUnique}{NBSP}<Badge color={this.getOrgType(orgInfo.orgType).color}>{this.getOrgType(orgInfo.orgType).name}</Badge></div>
       let body = orgInfo.website !== null ? (
          <Button outline color="primary" size="sm" href={orgInfo.website}>Visit Website</Button>
-         ) : "";
+         ) : "No website provided";
       this.setState({ extendedDataModalTitle: title, extendedModalBody: body, extendedDataModalOpen: !this.state.extendedDataModalOpen});
    }
 

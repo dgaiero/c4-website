@@ -79,7 +79,9 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
    'DEFAULT_PERMISSION_CLASSES': [
-       'c4Lookup.SafelistPermission.IsAdminOrReadOnly',
+      #  'c4Lookup.SafelistPermission.IsAdminOrReadOnly',
+      # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+      'rest_framework.permissions.AllowAny',
    ],
    'DEFAULT_AUTHENTICATION_CLASSES': [
       'rest_framework.authentication.TokenAuthentication',
@@ -92,8 +94,6 @@ REST_FRAMEWORK = {
    ],
 }
 
-LATEX_RESOURCES = os.path.join(BASE_DIR, 'latex_resources')
-
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 MIDDLEWARE = [
@@ -105,8 +105,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-   #  'corsheaders.middleware.CorsMiddleware',
-   #  'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 CORS_ORIGIN_WHITELIST = (

@@ -10,7 +10,6 @@ from django.shortcuts import render_to_response
 from .models import Organization, User, Keyword, Collaborations
 from .serializers import OrganizationSerializer, UserSerializer, KeywordSerializer, CollaborationSerializer
 
-from .permissions import IsAdminOrReadOnly
 from rest_framework.permissions import IsAuthenticated
 
 # class ListOrganization(generics.ListCreateAPIView):

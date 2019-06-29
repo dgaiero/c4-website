@@ -28,7 +28,7 @@ def trigger_error(request):
 urlpatterns = [
     path('dashboard/', admin.site.urls),
     path(r'api/v1/', include('c4Backend.urls')),
-    re_path(r'^(?P<path>.*)/$', catchall),
+   #  re_path(r'^(?P<path>.*)/$', catchall),
     path('', catchall),
    #  re_path(r'', catchall),
    #  path('api/login', login),

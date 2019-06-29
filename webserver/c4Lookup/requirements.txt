@@ -15,7 +15,7 @@ django-filter==2.1.0
 django-filters==0.2.1
 django-import-export==1.2.0
 django-rest-auth==0.9.5
-==3.9.4
+djangorestframework==3.9.4
 drf-yasg==1.16.0
 et-xmlfile==1.0.1
 idna==2.8

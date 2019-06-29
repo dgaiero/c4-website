@@ -13,39 +13,79 @@ import {
    NavItem,
    Jumbotron,
    Table,
+   Badge,
+   ListGroupItem,
+   ListGroup,
    NavLink,
    UncontrolledDropdown,
    DropdownToggle,
    DropdownMenu,
    DropdownItem,
 } from 'reactstrap';
-import Modal from './Modal';
+import FourCMemberSearchModal from './FourCMemberModal';
+import AdditionalDataModal from './AdditionalDataModal';
 import './App.css';
+
+const NBSP = '\u00A0'
 
 class App extends Component {
    constructor(props) {
       super (props);
       this.state = {
-         modal: false,
+         fourCModalOpen: false,
          navIsOpen: false,
          'selectedQueryStatements': {
             activityKeywords: [],
-
+            
             topicalKeywords: [],
-
+            
             selectedUniversities: [],
          },
          displayItems: [],
          requestURL: '/api/v1/users/?format=json',
+         orgData: [],
+         keywordData: [],
+
+
+         extendedDataModalOpen: false,
+         showMoreUserDataModalOpen: false,
+         extendedDataModalTitle: '',
+         extendedModalBody: '',
+         moreUserDataTitle: '',
+         moreUserDataBody: '',
       };
       // this.navToggle = this.navToggle.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
       this.refreshList = this.refreshList.bind(this);
-      this.modalToggle = this.modalToggle.bind(this);
+      this.FourCMemberSearchModalToggle = this.FourCMemberSearchModalToggle.bind(this);
       this.buildURL = this.buildURL.bind(this);
+      this.getOrgs = this.getOrgs.bind(this);
+      this.getKeywords = this.getKeywords.bind(this);
    }
+
+
    componentDidMount() {
       this.refreshList('/api/v1/users/?format=json');
+      this.getOrgs();
+      this.getKeywords();
+   }
+
+   getOrgs() {
+      // orgDataArray[orgData.id] = orgData
+      let orgDataArray = [];
+      axios.get('/api/v1/orgs/?format=json')
+         .then(orgData => orgData.data.map(orgInfo => orgDataArray[orgInfo.id] = orgInfo))
+         .then(this.setState({ orgData: orgDataArray }))
+         .catch(err => console.log(err));
+   
+   }
+
+   getKeywords() {
+      let keywordDataArray = [];
+      axios.get('/api/v1/keywords/?format=json')
+         .then(keywordData => keywordData.data.map(keywordInfo => keywordDataArray[keywordInfo.id] = keywordInfo))
+         .then(this.setState({ keywordData: keywordDataArray }))
+         .catch(err => console.log(err));
    }
 
    handleSubmit = item => {
@@ -60,12 +100,20 @@ class App extends Component {
       // console.log('4');
       this.refreshList(urlBuilder);
       // console.log('5');
-      this.modalToggle();
+      this.FourCMemberSearchModalToggle();
       // console.log('6');
    }
 
-   modalToggle = () => {
-      this.setState({ modal: !this.state.modal });
+   FourCMemberSearchModalToggle = () => {
+      this.setState({ fourCModalOpen: !this.state.fourCModalOpen });
+   };
+
+   ExtendedDataModalToggle = () => {
+      this.setState({ extendedDataModalOpen: !this.state.extendedDataModalOpen });
+   };
+
+   showMoreUserDataModalToggle = () => {
+      this.setState({ showMoreUserDataModalOpen: !this.state.showMoreUserDataModalOpen });
    };
 
    navToggle = () => {
@@ -75,17 +123,17 @@ class App extends Component {
    }
 
    runQuery = () => {
-      this.setState({ modal: !this.state.modal });
+      this.setState({ fourCModalOpen: !this.state.fourCModalOpen });
    };
 
    buildURL(item) {
-      console.log('building URL');
+      // console.log('building URL');
       let org = item.selectedUniversities;
       let activityKeywords = item.activityKeywords;
       let topicalKeywords = item.topicalKeywords;
-      console.log(org)
-      console.log(activityKeywords)
-      console.log(topicalKeywords)
+      // console.log(org)
+      // console.log(activityKeywords)
+      // console.log(topicalKeywords)
       var url = "/api/v1/users/?format=json";
       if (org) {
          for (let i = 0; i < org.length; i++) {
@@ -102,34 +150,129 @@ class App extends Component {
             url += '&keywords=' + topicalKeywords[i].value;
          }
       }
-      console.log('Final URL before returning is: ' + url);
+      // console.log('Final URL before returning is: ' + url);
       // console.log(this);
       // this.setState({ requestURL: url });
       // this.setState({ requestURL: url });
       // this.setState({ requestURL: url }, function () {
       //    console.log('Waiting... ' + this.state.requestURL);
       // });
-      console.log('Done waiting... ' + this.state.requestURL);
+      // console.log('Done waiting... ' + this.state.requestURL);
       return url;
 
    }
 
    refreshList(urlBuilder) {
-      console.log(urlBuilder)
+      // console.log(urlBuilder)
       axios
          .get(urlBuilder)
          .then(res => this.setState({ displayItems: res.data }))
          .catch(err => console.log(err));
    };
 
+   getOrgType(shortOrgType) {
+      if (shortOrgType === "IO") {
+         return {name: "Institution", color: "primary"}
+      }
+      if (shortOrgType === "CY") {
+         return { name: "City", color: "secondary" }
+      }
+      if (shortOrgType === "CO") {
+         return { name: "County", color: "success" }
+      }
+      if (shortOrgType === "NG") {
+         return { name: "NGO", color: "warning" }
+      }
+      if (shortOrgType === "RA") {
+         return { name: "Regional Agency", color: "info" }
+      }
+   }
+
+   showOrgExtendedData(orgID) {
+      let orgInfo = this.state.orgData[orgID];
+      let title = <div>{this.state.orgData[orgID].orgNameUnique}{NBSP}<Badge color={this.getOrgType(orgInfo.orgType).color}>{this.getOrgType(orgInfo.orgType).name}</Badge></div>
+      let body = orgInfo.website !== null ? (
+         <Button outline color="primary" size="sm" href={orgInfo.website}>Visit Website</Button>
+         ) : "";
+      this.setState({ extendedDataModalTitle: title, extendedModalBody: body, extendedDataModalOpen: !this.state.extendedDataModalOpen});
+   }
+
+   buildOrgModal = (orgRef) => {
+      let displayText = ""
+      let modalTitle = "All Organizations"
+      let modalBody = []
+      orgRef.map(orgID => (
+         displayText += this.state.orgData[orgID].orgNameUnique + ", "
+      ));
+      orgRef.map(orgID => (
+         modalBody.push(<ListGroupItem key={orgID} tag="a" onClick={() => this.showOrgExtendedData(orgID)} href="#" action><div>{this.state.orgData[orgID].orgNameUnique}{NBSP}<Badge color={this.getOrgType(this.state.orgData[orgID].orgType).color}>{this.getOrgType(this.state.orgData[orgID].orgType).name}</Badge></div></ListGroupItem>)
+      ));
+      modalBody = <ListGroup>{modalBody}</ListGroup>
+      displayText = displayText.substring(0, 20) + "..."
+      displayText = <a href="#0" key={orgRef} onClick={() => this.showMoreUserDataModal(modalTitle, modalBody)}>{displayText}</a>
+      return displayText
+   }
+
+   getKeywordType(shortKeywordType) {
+      if (shortKeywordType === "TK") {
+         return { name: "Topical", color: "primary" }
+      }
+      if (shortKeywordType === "AK") {
+         return { name: "Activity", color: "secondary" }
+      }
+   }
+
+   getKeywordSortOrder(shortKeywordSortOrder) {
+      if (shortKeywordSortOrder === "HS") {
+         return { name: "High Level", color: "success" }
+      }
+      if (shortKeywordSortOrder === "MS") {
+         return { name: "Medium Level", color: "warning" }
+      }
+      if (shortKeywordSortOrder === "LS") {
+         return { name: "Low Level", color: "danger" }
+      }
+   }
+
+   showKeywordExtendedData(keywordID) {
+      let keywordInfo = this.state.keywordData[keywordID];
+      let title = <div>More Information on <b>{keywordInfo.keywordName}</b> keyword</div>
+      let body = (<div>
+         <Badge color={this.getKeywordType(keywordInfo.keywordType).color}>{this.getKeywordType(keywordInfo.keywordType).name}</Badge>{NBSP}
+         <Badge color={this.getKeywordSortOrder(keywordInfo.sortOrder).color}>{this.getKeywordSortOrder(keywordInfo.sortOrder).name}</Badge><br />
+         <span>{keywordInfo.keywordDescription !== null ? keywordInfo.keywordDescription : "No description provided."}</span>
+      </div>);
+      this.setState({ extendedDataModalTitle: title, extendedModalBody: body, extendedDataModalOpen: !this.state.extendedDataModalOpen });
+   }
+
+   showMoreUserDataModal(title, body) {
+      this.setState({ moreUserDataTitle: title, moreUserDataBody: body, showMoreUserDataModalOpen: !this.state.showMoreUserDataModalOpen });
+   }
+
+   buildKeywordModal = (keywordRef) => {
+      let displayText = ""
+      let modalTitle = "All keywords"
+      let modalBody = []
+      keywordRef.map(keywordID => (
+         displayText += this.state.keywordData[keywordID].keywordName + ", "
+      ));
+      keywordRef.map(keywordID => (
+         modalBody.push(<ListGroupItem key={keywordID} tag="a" onClick={() => this.showKeywordExtendedData(keywordID)} href="#" action>{this.state.keywordData[keywordID].keywordName}</ListGroupItem>)
+      ));
+      modalBody = <ListGroup>{modalBody}</ListGroup>
+      displayText = displayText.substring(0, 75) + "..."
+      displayText = <a href="#0" key={keywordRef} onClick={() => this.showMoreUserDataModal(modalTitle, modalBody)}>{displayText}</a>
+      return displayText
+   }
+
    renderDisplayUserItems = () => {
       const items = this.state.displayItems;
       let renderItems = items.map(item => (
          <tr key={item.id}>
             <th scope="row">{item.firstName} {item.lastName}</th>
-            <td>{item.organization}</td>
+            <td>{this.buildOrgModal(item.organization)}</td>
             <td><a href={'mailto:'+item.emailAddress}>{item.emailAddress}</a></td>
-            <td>{item.keywords}</td>
+            <td>{this.buildKeywordModal(item.keywords)}</td>
          </tr>
       ));
       // console.log(renderItems);
@@ -138,7 +281,7 @@ class App extends Component {
 
 
    render() {
-      console.log('render called');
+      // console.log('render called');
       return (
          <main className="App">
             <main className="navigationContainer">
@@ -155,13 +298,30 @@ class App extends Component {
                      </Nav>
                   </Collapse>
                </Navbar>
-               {this.state.modal ? (
-                  <Modal
+               {this.state.fourCModalOpen ? (
+                  <FourCMemberSearchModal
                      selectedQuery={this.state.selectedQueryStatements}
-                     toggle={this.modalToggle}
+                     toggle={this.FourCMemberSearchModalToggle}
                      submitHandler={this.handleSubmit}
                   />
                ) : null}
+
+               {this.state.extendedDataModalOpen ? (
+                  <AdditionalDataModal
+                     title={this.state.extendedDataModalTitle}
+                     body={this.state.extendedModalBody}
+                     toggle={this.ExtendedDataModalToggle}
+                  />
+               ) : null}
+
+               {this.state.showMoreUserDataModalOpen ? (
+                  <AdditionalDataModal
+                     title={this.state.moreUserDataTitle}
+                     body={this.state.moreUserDataBody}
+                     toggle={this.showMoreUserDataModalToggle}
+                  />
+               ) : null}
+
             </main>
 
             <main role="main" className="content">

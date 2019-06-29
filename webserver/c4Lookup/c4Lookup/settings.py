@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import environ
+import subprocess
 
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -38,15 +39,18 @@ LOGLEVEL = env('LOGLEVEL', default='INFO').upper()
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = env('SECRET_KEY')
-SECRET_KEY = '8lu*6g0lg)9z!ba+a$ehk)xt)x%rxgb$i1&amp;022shmi1jcgihb*'
+SECRET_KEY = env('SECRET_KEY')
+# SECRET_KEY = '8lu*6g0lg)9z!ba+a$ehk)xt)x%rxgb$i1&amp;022shmi1jcgihb*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
 # DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'dgaiero.pythonanywhere.com/']
 
+REST_SAFE_LIST_IPS = [
+    '127.0.0.1',
+]
 
 # Application definition
 
@@ -73,7 +77,7 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
    'DEFAULT_PERMISSION_CLASSES': [
-      'rest_framework.permissions.AllowAny',
+       'c4Lookup.SafelistPermission.SafelistPermission',
    ],
    'DEFAULT_AUTHENTICATION_CLASSES': [
       'rest_framework.authentication.TokenAuthentication',
@@ -146,6 +150,9 @@ WSGI_APPLICATION = 'c4Lookup.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+      #   'OPTIONS': {
+      #       'sql_mode': 'traditional',
+      #   },
         'NAME': env('C4_DEV_DATABASE_NAME'),
         'USER': env('C4_DEV_DATABASE_USER'),
         'PASSWORD': env('C4_DEV_DATABASE_PSWD'),
@@ -206,3 +213,15 @@ STATIC_ROOT = os.path.join(BACKEND_DIR, 'static')
 STATIC_URL = '/static/'
 
 WHITENOISE_ROOT = os.path.join(FRONTEND_DIR, 'build', 'root')
+
+
+def getCommitVersion():
+   branchLabel = subprocess.check_output(
+       ["git", "branch"]).decode("utf8").strip()
+   branchLabel = next(line for line in branchLabel.split("\n") if line.startswith("*"))
+   branchLabel = branchLabel.strip("*").strip()
+   commitHash = subprocess.check_output(
+       ["git", "log", "--pretty=format:'%H'", "-n1"]).decode("utf8").strip().strip("'")
+   return "{}:{}".format(branchLabel, commitHash)
+   
+COMMIT_VERSION = getCommitVersion()

@@ -29,7 +29,7 @@ class UserAdmin(ImportExportModelAdmin):
 
    ]
    search_fields = ['firstName', 'lastName', 'emailAddress',
-                    'userType', 'keywords', 'collaborations', 'organization', 'jobTitle']
+                    'userType', 'keywords__keywordName', 'collaborations__collaborationName', 'organization__orgName', 'jobTitle']
    list_display = ('firstName', 'lastName', 'userType')
    list_filter = ('userType', 'keywords', 'organization', 'jobTitle')
    filter_horizontal = ('keywords','collaborations', 'organization')

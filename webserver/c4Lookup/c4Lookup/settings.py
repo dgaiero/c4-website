@@ -46,7 +46,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env.bool('DEBUG', default=False)
 # DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'dgaiero.pythonanywhere.com/']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'dgaiero.pythonanywhere.com']
 
 REST_SAFE_LIST_IPS = [
     '127.0.0.1',

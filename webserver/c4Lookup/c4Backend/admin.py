@@ -11,7 +11,7 @@ class OrganizationAdmin(ImportExportModelAdmin):
    fieldsets = [
       ('Org Information', {'fields' : ['orgName', 'orgType']}),
       ('Extended Information', {'fields' : ['department', 'website']}),
-      # ('Debug Information', {'fields': ['orgNameUnique', ]}),
+      ('Debug Information', {'fields': ['orgNameUnique', ]}),
    ]
    search_fields = ['orgName', 'orgType', 'department']
    list_display = ('orgName', 'department', 'orgType')

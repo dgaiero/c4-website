@@ -31,10 +31,10 @@ export default class memberSearchModal extends Component {
 
    submitForm(e) {
       e.preventDefault();
-      console.log(`This is a test!`)
-      console.log(this.state.selectedUniversities)
-      console.log(this.state.activityKeywords)
-      console.log(this.state.topicalKeywords)
+      // console.log(`This is a test!`)
+      // console.log(this.state.selectedUniversities)
+      // console.log(this.state.activityKeywords)
+      // console.log(this.state.topicalKeywords)
       var url = "/api/v1/users/?format=json";
       for (let i = 0; i < this.state.selectedUniversities.length; i++) {
             url += '&organization=' + this.state.selectedUniversities[i].value;
@@ -45,7 +45,7 @@ export default class memberSearchModal extends Component {
       for (let i = 0; i < this.state.topicalKeywords.length; i++) {
          url += '&keywords=' + this.state.topicalKeywords[i].value;
       }
-      console.log(url);
+      // console.log(url);
       return url;
    }
 
@@ -72,25 +72,25 @@ export default class memberSearchModal extends Component {
     */
 
    render() {
-      const { toggle } = this.props;
+      const { toggle, size } = this.props;
 
       return (
-      <Modal isOpen={true} toggle={toggle}>
-         <ModalHeader toggle={toggle}>{this.props.title}</ModalHeader>
-         <ModalBody>
-            {this.props.body}
-            {/* <ListGroup>
-               {this.props.data.map((value, index) => {
-                  return <ListGroupItem>
-                     <ListGroupItemHeading>{value.title}</ListGroupItemHeading>
-                     <ListGroupItemText>{value.body}</ListGroupItemText>
-                  </ListGroupItem>
-               })}
-            </ListGroup> */}
-         </ModalBody>
-         <ModalFooter>
-            <Button color="primary" onClick={toggle}>Close</Button>
-         </ModalFooter>
+         <Modal isOpen={true} toggle={toggle} centered size={size}>
+            <ModalHeader toggle={toggle}>{this.props.title}</ModalHeader>
+            <ModalBody>
+               {this.props.body}
+               {/* <ListGroup>
+                  {this.props.data.map((value, index) => {
+                     return <ListGroupItem>
+                        <ListGroupItemHeading>{value.title}</ListGroupItemHeading>
+                        <ListGroupItemText>{value.body}</ListGroupItemText>
+                     </ListGroupItem>
+                  })}
+               </ListGroup> */}
+            </ModalBody>
+            <ModalFooter>
+               <Button color="primary" onClick={toggle}>Close</Button>
+            </ModalFooter>
          </Modal>
       );
    }

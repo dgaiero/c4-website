@@ -121,10 +121,10 @@ export default class memberSearchModal extends Component {
 
    submitForm(e) {
       e.preventDefault();
-      console.log(`This is a test!`)
-      console.log(this.state.selectedUniversities)
-      console.log(this.state.activityKeywords)
-      console.log(this.state.topicalKeywords)
+      // console.log(`This is a test!`)
+      // console.log(this.state.selectedUniversities)
+      // console.log(this.state.activityKeywords)
+      // console.log(this.state.topicalKeywords)
       var url = "/api/v1/users/?format=json";
       for (let i = 0; i < this.state.selectedUniversities.length; i++) {
             url += '&organization=' + this.state.selectedUniversities[i].value;
@@ -135,7 +135,7 @@ export default class memberSearchModal extends Component {
       for (let i = 0; i < this.state.topicalKeywords.length; i++) {
          url += '&keywords=' + this.state.topicalKeywords[i].value;
       }
-      console.log(url);
+      // console.log(url);
       return url;
 
    }
@@ -177,7 +177,7 @@ export default class memberSearchModal extends Component {
          // <React.Fragment>
          //    <Container className="Modal">
          //       <Button color="danger" onClick={this.toggle}>Open Me</Button>
-            <Modal isOpen={true} toggle={toggle}>
+            <Modal isOpen={true} toggle={toggle} size="lg">
                <ModalHeader toggle={toggle}>Searching for a 4C Member</ModalHeader>
                <ModalBody>
                <Form>
@@ -206,7 +206,7 @@ export default class memberSearchModal extends Component {
                            ref="activityKeywords"
                            cacheOptions
                            defaultOptions
-                           value={this.state.queryData.selectedActivityKeyword}
+                           value={this.state.queryData.activityKeywords}
                            loadOptions={() => parseKeywordData('AK')}
                            onChange={(val) => this.handleChange({ target: { name: 'activityKeywords', value: val } })}
                            isMulti={true}

@@ -16,17 +16,33 @@ import {
    Badge,
    ListGroupItem,
    ListGroup,
+   Spinner, Toast, ToastBody, ToastHeader,
    NavLink,
    UncontrolledDropdown,
    DropdownToggle,
    DropdownMenu,
    DropdownItem,
 } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faInfo } from '@fortawesome/free-solid-svg-icons';
+
 import FourCMemberSearchModal from './FourCMemberModal';
 import AdditionalDataModal from './AdditionalDataModal';
 import './App.css';
 
+library.add(faInfo); 
+
 const NBSP = '\u00A0'
+
+function toTitleCase(str) {
+   return str.replace(
+      /\w\S*/g,
+      function (txt) {
+         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      }
+   );
+}
 
 class App extends Component {
    constructor(props) {
@@ -49,10 +65,14 @@ class App extends Component {
 
          extendedDataModalOpen: false,
          showMoreUserDataModalOpen: false,
+         moreUserDataModalSize: "sm",
          extendedDataModalTitle: '',
          extendedModalBody: '',
          moreUserDataTitle: '',
          moreUserDataBody: '',
+         refreshListLoading: true,
+         refreshKeywordsLoading: true,
+         refreshOrgsLoading: true,
       };
       // this.navToggle = this.navToggle.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -74,8 +94,12 @@ class App extends Component {
       // orgDataArray[orgData.id] = orgData
       let orgDataArray = [];
       axios.get('/api/v1/orgs/?format=json')
-         .then(orgData => orgData.data.map(orgInfo => orgDataArray[orgInfo.id] = orgInfo))
-         .then(this.setState({ orgData: orgDataArray }))
+         .then(orgData => this.setState(function() {
+            orgData.data.map(orgInfo => orgDataArray[orgInfo.id] = orgInfo)
+            return { orgData: orgDataArray, refreshOrgsLoading: false}
+         }))
+         
+         
          .catch(err => console.log(err));
    
    }
@@ -83,14 +107,18 @@ class App extends Component {
    getKeywords() {
       let keywordDataArray = [];
       axios.get('/api/v1/keywords/?format=json')
-         .then(keywordData => keywordData.data.map(keywordInfo => keywordDataArray[keywordInfo.id] = keywordInfo))
-         .then(this.setState({ keywordData: keywordDataArray }))
+         .then(keywordData => this.setState(function () {
+            keywordData.data.map(orgInfo => keywordDataArray[orgInfo.id] = orgInfo)
+            return { keywordData: keywordDataArray, refreshKeywordsLoading: false }
+         }))
+         // .then(keywordData => keywordData.data.map(keywordInfo => keywordDataArray[keywordInfo.id] = keywordInfo))
+         // .then(this.setState({ keywordData: keywordDataArray, refreshKeywordsLoading: false }))
          .catch(err => console.log(err));
    }
 
    handleSubmit = item => {
       // console.log('1');
-      console.log(item);
+      // console.log(item);
       this.setState({selectedQueryStatements: item});
       // console.log('2');
       let urlBuilder = this.buildURL(item);
@@ -123,7 +151,7 @@ class App extends Component {
    }
 
    runQuery = () => {
-      this.setState({ fourCModalOpen: !this.state.fourCModalOpen });
+      this.setState({ fourCModalOpen: !this.state.fourCModalOpen});
    };
 
    buildURL(item) {
@@ -166,7 +194,7 @@ class App extends Component {
       // console.log(urlBuilder)
       axios
          .get(urlBuilder)
-         .then(res => this.setState({ displayItems: res.data }))
+         .then(res => this.setState({ displayItems: res.data, refreshListLoading: false }))
          .catch(err => console.log(err));
    };
 
@@ -192,24 +220,34 @@ class App extends Component {
       let orgInfo = this.state.orgData[orgID];
       let title = <div>{this.state.orgData[orgID].orgNameUnique}{NBSP}<Badge color={this.getOrgType(orgInfo.orgType).color}>{this.getOrgType(orgInfo.orgType).name}</Badge></div>
       let body = orgInfo.website !== null ? (
-         <Button outline color="primary" size="sm" href={orgInfo.website}>Visit Website</Button>
+         <Button outline color="primary" size="sm" href={orgInfo.website} target="_blank" rel="noopener noreferrer">Visit Website</Button>
          ) : "No website provided";
       this.setState({ extendedDataModalTitle: title, extendedModalBody: body, extendedDataModalOpen: !this.state.extendedDataModalOpen});
    }
 
    buildOrgModal = (orgRef) => {
       let displayText = ""
-      let modalTitle = "All Organizations"
-      let modalBody = []
-      orgRef.map(orgID => (
-         displayText += this.state.orgData[orgID].orgNameUnique + ", "
-      ));
-      orgRef.map(orgID => (
-         modalBody.push(<ListGroupItem key={orgID} tag="a" onClick={() => this.showOrgExtendedData(orgID)} href="#" action><div>{this.state.orgData[orgID].orgNameUnique}{NBSP}<Badge color={this.getOrgType(this.state.orgData[orgID].orgType).color}>{this.getOrgType(this.state.orgData[orgID].orgType).name}</Badge></div></ListGroupItem>)
-      ));
-      modalBody = <ListGroup>{modalBody}</ListGroup>
-      displayText = displayText.substring(0, 20) + "..."
-      displayText = <a href="#0" key={orgRef} onClick={() => this.showMoreUserDataModal(modalTitle, modalBody)}>{displayText}</a>
+      if (this.state.refreshOrgsLoading === true || this.state.orgData === []) {
+         displayText = <Spinner color="primary" />
+      }
+      else {
+         // console.log(this.state.orgData);
+         // console.log(orgRef);
+         let modalTitle = "All Organizations"
+         let modalBody = []
+         orgRef.map(orgID => (
+            // console.log(orgID),console.log(this.state.orgData),
+            displayText += this.state.orgData[orgID].orgNameUnique + ", "
+         ));
+         orgRef.map(orgID => (
+            modalBody.push(<ListGroupItem key={orgID} tag="a" onClick={() => this.showOrgExtendedData(orgID)} href="#0" action><div>{this.state.orgData[orgID].orgNameUnique}{NBSP}<Badge color={this.getOrgType(this.state.orgData[orgID].orgType).color}>{this.getOrgType(this.state.orgData[orgID].orgType).name}</Badge></div></ListGroupItem>)
+         ));
+         modalBody = <ListGroup>{modalBody}</ListGroup>
+         displayText = displayText.substring(0, displayText.length - 2)
+         if (displayText.length > 20)
+            displayText = displayText.substring(0, 20) + "..."
+         displayText = <a href="#0" key={orgRef} onClick={() => this.showMoreUserDataModal(modalTitle, modalBody)}>{displayText}</a>
+      }
       return displayText
    }
 
@@ -234,9 +272,26 @@ class App extends Component {
       }
    }
 
+   getUserTypes(shortUserType) {
+      switch (shortUserType) {
+         case "US":
+            return { name: "University Faculty/Staff", color: "primary" };
+         case "CS":
+            return { name: "City Staff", color: "secondary" };
+         case "CO":
+            return { name: "County Staff", color: "success" }
+         case "NS":
+            return { name: "NGO Staff", color: "danger" }
+         case "RS":
+            return { name: "Regional Staff", color: "warning" }
+         default:
+            return { name: "Error", color: "dark" }
+      }
+   }
+
    showKeywordExtendedData(keywordID) {
       let keywordInfo = this.state.keywordData[keywordID];
-      let title = <div>More Information on <b>{keywordInfo.keywordName}</b> keyword</div>
+      let title = <div>More Information on <b>{keywordInfo.keywordName.toLowerCase()}</b> keyword</div>
       let body = (<div>
          <Badge color={this.getKeywordType(keywordInfo.keywordType).color}>{this.getKeywordType(keywordInfo.keywordType).name}</Badge>{NBSP}
          <Badge color={this.getKeywordSortOrder(keywordInfo.sortOrder).color}>{this.getKeywordSortOrder(keywordInfo.sortOrder).name}</Badge><br />
@@ -246,44 +301,120 @@ class App extends Component {
    }
 
    showMoreUserDataModal(title, body) {
-      this.setState({ moreUserDataTitle: title, moreUserDataBody: body, showMoreUserDataModalOpen: !this.state.showMoreUserDataModalOpen });
+      this.setState({ moreUserDataTitle: title, moreUserDataBody: body, showMoreUserDataModalOpen: !this.state.showMoreUserDataModalOpen, moreUserDataModalSize: 'lg' });
    }
 
    buildKeywordModal = (keywordRef) => {
       let displayText = ""
-      let modalTitle = "All keywords"
-      let modalBody = []
-      keywordRef.map(keywordID => (
-         displayText += this.state.keywordData[keywordID].keywordName + ", "
-      ));
-      keywordRef.map(keywordID => (
-         modalBody.push(<ListGroupItem key={keywordID} tag="a" onClick={() => this.showKeywordExtendedData(keywordID)} href="#" action>{this.state.keywordData[keywordID].keywordName}</ListGroupItem>)
-      ));
-      modalBody = <ListGroup>{modalBody}</ListGroup>
-      displayText = displayText.substring(0, 75) + "..."
-      displayText = <a href="#0" key={keywordRef} onClick={() => this.showMoreUserDataModal(modalTitle, modalBody)}>{displayText}</a>
+      if (this.state.refreshKeywordsLoading || this.state.keywordData === []) {
+         displayText = <Spinner color="primary" />
+         // console.log(this.state.keywordData);
+      }
+      else {
+         let modalTitle = "All keywords"
+         let modalBody = []
+         keywordRef.map(keywordID => (
+            displayText += toTitleCase(this.state.keywordData[keywordID].keywordName) + ", "
+         ));
+         keywordRef.map(keywordID => (
+            modalBody.push(<ListGroupItem key={keywordID} tag="a" onClick={() => this.showKeywordExtendedData(keywordID)} href="#0" action>{toTitleCase(this.state.keywordData[keywordID].keywordName)}</ListGroupItem>)
+         ));
+         modalBody = <ListGroup>{modalBody}</ListGroup>
+         displayText = displayText.substring(0, displayText.length - 2)
+         if (displayText.length > 20)
+            displayText = displayText.substring(0, 75) + "..."
+         if (displayText.length > 0)
+            displayText = <a href="#0" key={keywordRef} onClick={() => this.showMoreUserDataModal(modalTitle, modalBody)}>{displayText}</a>
+         else
+            displayText = "No Keywords"
+      }
       return displayText
+   }
+
+   buildUserExtendedInfoModal = (user) => {
+      let title = <div>About <b>{user.firstName} {user.lastName}</b></div>;
+      let body = <div>
+         <Badge color={this.getUserTypes(user.userType).color}>{this.getUserTypes(user.userType).name}</Badge><br />
+         <b>Email: </b>{user.emailAddress}<br />
+         {user.webiste ? <div><b>Website: </b>{NBSP}<a href={user.webiste} target="_blank" rel="noopener noreferrer">{user.webiste}</a></div> : ""}
+         {user.jobTitle ? <div><b>Job Title: </b>{NBSP}{user.jobTitle}</div> : ""}
+         {user.description ? <div><b>About: </b>{NBSP}{user.description}</div> : ""}
+      </div> 
+      return <Button onClick={() => this.showMoreUserDataModal(title, body)}><FontAwesomeIcon icon="info" />{NBSP}More Information</Button>
    }
 
    renderDisplayUserItems = () => {
       const items = this.state.displayItems;
-      let renderItems = items.map(item => (
-         <tr key={item.id}>
-            <th scope="row">{item.firstName} {item.lastName}</th>
-            <td>{this.buildOrgModal(item.organization)}</td>
-            <td><a href={'mailto:'+item.emailAddress}>{item.emailAddress}</a></td>
-            <td>{this.buildKeywordModal(item.keywords)}</td>
-         </tr>
-      ));
+      let renderItems = ""
+         renderItems = items.map(item => (
+            <tr key={item.id}>
+               <th scope="row">{item.firstName} {item.lastName}</th>
+               <td>{this.buildOrgModal(item.organization)}</td>
+               <td><a href={'mailto:'+item.emailAddress}>{item.emailAddress}</a></td>
+               <td>{this.buildKeywordModal(item.keywords)}</td>
+               <td>{this.buildUserExtendedInfoModal(item)}</td>
+            </tr>
+         ));
       // console.log(renderItems);
       return renderItems;
    };
+
+   renderTable = () => {
+
+      if (this.state.refreshListLoading) {
+         return ""
+      }
+      else {
+         return (<Table hover responsive>
+            <thead>
+               <tr>
+                  <th>Name</th>
+                  <th>Organization</th>
+                  <th>Email Address</th>
+                  <th>Keywords</th>
+                  <th>More Information</th>
+               </tr>
+            </thead>
+            <tbody>
+               {this.renderDisplayUserItems()}
+            </tbody>
+         </Table>)
+      }
+   }
 
 
    render() {
       // console.log('render called');
       return (
          <main className="App">
+            <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: '100' }}>
+               <Toast isOpen={this.state.refreshListLoading}>
+                  <ToastHeader icon={<Spinner color="primary" size="sm" />}>
+                     Loading
+                  </ToastHeader>
+                  <ToastBody>
+                     Loading main table data
+                  </ToastBody>
+               </Toast>
+
+               <Toast isOpen={this.state.refreshKeywordsLoading}>
+                  <ToastHeader icon={<Spinner color="primary" size="sm" />}>
+                     Loading
+                  </ToastHeader>
+                  <ToastBody>
+                     Loading keyword data
+                  </ToastBody>
+               </Toast>
+
+               <Toast isOpen={this.state.refreshOrgsLoading}>
+                  <ToastHeader icon={<Spinner color="primary" size="sm" />}>
+                     Loading
+                  </ToastHeader>
+                  <ToastBody>
+                     Loading organization data
+                  </ToastBody>
+               </Toast>
+            </div>
             <main className="navigationContainer">
                <Navbar color="light" light expand="md">
                   <NavbarBrand href="/">4C DATABASE QUERY UTILITY</NavbarBrand>
@@ -319,6 +450,7 @@ class App extends Component {
                      title={this.state.moreUserDataTitle}
                      body={this.state.moreUserDataBody}
                      toggle={this.showMoreUserDataModalToggle}
+                     size={this.state.moreUserDataModalSize}
                   />
                ) : null}
 
@@ -340,19 +472,7 @@ class App extends Component {
                </div>
                <div>
                   <Container fluid>
-                     <Table hover responsive>
-                        <thead>
-                           <tr>
-                              <th>Name</th>
-                              <th>Organization</th>
-                              <th>Email Address</th>
-                              <th>Keywords</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           {this.renderDisplayUserItems()}
-                        </tbody>
-                     </Table>
+                     {this.renderTable()}
                   </Container>
                </div>
             </main>

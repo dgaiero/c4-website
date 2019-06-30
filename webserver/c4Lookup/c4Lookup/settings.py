@@ -226,9 +226,9 @@ def getCommitVersion():
    branchLabel = next(line for line in branchLabel.split("\n") if line.startswith("*"))
    branchLabel = branchLabel.strip("*").strip()
    commitHash = subprocess.check_output(
-       ["git", "log", "--pretty=format:'%H'", "-n1"]).decode("utf8").strip().strip("'")
+       ["git", "log", "--pretty=format:'%H'", "-n1"]).decode("utf8").strip("'").strip()
    commitMessage = subprocess.check_output(
-       ["git", "log", "--pretty=format:'%B'", "-n1"]).decode("utf8").strip().strip("'")
+       ["git", "log", "--pretty=format:'%B'", "-n1"]).decode("utf8").strip("'").strip()
    return "{}:{} ({})".format(branchLabel, commitHash, commitMessage)
    
 COMMIT_VERSION = getCommitVersion()

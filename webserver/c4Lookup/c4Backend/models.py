@@ -46,7 +46,7 @@ class Organization(models.Model):
 
    def save(self, *args, **kwargs):
       self.orgNameUnique = self.orgName
-      if self.department is not None:
+      if self.department is not "":
          self.orgNameUnique += ": {}".format(self.department)
       super().save(*args, **kwargs)  # Call the "real" save() method.
 

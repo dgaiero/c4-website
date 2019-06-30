@@ -107,7 +107,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+   #  'c4Lookup.customMiddleware.TimeDelayMiddleware',
 ]
+
+REQUEST_TIME_DELAY = 3
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',

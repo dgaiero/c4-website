@@ -41,7 +41,7 @@ class Organization(models.Model):
 
    orgNameUnique = models.CharField(
       max_length=100,
-      editable=False,
+      # editable=False,
    )
 
    def save(self, *args, **kwargs):

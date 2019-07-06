@@ -1,7 +1,7 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin, ImportExportMixin, ImportMixin
 
-from .models import Organization, User, Keyword, Collaborations
+from .models import Organization, User, Keyword, Collaborations, FrontendParams
 from .resources import OrganizationResource, UserResource, KeywordResource, CollaborationResource
 
 @admin.register(Organization)
@@ -11,12 +11,22 @@ class OrganizationAdmin(ImportExportModelAdmin):
    fieldsets = [
       ('Org Information', {'fields' : ['orgName', 'orgType']}),
       ('Extended Information', {'fields' : ['department', 'website']}),
-      # ('Debug Information', {'fields': ['orgNameUnique', ]}),
+      ('Debug Information', {'fields': ['orgNameUnique', ]}),
    ]
    search_fields = ['orgName', 'orgType', 'department']
    list_display = ('orgName', 'department', 'orgType')
    list_filter = ('orgName', 'department', 'orgType')
+   readonly_fields = ['orgNameUnique']
 
+
+@admin.register(FrontendParams)
+class FrontendParametersAdmin(admin.ModelAdmin):
+   fieldsets = [
+      ('Basic Site Information', {'fields': ['siteHeading']}),
+      ('Front Page Information', {'fields': ['frontHeading', 'frontMessage', 'frontMessageSubText', 'additionEmailAddress']}),
+      ('Commit Information', {'fields': ['commitBranch', 'commitHash', 'commitMessage']}),
+   ]
+   readonly_fields = ('commitBranch', 'commitHash', 'commitMessage')
 
 @admin.register(User)
 class UserAdmin(ImportExportModelAdmin):

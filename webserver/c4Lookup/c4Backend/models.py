@@ -1,4 +1,5 @@
 from django.db import models
+from .SingletonModel import SingletonModel
 from django.utils.timezone import now
 
 
@@ -42,6 +43,7 @@ class Organization(models.Model):
    orgNameUnique = models.CharField(
       max_length=100,
       # editable=False,
+      help_text="Don't change this value, it is automatically generated."
    )
 
    def save(self, *args, **kwargs):
@@ -183,3 +185,47 @@ class Keyword(models.Model):
 
    def __str__(self):
       return self.keywordName
+
+
+class FrontendParams(SingletonModel):
+   siteHeading = models.CharField(
+      max_length=30,
+      verbose_name="Site Heading",
+      default="4C DATABASE QUERY UTILITY"
+   )
+   frontHeading = models.CharField(
+      max_length=100,
+      verbose_name="Front page message",
+      help_text="This is the large message on the front page",
+      default="Welcome"
+   )
+   frontMessage = models.TextField(
+      verbose_name="Welcome long text",
+      help_text="This is the long informational text on the front page",
+      default="This system is designed to query 4C members for collaboration on projects."
+   )
+   frontMessageSubText = models.TextField(
+      verbose_name="Front Page long text sub message",
+      help_text="This is the second long informational text on the front page",
+      default="If you would like to be added to this database, please contact CONTACT NAME."
+   )
+   additionEmailAddress = models.EmailField(
+      verbose_name="Database Addition Email Address",
+      default="add@centralcoastclimate.org"
+   )
+   commitBranch=models.CharField(
+      max_length=100,
+      # editable=False,
+   )
+   commitHash=models.CharField(
+      max_length=100,
+      # editable=False
+   )
+   commitMessage=models.CharField(
+      max_length=100,
+      # editable=False,
+   )
+
+   class Meta:
+      verbose_name = 'FrontendParameters'
+      verbose_name_plural = 'Front End Parameters'

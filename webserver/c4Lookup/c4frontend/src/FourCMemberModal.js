@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AsyncSelect from 'react-select/async';
 import axios from "axios";
 import {
-   Container, Col, Form,
+   Col, Form,
    FormGroup, Label,
    Button, FormText, Modal, ModalHeader, ModalBody, ModalFooter
 } from 'reactstrap';
@@ -59,7 +59,6 @@ export default class memberSearchModal extends Component {
    constructor(props) {
       super(props);
       this.state = {
-         // selectedActivityKeyword: '',
          queryData: this.props.selectedQuery,
          activityKeywords: [],
 
@@ -74,57 +73,10 @@ export default class memberSearchModal extends Component {
       }
       this.handleChange = this.handleChange.bind(this);
       this.submitForm = this.submitForm.bind(this);
-      // this.toggle = this.toggle.bind(this);
    }
-
-   // handleChangeDropDown = selectedOption => {
-   //    this.setState({ selectedOption });
-   //    console.log(`Option selected:`, selectedOption);
-   // };
-
-   // handleActivityDropdown(property) {
-      // let newVal = property;
-      // let stateVal = this.state.activityKeywords;
-
-      // console.log(property);
-      // console.log(stateVal);
-      // stateVal.indexOf(newVal) === -1
-      //    ? stateVal.push(newVal)
-      //    : stateVal.length === 1
-      //       ? (stateVal = [])
-      //       : stateVal.splice(stateVal.indexOf(newVal), 1);
-
-      // this.setState({
-         // activityKeywords: property,
-         // selectedActivityKeyword: property });
-   // }
-
-   // validateEmail(e) {
-   //    const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-   //    const { validate } = this.state
-   //    if (emailRex.test(e.target.value)) {
-   //       validate.emailState = 'has-success'
-   //    } else {
-   //       validate.emailState = 'has-danger'
-   //    }
-   //    this.setState({ validate })
-   // }
-
-   // handleChange = async (event) => {
-   //    const { target } = event;
-   //    const value = target.type === 'checkbox' ? target.checked : target.value;
-   //    const { name } = target;
-   //    await this.setState({
-   //       [name]: value,
-   //    });
-   // }
 
    submitForm(e) {
       e.preventDefault();
-      // console.log(`This is a test!`)
-      // console.log(this.state.selectedUniversities)
-      // console.log(this.state.activityKeywords)
-      // console.log(this.state.topicalKeywords)
       var url = "/api/v1/users/?format=json";
       for (let i = 0; i < this.state.selectedUniversities.length; i++) {
             url += '&organization=' + this.state.selectedUniversities[i].value;
@@ -140,12 +92,11 @@ export default class memberSearchModal extends Component {
 
    }
 
-   getUnivertisyTypes = uType => {
+   getUnivertisyTypes = () => {
       const newRequest = axios.get('/api/v1/orgs/?format=json&orgType=IO')
 
       if (newRequest) {
          return newRequest.then(response => {
-            // console.log(response.data);
             return response.data.map(keyword => ({
                label: keyword.orgName + (isNaN(keyword.department) ? " " + keyword.department : ""),
                value: keyword.id
@@ -154,14 +105,7 @@ export default class memberSearchModal extends Component {
       }
    }
 
-   // toggle() {
-   //    this.setState(prevState => ({
-   //       modal: !prevState.modal
-   //    }));
-   // }
-
    handleChange = (e) => {
-      // console.log(event);
       let { name, value } = e.target;
       if (e.target.type === "checkbox") {
          value = e.target.checked;
@@ -171,13 +115,10 @@ export default class memberSearchModal extends Component {
    };
 
    render() {
-      const { toggle, submitHandler } = this.props;
+      const { openStatus, toggle, submitHandler } = this.props;
 
       return (
-         // <React.Fragment>
-         //    <Container className="Modal">
-         //       <Button color="danger" onClick={this.toggle}>Open Me</Button>
-            <Modal isOpen={true} toggle={toggle} size="lg">
+            <Modal isOpen={openStatus} toggle={toggle} size="lg">
                <ModalHeader toggle={toggle}>Searching for a 4C Member</ModalHeader>
                <ModalBody>
                <Form>
@@ -197,7 +138,6 @@ export default class memberSearchModal extends Component {
                            closeOnSelect={false}
                            closeMenuOnSelect={false}
                         />
-                        {/* <FormText>Your username is most likely your email.</FormText> */}
                      </FormGroup>
 
                      <FormGroup>
@@ -245,8 +185,6 @@ export default class memberSearchModal extends Component {
                <Button color="success" onClick={() => submitHandler(this.state.queryData)}>Run Query</Button>
                </ModalFooter>
                </Modal>
-         //    {/* </Container> */}
-         // {/* </React.Fragment> */}
       );
    }
 }

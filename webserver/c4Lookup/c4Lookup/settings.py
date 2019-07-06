@@ -12,12 +12,12 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import environ
-import subprocess
 
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 import logging.config
 from django.utils.log import DEFAULT_LOGGING
+from .getCommitInformation import getCommitVersion
 
 
 root_path = environ.Path(__file__) - 3
@@ -46,12 +46,14 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env.bool('DEBUG', default=False)
 # DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'dgaiero.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost',
+                 'dgaiero.pythonanywhere.com', '192.168.86.135']
 
 REST_SAFE_LIST_IPS = [
     '127.0.0.1',
     'localhost',
     'dgaiero.pythonanywhere.com',
+    '192.168.86.135',
 ]
 
 # Application definition
@@ -80,6 +82,7 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
    'DEFAULT_PERMISSION_CLASSES': [
       'c4Lookup.SafelistPermission.IsAdminOrReadOnly',
+      'c4Lookup.SafelistPermission.SafelistPermission',
       # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
       # 'rest_framework.permissions.AllowAny',
    ],
@@ -115,6 +118,7 @@ REQUEST_TIME_DELAY = 3
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://127.0.0.1:8000',
+    'http://192.168.86.135'
 )
 
 ROOT_URLCONF = 'c4Lookup.urls'
@@ -219,16 +223,4 @@ STATIC_URL = '/static/'
 
 WHITENOISE_ROOT = os.path.join(FRONTEND_DIR, 'build', 'root')
 
-
-def getCommitVersion():
-   branchLabel = subprocess.check_output(
-       ["git", "branch"]).decode("utf8").strip()
-   branchLabel = next(line for line in branchLabel.split("\n") if line.startswith("*"))
-   branchLabel = branchLabel.strip("*").strip()
-   commitHash = subprocess.check_output(
-       ["git", "log", "--pretty=format:'%H'", "-n1"]).decode("utf8").strip("'").strip()
-   commitMessage = subprocess.check_output(
-       ["git", "log", "--pretty=format:'%B'", "-n1"]).decode("utf8").strip("'").strip()
-   return "{}:{} ({})".format(branchLabel, commitHash, commitMessage)
-   
 COMMIT_VERSION = getCommitVersion()

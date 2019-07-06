@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import AsyncSelect from 'react-select/async';
 import axios from "axios";
 import {
-   Container, Col, Form,
-   FormGroup, Label,
-   Button, FormText, ModalHeader, ModalBody, ModalFooter,
+   Container,
+   Button,
    Collapse,
    Navbar,
    NavbarToggler,
@@ -17,11 +15,6 @@ import {
    ListGroupItem,
    ListGroup,
    Spinner, Toast, ToastBody, ToastHeader,
-   NavLink,
-   UncontrolledDropdown,
-   DropdownToggle,
-   DropdownMenu,
-   DropdownItem,
 } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -29,6 +22,7 @@ import { faInfo } from '@fortawesome/free-solid-svg-icons';
 
 import FourCMemberSearchModal from './FourCMemberModal';
 import AdditionalDataModal from './AdditionalDataModal';
+import PaginationWrapper from './Pagination'
 import './App.css';
 
 library.add(faInfo); 
@@ -58,6 +52,7 @@ class App extends Component {
             selectedUniversities: [],
          },
          displayItems: [],
+         pageItems: [],
          requestURL: '/api/v1/users/?format=json',
          orgData: [],
          keywordData: [],
@@ -74,26 +69,29 @@ class App extends Component {
          refreshKeywordsLoading: true,
          refreshOrgsLoading: true,
       };
-      // this.navToggle = this.navToggle.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
       this.refreshList = this.refreshList.bind(this);
       this.FourCMemberSearchModalToggle = this.FourCMemberSearchModalToggle.bind(this);
       this.buildURL = this.buildURL.bind(this);
       this.getOrgs = this.getOrgs.bind(this);
       this.getKeywords = this.getKeywords.bind(this);
+      this.onChangePage = this.onChangePage.bind(this);
    }
 
 
    componentDidMount() {
-      this.refreshList('/api/v1/users/?format=json');
+      this.refreshList('http://localhost/api/v1/users/?format=json');
       this.getOrgs();
       this.getKeywords();
    }
 
+   onChangePage(pageOfItems) {
+      this.setState({ pageItems: pageOfItems})
+   }
+
    getOrgs() {
-      // orgDataArray[orgData.id] = orgData
       let orgDataArray = [];
-      axios.get('/api/v1/orgs/?format=json')
+      axios.get('http://localhost/api/v1/orgs/?format=json')
          .then(orgData => this.setState(function() {
             orgData.data.map(orgInfo => orgDataArray[orgInfo.id] = orgInfo)
             return { orgData: orgDataArray, refreshOrgsLoading: false}
@@ -106,30 +104,19 @@ class App extends Component {
 
    getKeywords() {
       let keywordDataArray = [];
-      axios.get('/api/v1/keywords/?format=json')
+      axios.get('http://localhost/api/v1/keywords/?format=json')
          .then(keywordData => this.setState(function () {
             keywordData.data.map(orgInfo => keywordDataArray[orgInfo.id] = orgInfo)
             return { keywordData: keywordDataArray, refreshKeywordsLoading: false }
          }))
-         // .then(keywordData => keywordData.data.map(keywordInfo => keywordDataArray[keywordInfo.id] = keywordInfo))
-         // .then(this.setState({ keywordData: keywordDataArray, refreshKeywordsLoading: false }))
          .catch(err => console.log(err));
    }
 
    handleSubmit = item => {
-      // console.log('1');
-      // console.log(item);
       this.setState({selectedQueryStatements: item});
-      // console.log('2');
       let urlBuilder = this.buildURL(item);
-      // console.log('3');
-      // console.log(urlBuilder)
-      // this.setState({requestURL: urlBuilder});
-      // console.log('4');
       this.refreshList(urlBuilder);
-      // console.log('5');
       this.FourCMemberSearchModalToggle();
-      // console.log('6');
    }
 
    FourCMemberSearchModalToggle = () => {
@@ -155,14 +142,10 @@ class App extends Component {
    };
 
    buildURL(item) {
-      // console.log('building URL');
       let org = item.selectedUniversities;
       let activityKeywords = item.activityKeywords;
       let topicalKeywords = item.topicalKeywords;
-      // console.log(org)
-      // console.log(activityKeywords)
-      // console.log(topicalKeywords)
-      var url = "/api/v1/users/?format=json";
+      var url = "http://localhost/api/v1/users/?format=json";
       if (org) {
          for (let i = 0; i < org.length; i++) {
             url += '&organization=' + org[i].value;
@@ -178,20 +161,11 @@ class App extends Component {
             url += '&keywords=' + topicalKeywords[i].value;
          }
       }
-      // console.log('Final URL before returning is: ' + url);
-      // console.log(this);
-      // this.setState({ requestURL: url });
-      // this.setState({ requestURL: url });
-      // this.setState({ requestURL: url }, function () {
-      //    console.log('Waiting... ' + this.state.requestURL);
-      // });
-      // console.log('Done waiting... ' + this.state.requestURL);
       return url;
 
    }
 
    refreshList(urlBuilder) {
-      // console.log(urlBuilder)
       axios
          .get(urlBuilder)
          .then(res => this.setState({ displayItems: res.data, refreshListLoading: false }))
@@ -231,12 +205,9 @@ class App extends Component {
          displayText = <Spinner color="primary" />
       }
       else {
-         // console.log(this.state.orgData);
-         // console.log(orgRef);
-         let modalTitle = "All Organizations"
+         let modalTitle = "User Organizations"
          let modalBody = []
          orgRef.map(orgID => (
-            // console.log(orgID),console.log(this.state.orgData),
             displayText += this.state.orgData[orgID].orgNameUnique + ", "
          ));
          orgRef.map(orgID => (
@@ -308,10 +279,9 @@ class App extends Component {
       let displayText = ""
       if (this.state.refreshKeywordsLoading || this.state.keywordData === []) {
          displayText = <Spinner color="primary" />
-         // console.log(this.state.keywordData);
       }
       else {
-         let modalTitle = "All keywords"
+         let modalTitle = "User keywords"
          let modalBody = []
          keywordRef.map(keywordID => (
             displayText += toTitleCase(this.state.keywordData[keywordID].keywordName) + ", "
@@ -336,15 +306,16 @@ class App extends Component {
       let body = <div>
          <Badge color={this.getUserTypes(user.userType).color}>{this.getUserTypes(user.userType).name}</Badge><br />
          <b>Email: </b>{user.emailAddress}<br />
-         {user.webiste ? <div><b>Website: </b>{NBSP}<a href={user.webiste} target="_blank" rel="noopener noreferrer">{user.webiste}</a></div> : ""}
+         {user.website ? <div><b>Website: </b>{NBSP}<a href={user.website} target="_blank" rel="noopener noreferrer">{user.website}</a></div> : ""}
          {user.jobTitle ? <div><b>Job Title: </b>{NBSP}{user.jobTitle}</div> : ""}
-         {user.description ? <div><b>About: </b>{NBSP}{user.description}</div> : ""}
+         {user.description ? <div><b>About: </b>{NBSP}{user.description.split("\n").map((i, key) => {
+               return <div key={key}>{i}< br/></div>;})}</div> : ""}
       </div> 
       return <Button onClick={() => this.showMoreUserDataModal(title, body)}><FontAwesomeIcon icon="info" />{NBSP}More Information</Button>
    }
 
    renderDisplayUserItems = () => {
-      const items = this.state.displayItems;
+      const items = this.state.pageItems;
       let renderItems = ""
          renderItems = items.map(item => (
             <tr key={item.id}>
@@ -355,7 +326,6 @@ class App extends Component {
                <td>{this.buildUserExtendedInfoModal(item)}</td>
             </tr>
          ));
-      // console.log(renderItems);
       return renderItems;
    };
 
@@ -384,7 +354,6 @@ class App extends Component {
 
 
    render() {
-      // console.log('render called');
       return (
          <main className="App">
             <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: '100' }}>
@@ -429,30 +398,27 @@ class App extends Component {
                      </Nav>
                   </Collapse>
                </Navbar>
-               {this.state.fourCModalOpen ? (
                   <FourCMemberSearchModal
+                     openStatus={this.state.fourCModalOpen}
                      selectedQuery={this.state.selectedQueryStatements}
                      toggle={this.FourCMemberSearchModalToggle}
                      submitHandler={this.handleSubmit}
                   />
-               ) : null}
 
-               {this.state.extendedDataModalOpen ? (
                   <AdditionalDataModal
+                     openStatus={this.state.extendedDataModalOpen}
                      title={this.state.extendedDataModalTitle}
                      body={this.state.extendedModalBody}
                      toggle={this.ExtendedDataModalToggle}
                   />
-               ) : null}
 
-               {this.state.showMoreUserDataModalOpen ? (
                   <AdditionalDataModal
+                     openStatus={this.state.showMoreUserDataModalOpen}
                      title={this.state.moreUserDataTitle}
                      body={this.state.moreUserDataBody}
                      toggle={this.showMoreUserDataModalToggle}
                      size={this.state.moreUserDataModalSize}
                   />
-               ) : null}
 
             </main>
 
@@ -473,9 +439,16 @@ class App extends Component {
                <div>
                   <Container fluid>
                      {this.renderTable()}
+                     <PaginationWrapper pageSize={50} items={this.state.displayItems} onChangePage={this.onChangePage} />
                   </Container>
                </div>
             </main>
+            <footer className="footer mt-auto py-3" style={{ backgroundColor: '#F8F9FA'}}>
+               <Container fluid className="clearfix">
+                  <span className="text-muted float-left">Copyright {'\u00A9'} 2019 Central Coast Climate Collaborative </span>
+                  <a href="https://www.centralcoastclimate.org/" className="float-right" target="_blank" rel="noopener noreferrer">Visit main website</a>
+               </Container>
+            </footer>
          </main>
       );
    }

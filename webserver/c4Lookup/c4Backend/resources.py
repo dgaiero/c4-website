@@ -23,7 +23,7 @@ class OrganizationResource(resources.ModelResource):
       column_name=('Organization Type')
    )
    website = fields.Field(column_name='Website', attribute='website')
-   department = fields.Field(column_name='Department', attribute='department')
+   department = fields.Field(column_name='Department', attribute='department', default=None)
 
    class Meta:
       skip_unchanged = True

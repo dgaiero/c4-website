@@ -82,7 +82,7 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
    'DEFAULT_PERMISSION_CLASSES': [
       'c4Lookup.SafelistPermission.IsAdminOrReadOnly',
-      'c4Lookup.SafelistPermission.SafelistPermission',
+      # 'c4Lookup.SafelistPermission.SafelistPermission',
       # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
       # 'rest_framework.permissions.AllowAny',
    ],

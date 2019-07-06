@@ -21,7 +21,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from .views import login, catchall
 
 from c4Backend.views import handler404, handler500
-from c4Backend.models import FrontendParams
+# from c4Backend.models import FrontendParams
 from .getCommitInformation import getBranchLabel, getCommitHash, getCommitMessage
 
 def trigger_error(request):
@@ -42,13 +42,13 @@ handler404 = handler404
 handler500 = handler500
 
 
-FRONTEND_SETTINGS = FrontendParams.objects.all()
-if (FRONTEND_SETTINGS.count() > 0):
-   FRONTEND_SETTINGS = FRONTEND_SETTINGS[:1].get()
-else:
-   FRONTEND_SETTINGS = FrontendParams()
+# FRONTEND_SETTINGS = FrontendParams.objects.all()
+# if (FRONTEND_SETTINGS.count() > 0):
+#    FRONTEND_SETTINGS = FRONTEND_SETTINGS[:1].get()
+# else:
+#    FRONTEND_SETTINGS = FrontendParams()
 
-FRONTEND_SETTINGS.commitMessage = getCommitMessage()
-FRONTEND_SETTINGS.commitBranch = getBranchLabel()
-FRONTEND_SETTINGS.commitHash = getCommitHash()
-FRONTEND_SETTINGS.save()
+# FRONTEND_SETTINGS.commitMessage = getCommitMessage()
+# FRONTEND_SETTINGS.commitBranch = getBranchLabel()
+# FRONTEND_SETTINGS.commitHash = getCommitHash()
+# FRONTEND_SETTINGS.save()

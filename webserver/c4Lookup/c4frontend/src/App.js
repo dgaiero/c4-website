@@ -80,7 +80,7 @@ class App extends Component {
 
 
    componentDidMount() {
-      this.refreshList('http://localhost/api/v1/users/?format=json');
+      this.refreshList('/api/v1/users/?format=json');
       this.getOrgs();
       this.getKeywords();
    }
@@ -91,7 +91,7 @@ class App extends Component {
 
    getOrgs() {
       let orgDataArray = [];
-      axios.get('http://localhost/api/v1/orgs/?format=json')
+      axios.get('/api/v1/orgs/?format=json')
          .then(orgData => this.setState(function() {
             orgData.data.map(orgInfo => orgDataArray[orgInfo.id] = orgInfo)
             return { orgData: orgDataArray, refreshOrgsLoading: false}
@@ -104,7 +104,7 @@ class App extends Component {
 
    getKeywords() {
       let keywordDataArray = [];
-      axios.get('http://localhost/api/v1/keywords/?format=json')
+      axios.get('/api/v1/keywords/?format=json')
          .then(keywordData => this.setState(function () {
             keywordData.data.map(orgInfo => keywordDataArray[orgInfo.id] = orgInfo)
             return { keywordData: keywordDataArray, refreshKeywordsLoading: false }
@@ -145,7 +145,7 @@ class App extends Component {
       let org = item.selectedUniversities;
       let activityKeywords = item.activityKeywords;
       let topicalKeywords = item.topicalKeywords;
-      var url = "http://localhost/api/v1/users/?format=json";
+      var url = "/api/v1/users/?format=json";
       if (org) {
          for (let i = 0; i < org.length; i++) {
             url += '&organization=' + org[i].value;

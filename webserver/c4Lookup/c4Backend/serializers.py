@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Organization, User, Keyword, Collaborations
+from .models import Organization, User, Keyword, Collaborations, FrontendParameters
 
 class OrganizationSerializer(serializers.ModelSerializer):
    class Meta:
@@ -22,4 +22,9 @@ class KeywordSerializer(serializers.ModelSerializer):
 class CollaborationSerializer(serializers.ModelSerializer):
    class Meta:
       model = Collaborations
+      fields = '__all__'
+
+class FrontendParameterSerialier(serializers.ModelSerializer):
+   class Meta:
+      model = FrontendParameters
       fields = '__all__'

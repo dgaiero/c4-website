@@ -7,29 +7,12 @@ from django_filters import rest_framework as filters
 
 from django.shortcuts import render_to_response
 
-from .models import Organization, User, Keyword, Collaborations
-from .serializers import OrganizationSerializer, UserSerializer, KeywordSerializer, CollaborationSerializer
+from .models import Organization, User, Keyword, Collaborations, FrontendParameters
+from .serializers import OrganizationSerializer, UserSerializer, KeywordSerializer, CollaborationSerializer, FrontendParameterSerialier
 
 from rest_framework.permissions import IsAuthenticated
-
-# class ListOrganization(generics.ListCreateAPIView):
-#    queryset = Organization.objects.all()
-#    serializer_class = OrganizationSerializer
-
-
-# class DetailOrganization(generics.RetrieveUpdateDestroyAPIView):
-#    queryset = Organization.objects.all()
-#    serializer_class = OrganizationSerializer
-
-
-# class ListUser(generics.ListCreateAPIView):
-#    queryset = User.objects.all()
-#    serializer_class = UserSerializer
-
-
-# class DetailUser(generics.RetrieveUpdateDestroyAPIView):
-#    queryset = Organization.objects.all()
-#    serializer_class = UserSerializer
+from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
 
 class OrganizationViewSet(viewsets.ModelViewSet):
    queryset = Organization.objects.all()
@@ -50,24 +33,23 @@ class KeywordViewSet(viewsets.ModelViewSet):
    filterset_fields = ('keywordType', 'sortOrder')
 
 
-# class KeywordList(viewsets.ModelViewSet):
-#    queryset = Keyword.objects.all()
-#    serializer_class = KeywordSerializer
-#    # permission_classes = (IsAuthenticated,)
-#    filter_backends = (filters.DjangoFilterBackend,)
-#    filterset_sields = ('keywordType', 'sortOrder')
-
-
 class CollaborationViewSet(viewsets.ModelViewSet):
    queryset = Collaborations.objects.all()
    serializer_class = CollaborationSerializer
    # permission_classes = (IsAuthenticated,)
 
+class FrontendViewSet(viewsets.ViewSet):
+   def list(self, request):
+      queryset = FrontendParameters.objects.all()
+      serializer = FrontendParameterSerialier(queryset, many=True)
+      return Response(serializer.data)
 
-# class HighLevelKeywords(viewsets.ViewSet):
-#    queryset = Keyword.objects.filter(keywordType=Keyword.SORT_HIGH)
-#    serializer_class = KeywordSerializer
-#    permission_classes = (IsAuthenticated,)
+   def retrieve(self, request, pk=None):
+      queryset = FrontendParameters.objects.all()
+      parameter = get_object_or_404(queryset, pk=pk)
+      serializer = FrontendParameterSerialier(parameter)
+      return Response(serializer.data)
+   
 
 
 def handler404(request, exception, template_name="404.html"):

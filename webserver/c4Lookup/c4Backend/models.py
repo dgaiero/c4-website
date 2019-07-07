@@ -187,7 +187,7 @@ class Keyword(models.Model):
       return self.keywordName
 
 
-class FrontendParams(SingletonModel):
+class FrontendParameters(SingletonModel):
    siteHeading = models.CharField(
       max_length=30,
       verbose_name="Site Heading",
@@ -229,3 +229,6 @@ class FrontendParams(SingletonModel):
    class Meta:
       verbose_name = 'FrontendParameters'
       verbose_name_plural = 'Front End Parameters'
+
+   def __str__(self):
+      return "Frontend Parameters"

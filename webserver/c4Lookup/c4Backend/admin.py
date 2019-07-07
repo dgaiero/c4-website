@@ -1,7 +1,7 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin, ImportExportMixin, ImportMixin
 
-from .models import Organization, User, Keyword, Collaborations, FrontendParams
+from .models import Organization, User, Keyword, Collaborations, FrontendParameters
 from .resources import OrganizationResource, UserResource, KeywordResource, CollaborationResource
 
 @admin.register(Organization)
@@ -19,7 +19,7 @@ class OrganizationAdmin(ImportExportModelAdmin):
    readonly_fields = ['orgNameUnique']
 
 
-@admin.register(FrontendParams)
+@admin.register(FrontendParameters)
 class FrontendParametersAdmin(admin.ModelAdmin):
    fieldsets = [
       ('Basic Site Information', {'fields': ['siteHeading']}),

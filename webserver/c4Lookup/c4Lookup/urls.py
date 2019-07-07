@@ -15,13 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path, re_path
+from django.db.utils import ProgrammingError
 from django.conf.urls import url
 from rest_framework.authtoken.views import obtain_auth_token
 
 from .views import login, catchall
 
 from c4Backend.views import handler404, handler500
-# from c4Backend.models import FrontendParams
+from c4Backend.models import FrontendParameters
 from .getCommitInformation import getBranchLabel, getCommitHash, getCommitMessage
 
 def trigger_error(request):
@@ -41,14 +42,12 @@ urlpatterns = [
 handler404 = handler404
 handler500 = handler500
 
+try:
+   FRONTEND_SETTINGS = FrontendParameters.load()
 
-# FRONTEND_SETTINGS = FrontendParams.objects.all()
-# if (FRONTEND_SETTINGS.count() > 0):
-#    FRONTEND_SETTINGS = FRONTEND_SETTINGS[:1].get()
-# else:
-#    FRONTEND_SETTINGS = FrontendParams()
-
-# FRONTEND_SETTINGS.commitMessage = getCommitMessage()
-# FRONTEND_SETTINGS.commitBranch = getBranchLabel()
-# FRONTEND_SETTINGS.commitHash = getCommitHash()
-# FRONTEND_SETTINGS.save()
+   FRONTEND_SETTINGS.commitMessage = getCommitMessage()
+   FRONTEND_SETTINGS.commitBranch = getBranchLabel()
+   FRONTEND_SETTINGS.commitHash = getCommitHash()
+   FRONTEND_SETTINGS.save()
+except ProgrammingError:
+   print("Cannot update model. Database not setup.")

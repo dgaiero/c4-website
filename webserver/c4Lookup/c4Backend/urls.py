@@ -10,6 +10,7 @@ router.register(r'orgs', views.OrganizationViewSet)
 router.register(r'keywords', views.KeywordViewSet)
 # router.register(r'keywordLists', views.KeywordList)
 router.register(r'collaborations', views.CollaborationViewSet)
+router.register(r'frontendParameters', views.FrontendViewSet, basename='frontendParameters')
 
 
 urlpatterns = [url(r'^', include(router.urls)),

@@ -77,6 +77,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
 
     'c4Backend',
+    'users.apps.UsersConfig'
 ]
 
 REST_FRAMEWORK = {
@@ -159,9 +160,9 @@ WSGI_APPLICATION = 'c4Lookup.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-      #   'OPTIONS': {
-      #       'sql_mode': 'traditional',
-      #   },
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
         'NAME': env('C4_DEV_DATABASE_NAME'),
         'USER': env('C4_DEV_DATABASE_USER'),
         'PASSWORD': env('C4_DEV_DATABASE_PSWD'),
@@ -189,6 +190,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTH_USER_MODEL = 'users.CustomUser'
 
 
 # Internationalization

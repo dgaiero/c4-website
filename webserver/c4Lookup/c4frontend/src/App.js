@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import {
+   Alert,
    Container,
    Button,
    Collapse,
@@ -9,6 +10,7 @@ import {
    NavbarBrand,
    Nav,
    NavItem,
+   NavLink,
    Jumbotron,
    Table,
    Badge,
@@ -42,6 +44,18 @@ class App extends Component {
    constructor(props) {
       super (props);
       this.state = {
+
+         settings: {
+            siteHeading: '',
+            frontHeading: '',
+            frontMessage: '',
+            frontMessageSubText: '',
+            additionEmailAddress: '',
+            commitBranch: '',
+            commitHash: '',
+            commitMessage: '',
+         },
+
          fourCModalOpen: false,
          navIsOpen: false,
          'selectedQueryStatements': {
@@ -53,9 +67,10 @@ class App extends Component {
          },
          displayItems: [],
          pageItems: [],
-         requestURL: '/api/v1/users/?format=json',
+         requestURL: 'http://localhost/api/v1/users/?format=json',
          orgData: [],
          keywordData: [],
+         toasts: [],
 
 
          extendedDataModalOpen: false,
@@ -68,6 +83,7 @@ class App extends Component {
          refreshListLoading: true,
          refreshKeywordsLoading: true,
          refreshOrgsLoading: true,
+         devModeOpen: true,
       };
       this.handleSubmit = this.handleSubmit.bind(this);
       this.refreshList = this.refreshList.bind(this);
@@ -80,18 +96,24 @@ class App extends Component {
 
 
    componentDidMount() {
-      this.refreshList('/api/v1/users/?format=json');
+      this.refreshList('http://localhost/api/v1/users/?format=json');
       this.getOrgs();
       this.getKeywords();
+      this.getSettings();
    }
 
    onChangePage(pageOfItems) {
       this.setState({ pageItems: pageOfItems})
    }
 
+   getSettings() {
+      axios.get('http://localhost/api/v1/frontendParameters/1/?format=json')
+         .then(settingsData => this.setState({settings: settingsData.data}))
+   }
+
    getOrgs() {
       let orgDataArray = [];
-      axios.get('/api/v1/orgs/?format=json')
+      axios.get('http://localhost/api/v1/orgs/?format=json')
          .then(orgData => this.setState(function() {
             orgData.data.map(orgInfo => orgDataArray[orgInfo.id] = orgInfo)
             return { orgData: orgDataArray, refreshOrgsLoading: false}
@@ -104,7 +126,7 @@ class App extends Component {
 
    getKeywords() {
       let keywordDataArray = [];
-      axios.get('/api/v1/keywords/?format=json')
+      axios.get('http://localhost/api/v1/keywords/?format=json')
          .then(keywordData => this.setState(function () {
             keywordData.data.map(orgInfo => keywordDataArray[orgInfo.id] = orgInfo)
             return { keywordData: keywordDataArray, refreshKeywordsLoading: false }
@@ -145,7 +167,7 @@ class App extends Component {
       let org = item.selectedUniversities;
       let activityKeywords = item.activityKeywords;
       let topicalKeywords = item.topicalKeywords;
-      var url = "/api/v1/users/?format=json";
+      var url = "http://localhost/api/v1/users/?format=json";
       if (org) {
          for (let i = 0; i < org.length; i++) {
             url += '&organization=' + org[i].value;
@@ -352,10 +374,30 @@ class App extends Component {
       }
    }
 
+   renderToasts = () => {
+      let toastStack = this.state.toasts;
+      return toastStack.map(toast => toast);
+   }
+
 
    render() {
       return (
          <main className="App">
+            {this.state.settings.commitBranch === "dev" ? (
+               <Alert color="light" isOpen={this.state.devModeOpen} toggle={() => this.setState({ devModeOpen: false })}>
+               <h4 className="alert-heading">Development Mode</h4>
+               <p>
+                  This website is currently in <b>development mode</b> OR has <b>debug</b> mode active. To view the repository, please visit: <a href="https://github.com/dgaiero/c4-website">https://github.com/dgaiero/c4-website</a>
+               </p>
+               <hr />
+               <p className="mb-0">
+                     The current running commit has a message of: <em>{this.state.settings.commitMessage}</em>< br />
+                  If asked, please provide the following version information:< br />
+                  <code>{this.state.settings.commitBranch}/{this.state.settings.commitHash}</code>
+               </p>
+            </Alert>
+            ) : null }
+
             <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: '100' }}>
                <Toast isOpen={this.state.refreshListLoading}>
                   <ToastHeader icon={<Spinner color="primary" size="sm" />}>
@@ -386,13 +428,19 @@ class App extends Component {
             </div>
             <main className="navigationContainer">
                <Navbar color="light" light expand="md">
-                  <NavbarBrand href="/">4C DATABASE QUERY UTILITY</NavbarBrand>
+                  <NavbarBrand href="/">{this.state.settings.siteHeading}</NavbarBrand>
                   <NavbarToggler onClick={this.navToggle} />
                   <Collapse isOpen={this.state.navIsOpen} navbar>
                      <Nav className="ml-auto" navbar>
                         <NavItem>
-                           <Button outline color="success" onClick={this.runQuery}>Search for 4C Member</Button>
+                           <NavLink href="#0" onClick={this.runQuery}>Search for 4C Member</NavLink>
                         </NavItem>
+
+                        {this.state.settings.commitBranch === "dev"  && this.state.devModeOpen === false ? (
+                           <NavItem>
+                              <Button color="warning" onClick={() => this.setState({ devModeOpen: true })}>Open  development information</Button>
+                           </NavItem>
+                        ) : null}
                         <NavItem>
                         </NavItem>
                      </Nav>
@@ -426,12 +474,12 @@ class App extends Component {
                <div>
                   <Jumbotron fluid>
                      <Container fluid>
-                        <h1 className="display-3">Welcome</h1>
-                        <p className="lead">This system is designed to query 4C members for collaboration on projects.</p>
+                        <h1 className="display-3">{this.state.settings.frontHeading}</h1>
+                        <p className="lead">{this.state.settings.frontMessage}</p>
                         <hr className="my-2" />
-                        <p>If you would like to be added to this database, please contact CONTACT NAME.</p>
+                        <p>{this.state.settings.frontMessageSubText}</p>
                         <p className="lead">
-                           <Button onClick={() => alert("This will eventually have a mailTo.")}color="primary">Request Addition to Database</Button>
+                           <Button href={'mailto:'+this.state.settings.additionEmailAddress} color="primary">Request Addition to Database</Button>
                         </p>
                      </Container>
                   </Jumbotron>

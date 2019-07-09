@@ -387,13 +387,14 @@ class App extends Component {
                <Alert color="light" isOpen={this.state.devModeOpen} toggle={() => this.setState({ devModeOpen: false })}>
                <h4 className="alert-heading">Development Mode</h4>
                <p>
-                  This website is currently in <b>development mode</b> OR has <b>debug</b> mode active. To view the repository, please visit: <a href="https://github.com/dgaiero/c4-website">https://github.com/dgaiero/c4-website</a>
+                     This website is currently in <b>development</b> mode OR has <b>debug</b> mode active. To view the repository, please visit: <a href="https://github.com/dgaiero/c4-website">https://github.com/dgaiero/c4-website</a>
                </p>
                <hr />
                <p className="mb-0">
                      The current running commit has a message of: <em>{this.state.settings.commitMessage}</em>< br />
                   If asked, please provide the following version information:< br />
-                  <code>{this.state.settings.commitBranch}/{this.state.settings.commitHash}</code>
+                  <code>{this.state.settings.commitBranch}/{this.state.settings.commitHash}</code>< br />
+                     <a href={'https://github.com/dgaiero/c4-website/tree/' + this.state.settings.commitHash} target="_blank" rel="noopener noreferrer">Open in remote</a>
                </p>
             </Alert>
             ) : null }

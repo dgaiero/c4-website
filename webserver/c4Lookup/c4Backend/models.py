@@ -43,7 +43,7 @@ class Organization(models.Model):
    orgNameUnique = models.CharField(
       max_length=100,
       # editable=False,
-      help_text="Don't change this value, it is automatically generated."
+      # help_text="Don't change this value, it is automatically generated."
    )
 
    def save(self, *args, **kwargs):
@@ -59,6 +59,9 @@ class Organization(models.Model):
       return orgFullName
 
    class Meta:
+      verbose_name = 'Organization'
+      verbose_name_plural = 'Organizations'
+      ordering = ['orgName', 'department']
       unique_together = (("orgName", "department"),)
 
 class User(models.Model):
@@ -115,7 +118,7 @@ class User(models.Model):
    organization = models.ManyToManyField(
       'Organization',
       # on_delete=models.CASCADE,
-      verbose_name="Affiliated Organization"
+      verbose_name="Affiliated Organization(s)"
    )
    description = models.TextField(
       verbose_name="Short Description",
@@ -123,6 +126,11 @@ class User(models.Model):
       null=True
       )
    dateAdded = models.DateTimeField(auto_now_add=True)
+
+   class Meta:
+      verbose_name = 'User'
+      verbose_name_plural = 'Users'
+      ordering = ['lastName', 'firstName']
 
    def __str__(self):
       return f"{self.firstName} {self.lastName}"
@@ -136,6 +144,7 @@ class Collaborations(models.Model):
    class Meta:
       verbose_name = 'Collaboration'
       verbose_name_plural = 'Collaborations'
+      ordering = ['collaborationName']
 
    def __str__(self):
       return self.collaborationName
@@ -183,6 +192,11 @@ class Keyword(models.Model):
       )
    dateAdded = models.DateTimeField(auto_now_add=True)
 
+   class Meta:
+      verbose_name = 'Keyword'
+      verbose_name_plural = 'Keywords'
+      ordering = ['keywordType', 'keywordName']
+
    def __str__(self):
       return self.keywordName
 
@@ -227,7 +241,7 @@ class FrontendParameters(SingletonModel):
    )
 
    class Meta:
-      verbose_name = 'FrontendParameters'
+      verbose_name = 'Frontend Parameters'
       verbose_name_plural = 'Front End Parameters'
 
    def __str__(self):

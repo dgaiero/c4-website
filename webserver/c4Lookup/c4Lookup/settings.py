@@ -20,12 +20,12 @@ from django.utils.log import DEFAULT_LOGGING
 from .getCommitInformation import getCommitVersion
 
 
-root_path = environ.Path(__file__) - 3
+root_path = environ.Path(__file__) - 2
 env = environ.Env()
 
 # ENV = env('DJANGO_ENV')
 SITE_ROOT = root_path()
-environ.Env.read_env(env_file=os.path.join(SITE_ROOT))
+environ.Env.read_env(env_file=os.path.join(SITE_ROOT, '.env'))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -77,7 +77,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
 
     'c4Backend',
-    'users.apps.UsersConfig'
+    'users'
 ]
 
 REST_FRAMEWORK = {
@@ -191,8 +191,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'users.CustomUser'
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -227,3 +225,5 @@ STATIC_URL = '/static/'
 WHITENOISE_ROOT = os.path.join(FRONTEND_DIR, 'build', 'root')
 
 COMMIT_VERSION = getCommitVersion()
+
+AUTH_USER_MODEL = 'users.CustomUser'

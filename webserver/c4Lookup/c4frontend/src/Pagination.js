@@ -141,7 +141,7 @@ class PaginationWrapper extends React.Component {
       }
 
       return (
-         <Pagination aria-label="Page navigation example">
+         <Pagination aria-label="pagination">
 
             <PaginationItem disabled={pager.currentPage === 1 ? true : false}>
                <PaginationLink first href="#0" onClick={() => this.setPage(1)}/>

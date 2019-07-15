@@ -13,12 +13,12 @@ export default class memberSearchModal extends Component {
     */
 
    render() {
-      const { openStatus, toggle, size } = this.props;
+      const { openStatus, toggle, size, title, body } = this.props;
       return (
          <Modal isOpen={openStatus} toggle={toggle} centered size={size}>
-            <ModalHeader toggle={toggle}>{this.props.title}</ModalHeader>
+            <ModalHeader toggle={toggle}>{title}</ModalHeader>
             <ModalBody>
-               {this.props.body}
+               {body}
             </ModalBody>
             <ModalFooter>
                <Button color="primary" onClick={toggle}>Close</Button>

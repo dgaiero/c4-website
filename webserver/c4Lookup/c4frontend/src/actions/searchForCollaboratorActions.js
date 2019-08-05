@@ -28,15 +28,21 @@ export const getURL = (URL) => ({
    payload: { URL }
 })
 
-export function fetchCollaborators(url) {
+// export function fetchCollaborators(url) {
+//    return dispatch => {
+//       dispatch(fetchCollaboratorsBegin());
+//       return axios.get(url)
+//          .then(response => dispatch(fetchCollaboratorsSuccess(response.data)))
+//          .catch(error => dispatch(fetchCollaboratorsFailure(error)));
+//    }
+// }
 
+export const fetchCollaborators = (url) => {
    return dispatch => {
       dispatch(fetchCollaboratorsBegin());
-      return axios.get(url)
-         .then(response => dispatch(fetchCollaboratorsSuccess(response.data)))
-         .catch(error => dispatch(fetchCollaboratorsFailure(error)));
+
+      axios.get(url)
+      .then (res => {dispatch(fetchCollaboratorsSuccess(res.data));})
+      .catch(err => {dispatch(fetchCollaboratorsFailure(err.message));});
    }
-
-
-
 }

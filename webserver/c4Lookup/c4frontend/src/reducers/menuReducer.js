@@ -2,7 +2,7 @@ import {Actions} from '../actions/menuActions'
 
 const initialState = {
    searchForCollaborator: false,
-   devModeOpen: true,
+   devModeOpen: false,
    navOpen: false,
 }
 

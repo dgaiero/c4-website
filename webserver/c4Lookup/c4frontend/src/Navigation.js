@@ -7,11 +7,13 @@ import {
    NavbarBrand,
    Nav,
    NavItem,
+   NavLink,
    } from 'reactstrap';
 import './App.css';
 import { connect } from 'react-redux';
 import { toggleNavBar, toggleDevMode, toggleSearchForCollaborator } from './actions/menuActions'
 import SearchForCollaborator from './SearchForCollaborator'
+import { NavLink as RRNavLink } from 'react-router-dom';
 
 class Navigation extends Component {
 
@@ -20,12 +22,13 @@ class Navigation extends Component {
       return (
 
          <Navbar color="light" light expand="md">
-            <NavbarBrand href="/">{settings.siteHeading}</NavbarBrand>
-            <NavbarToggler onClick={() => this.props.toogleNavBar()} />
-            <Collapse isOpen={nav.navIsOpen} navbar>
+            <NavbarBrand tag={RRNavLink} exact to="/">{settings.siteHeading}</NavbarBrand>
+            <NavbarToggler onClick={() => this.props.toggleNavBar()} />
+            <Collapse isOpen={nav.navOpen} navbar>
                <Nav className="ml-auto" navbar>
                   <NavItem>
-                     <SearchForCollaborator />
+                     <NavLink tag={RRNavLink} exact to="/collaborator" activeClassName="active">Search for a Collaborator</NavLink>
+                     {/* <SearchForCollaborator /> */}
                   </NavItem>
 
                   {settings.commitBranch === "dev" && nav.devModeOpen === false ? (
@@ -53,4 +56,4 @@ const mapDispatchToProps = {
    toggleSearchForCollaborator
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navigation);
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation)

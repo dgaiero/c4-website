@@ -24,14 +24,17 @@ class DebugMessage extends Component {
                <Alert color="light" isOpen={nav.devModeOpen} toggle={() => this.props.toggleDevMode()}>
                   <h4 className="alert-heading">Development Mode</h4>
                   <p>
-                     This website is currently in <b>development</b> mode OR has <b>debug</b> mode active. To view the repository, please visit: <a href="https://github.com/dgaiero/c4-website">https://github.com/dgaiero/c4-website</a>
+                     The 4C database query utility is currently being <b>developed</b>. To view the repository, please visit: <a href="https://github.com/dgaiero/c4-website">https://github.com/dgaiero/c4-website</a>
+                  </p>
+                  <p>
+                     All directory information on this website may be fake.
                   </p>
                   <hr />
                   <p className="mb-0">
                      The current running commit has a message of: <em>{settings.commitMessage}</em>< br />
                      If asked, please provide the following version information:< br />
                      <code>{settings.commitBranch}/{settings.commitHash}</code>< br />
-                     <a href={'https://github.com/dgaiero/c4-website/tree/' + settings.commitHash} target="_blank" rel="noopener noreferrer">Open in remote</a>
+                     <a href={'https://github.com/dgaiero/c4-website/tree/' + settings.commitHash} target="_blank" rel="noopener noreferrer">Open in Remote</a>
                   </p>
                </Alert>
             ) : null}

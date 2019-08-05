@@ -47,7 +47,7 @@ class UserDetail extends Component {
       let title = <div>About <b>{user.firstName} {user.lastName}</b></div>;
       let body = <div>
          <Badge color={getUserTypes(user.userType).color}>{getUserTypes(user.userType).name}</Badge><br />
-         <b>Email: </b>{user.emailAddress}<br />
+         <b>Email: </b><a href={"mailto:"+user.emailAddress}>{user.emailAddress}</a><br />
          {user.website ? <div><b>Website: </b>{NBSP}<a href={user.website} target="_blank" rel="noopener noreferrer">{user.website}</a></div> : ""}
          {user.jobTitle ? <div><b>Job Title: </b>{NBSP}{user.jobTitle}</div> : ""}
          {user.description ? <div><b>About: </b>{NBSP}{user.description.split("\n").map((i, key) => {

@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import { createStore, applyMiddleware } from 'redux'
-import {Provider } from 'react-redux';
+import { Provider } from 'react-redux';
+import PropTypes from 'prop-types'
 import RootContainer from './RootContainer'; 
-import rootReducer from './reducers/rootReducer'
-import thunk from 'redux-thunk'; 
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
-const store = createStoreWithMiddleware(rootReducer);
-
-class App extends Component {
-
-   render() {
-      return (
+const App = ({ store }) => (
          <Provider store={store}>
-            <RootContainer />
+            <Router>
+               <Route path="/:filter?" component={RootContainer} />
+               {/* <Route path="/" render={() => (<h1>404</h1>)} /> */}
+               {/* <RootContainer /> */}
+            </Router>
          </Provider>
       );
-   }
+
+
+App.propTypes = {
+   store: PropTypes.object.isRequired
 }
+
 export default App;

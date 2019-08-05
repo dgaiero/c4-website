@@ -1,6 +1,6 @@
 {
   "name": "c4frontend",
-  "proxy": "http://localhost",
+  "proxy": "http://localhost:8000",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,6 +11,7 @@
     "bootstrap": "^4.3.1",
     "lodash": "^4.17.13",
     "lodash.uniq": "^4.5.0",
+    "query-string": "^6.8.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
@@ -18,7 +19,9 @@
     "react-scripts": "3.0.1",
     "react-select": "^3.0.4",
     "react-select-bootstrap3": "^0.0.3",
+    "react-sticky-footer": "^0.1.0-rc3",
     "react-toastify": "^5.3.1",
+    "react-transition-group": "^4.2.2",
     "reactstrap": "^8.0.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0"

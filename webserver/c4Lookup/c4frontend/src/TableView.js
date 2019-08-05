@@ -11,6 +11,7 @@ import {fetchOrganizations} from './actions/organizationActions'
 import Keyword from './Keywords'
 import Organizations from './Organizations'
 import UserDetail from './User'
+import SearchForCollaborator from './SearchForCollaborator'
 import './App.css';
 
 class TableView extends Component {
@@ -45,6 +46,8 @@ class TableView extends Component {
 
    render() {
       return (
+         <>
+         <SearchForCollaborator />
          <Container fluid>
             <Table hover responsive>
                <thead>
@@ -62,6 +65,7 @@ class TableView extends Component {
             </Table>
             <PaginationWrapper pageSize={this.state.pageSize} items={this.props.collaborators} onChangePage={this.onChangePage} />
          </Container>
+         </>
       );
    }
 }

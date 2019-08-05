@@ -10,7 +10,7 @@ export const toggleDevMode = () => ({
 });
 
 export const toggleNavBar = () => ({
-   type: Actions.TOGGLE_DEV_MODE
+   type: Actions.TOGGLE_NAV_BAR
 });
 
 export const toggleSearchForCollaborator = () => ({

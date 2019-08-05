@@ -11,11 +11,15 @@ import { connect } from 'react-redux';
 import TableView from './TableView'
 import Navigation from './Navigation'
 import DebugMessage from './DebugMessage'
-import WelcomeJumbotron from './WelcomeJumbotron';
 import { fetchSettings }from './actions/settingsActions'
 import { fetchKeywords }from './actions/keywordActions'
 import { fetchOrganizations }from './actions/organizationActions'
 import { fetchCollaborators } from './actions/searchForCollaboratorActions'
+import FrontPageCards from './indexPage';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { withRouter } from "react-router";
+import StickyFooter from 'react-sticky-footer';
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 
 
@@ -45,24 +49,27 @@ class RootContainer extends Component {
       ]
       let loadStatus = this.calculateLoadingState(loader);
       return (
-         <main className="App">
+         <main className="App content">
             <Loading body={loader} status={loadStatus} />
-            <Fade>
-               <DebugMessage />
-               <Navigation />
-               <WelcomeJumbotron />
-               <TableView />
-               <footer className="footer mt-auto py-3" style={{ backgroundColor: '#F8F9FA' }}>
-                  <Container fluid className="clearfix">
-                     <span className="text-muted float-left">Copyright {'\u00A9'} 2019 Central Coast Climate Collaborative </span>
-                     <a href="https://www.centralcoastclimate.org/" className="float-right" target="_blank" rel="noopener noreferrer">Visit main website</a>
-                  </Container>
-               </footer>
-            </Fade>
+                  <DebugMessage />
+                  <Navigation />
+                  <Route path="/" exact component={FrontPageCards} />
+                  {/* <FrontPageCards /> */}
+                  <Route path="/collaborator" component={TableView} />
+                  {/* <TableView /> */}
          </main>
       );
    }
 }
+
+{/* <TransitionGroup>
+   <CSSTransition
+      key={location.key}
+      timeout={{ enter: 300, exit: 300 }}
+   >
+
+   </CSSTransition>
+</TransitionGroup> */}
 
 const mapStateToProps = state => ({
    settings: state.settings,

@@ -47,13 +47,14 @@ DEBUG = env.bool('DEBUG', default=False)
 # DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost',
-                 'dgaiero.pythonanywhere.com', '192.168.86.135']
+                 'dgaiero.pythonanywhere.com', '192.168.86.135', 'universities.centralcoastclimate.org']
 
 REST_SAFE_LIST_IPS = [
     '127.0.0.1',
     'localhost',
     'dgaiero.pythonanywhere.com',
     '192.168.86.135',
+    'universities.centralcoastclimate.org',
 ]
 
 # Application definition

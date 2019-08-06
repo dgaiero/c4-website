@@ -34,19 +34,19 @@ def login(request):
     return Response({'token': token.key},
                     status=HTTP_200_OK)
 
-# catchall = TemplateView.as_view(template_name='index.html')
+catchall = TemplateView.as_view(template_name='index.html')
 
-def catchall(request):
-   template = loader.get_template('index.html')
-   context = {
-      'displayDebugBanner' : 'none',
-      'debugBannerNotice': '<b>DEBUG MODE NOT ACTIVE</b>',
-   }
-   if settings.DEBUG:
-      context['displayDebugBanner'] = 'inline-block'
-      context['debugBannerNotice'] = "<b>DEBUG MODE ACTIVE</b> Commit Version is <em>{}</em>".format(
-         settings.COMMIT_VERSION)
-   else:
-      context['debugBannerNotice'] += "DEBUG IS NOT ACTIVE"
-   context['debugBannerNotice'] = mark_safe(context['debugBannerNotice'])
-   return HttpResponse(template.render(context, request))
+# def catchall(request):
+#    template = loader.get_template('index.html')
+#    context = {
+#       'displayDebugBanner' : 'none',
+#       'debugBannerNotice': '<b>DEBUG MODE NOT ACTIVE</b>',
+#    }
+#    if settings.DEBUG:
+#       context['displayDebugBanner'] = 'inline-block'
+#       context['debugBannerNotice'] = "<b>DEBUG MODE ACTIVE</b> Commit Version is <em>{}</em>".format(
+#          settings.COMMIT_VERSION)
+#    else:
+#       context['debugBannerNotice'] += "DEBUG IS NOT ACTIVE"
+#    context['debugBannerNotice'] = mark_safe(context['debugBannerNotice'])
+#    return HttpResponse(template.render(context, request))

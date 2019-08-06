@@ -29,11 +29,10 @@ def trigger_error(request):
     division_by_zero = 1 / 0
 
 urlpatterns = [
-    path('dashboard/', admin.site.urls),
+    path(r'dashboard/', admin.site.urls),
     path(r'api/v1/', include('c4Backend.urls')),
    #  re_path(r'^(?P<path>.*)/$', catchall),
-    path('', catchall),
-   #  re_path(r'', catchall),
+    re_path('', catchall),
    #  path('api/login', login),
    #  url(r'^api-token-auth/', obtain_auth_token),
    #  path('sentry-debug/', trigger_error),

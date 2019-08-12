@@ -10,7 +10,7 @@ class SafelistPermission(permissions.BasePermission):
 
    def has_permission(self, request, view):
 
-      remote_addr = request.get_host()
+      remote_addr = request.META['REMOTE_HOST']
       sys.stderr.write("ADDRESS="+remote_addr+"\n")
 
       for valid_ip in settings.REST_SAFE_LIST_IPS:

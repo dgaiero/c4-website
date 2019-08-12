@@ -55,7 +55,7 @@ REST_SAFE_LIST_IPS = [
     'dgaiero.pythonanywhere.com',
     '192.168.86.135',
     'universities.centralcoastclimate.org',
-    'https://about.dgaiero.me/c4-website',
+    'about.dgaiero.me',
 ]
 
 # Application definition
@@ -84,8 +84,8 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
    'DEFAULT_PERMISSION_CLASSES': [
-      'c4Lookup.SafelistPermission.IsAdminOrReadOnly',
-      # 'c4Lookup.SafelistPermission.SafelistPermission',
+      # 'c4Lookup.SafelistPermission.IsAdminOrReadOnly',
+      'c4Lookup.SafelistPermission.SafelistPermission',
       # 'c4Lookup.SafelistPermission.NoAccess',
       # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
       # 'rest_framework.permissions.IsAuthenticated',

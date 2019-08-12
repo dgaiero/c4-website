@@ -30,7 +30,8 @@ environ.Env.read_env(env_file=os.path.join(SITE_ROOT, '.env'))
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BACKEND_DIR = BASE_DIR
-FRONTEND_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "c4frontend")
+FRONTEND_DIR = os.path.join(os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__))), "c4frontend")
 
 LOGGING_CONFIG = None
 LOGLEVEL = env('LOGLEVEL', default='INFO').upper()
@@ -50,11 +51,12 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost',
                  'dgaiero.pythonanywhere.com', '192.168.86.135', 'universities.centralcoastclimate.org', 'api.centralcoastclimate.org']
 
 REST_SAFE_LIST_IPS = [
-   #  '127.0.0.1',
-   #  'localhost',
-   #  'dgaiero.pythonanywhere.com',
-   #  '192.168.86.135',
-   #  'universities.centralcoastclimate.org',
+    '127.0.0.1',
+    'localhost:3000'
+    #  'localhost',
+    #  'dgaiero.pythonanywhere.com',
+    #  '192.168.86.135',
+    #  'universities.centralcoastclimate.org',
     'about.dgaiero.me',
 ]
 
@@ -79,32 +81,33 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
 
     'c4Backend',
-    'users'
+    'users',
 ]
 
 REST_FRAMEWORK = {
-   'DEFAULT_PERMISSION_CLASSES': [
-      # 'c4Lookup.SafelistPermission.IsAdminOrReadOnly',
-      'c4Lookup.SafelistPermission.SafelistPermission',
-      # 'c4Lookup.SafelistPermission.NoAccess',
-      # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-      # 'rest_framework.permissions.IsAuthenticated',
-      # 'rest_framework.permissions.AllowAny',
-   ],
-   'DEFAULT_AUTHENTICATION_CLASSES': [
-      'rest_framework.authentication.TokenAuthentication',
-   ],
-   'DEFAULT_RENDERER_CLASSES': [
-      'rest_framework.renderers.JSONRenderer',
-   ],
-   'DEFAULT_FILTER_BACKENDS': [
-      'django_filters.rest_framework.DjangoFilterBackend',
-   ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'c4Lookup.SafelistPermission.IsAdminOrReadOnly',
+      #   'c4Lookup.SafelistPermission.SafelistPermission',
+        # 'c4Lookup.SafelistPermission.NoAccess',
+        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        # 'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    # 'DEFAULT_RENDERER_CLASSES': [
+    #    'rest_framework.renderers.JSONRenderer',
+    # ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ],
 }
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -113,9 +116,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-   #  'c4Lookup.customMiddleware.TimeDelayMiddleware',
+    #  'c4Lookup.customMiddleware.TimeDelayMiddleware',
 ]
 
 REQUEST_TIME_DELAY = 3

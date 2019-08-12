@@ -10,6 +10,7 @@ class SafelistPermission(permissions.BasePermission):
     def has_permission(self, request, view):
 
         remote_addr = request.META['REMOTE_ADDR']
+        print(remote_addr)
 
         for valid_ip in settings.REST_SAFE_LIST_IPS:
             if remote_addr == valid_ip or remote_addr.startswith(valid_ip):

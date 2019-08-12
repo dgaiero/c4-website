@@ -19,7 +19,8 @@ from django.db.utils import ProgrammingError
 from django.conf.urls import url
 from rest_framework.authtoken.views import obtain_auth_token
 
-from .views import login, catchall
+
+from .views import login, catchall, redirect_view
 
 from c4Backend.views import handler404, handler500
 from c4Backend.models import FrontendParameters
@@ -32,7 +33,7 @@ urlpatterns = [
     path(r'dashboard/', admin.site.urls),
     path(r'api/v1/', include('c4Backend.urls')),
    #  re_path(r'^(?P<path>.*)/$', catchall),
-   #  re_path('', catchall),
+    path(r'', redirect_view),
    #  path('api/login', login),
    #  url(r'^api-token-auth/', obtain_auth_token),
    #  path('sentry-debug/', trigger_error),

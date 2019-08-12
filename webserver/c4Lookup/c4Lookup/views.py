@@ -15,6 +15,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.status import (HTTP_200_OK, HTTP_400_BAD_REQUEST,
                                    HTTP_404_NOT_FOUND)
+from django.shortcuts import redirect
 
 
 @csrf_exempt
@@ -35,6 +36,11 @@ def login(request):
                     status=HTTP_200_OK)
 
 catchall = TemplateView.as_view(template_name='index.html')
+
+
+def redirect_view(request):
+    response = redirect('https://about.dgaiero.me/c4-website')
+    return response
 
 # def catchall(request):
 #    template = loader.get_template('index.html')

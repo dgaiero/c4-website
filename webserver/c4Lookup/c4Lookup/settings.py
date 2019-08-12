@@ -124,7 +124,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://127.0.0.1:8000',
     'http://universities.centralcoastclimate.org',
-    'https://about.dgaiero.me/c4-website'
+    'https://about.dgaiero.me'
 )
 
 ROOT_URLCONF = 'c4Lookup.urls'
@@ -219,15 +219,13 @@ sentry_sdk.init(
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATICFILES_DIRS = [os.path.join(FRONTEND_DIR, 'build', 'static')]
+STATICFILES_DIRS = []
 STATICFILES_STORAGE = (
     'whitenoise.storage.CompressedManifestStaticFilesStorage')
 
 STATIC_ROOT = os.path.join(BACKEND_DIR, 'static')
 
 STATIC_URL = '/static/'
-
-WHITENOISE_ROOT = os.path.join(FRONTEND_DIR, 'build', 'root')
 
 COMMIT_VERSION = getCommitVersion()
 

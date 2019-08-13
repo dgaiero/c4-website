@@ -39,7 +39,7 @@ catchall = TemplateView.as_view(template_name='index.html')
 
 
 def redirect_view(request):
-    response = redirect('https://about.dgaiero.me/c4-website')
+    response = redirect('https://universities.centralcoastclimate.org')
     return response
 
 # def catchall(request):

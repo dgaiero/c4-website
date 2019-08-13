@@ -33,7 +33,7 @@ urlpatterns = [
     path(r'dashboard/', admin.site.urls),
     path(r'api/v1/', include('c4Backend.urls')),
    #  re_path(r'^(?P<path>.*)/$', catchall),
-    path(r'', redirect_view),
+   #  path(r'', redirect_view),
    #  path('api/login', login),
    #  url(r'^api-token-auth/', obtain_auth_token),
    #  path('sentry-debug/', trigger_error),

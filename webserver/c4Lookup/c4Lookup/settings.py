@@ -47,8 +47,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env.bool('DEBUG', default=False)
 # DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost',
-                 'dgaiero.pythonanywhere.com', '192.168.86.135', 'universities.centralcoastclimate.org', 'api.centralcoastclimate.org']
+ALLOWED_HOSTS = ['127.0.0.1', 'api.centralcoastclimate.org']
 
 REST_SAFE_LIST_IPS = [
     '127.0.0.1',
@@ -56,7 +55,7 @@ REST_SAFE_LIST_IPS = [
     #  'localhost',
     #  'dgaiero.pythonanywhere.com',
     #  '192.168.86.135',
-    #  'universities.centralcoastclimate.org',
+    'universities.centralcoastclimate.org',
     'about.dgaiero.me',
 ]
 
@@ -96,9 +95,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
-    # 'DEFAULT_RENDERER_CLASSES': [
-    #    'rest_framework.renderers.JSONRenderer',
-    # ],
+   #  'DEFAULT_RENDERER_CLASSES': [
+   #     'rest_framework.renderers.JSONRenderer',
+   #  ],
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
     ],
@@ -125,8 +124,7 @@ REQUEST_TIME_DELAY = 3
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://127.0.0.1:8000',
-    'http://universities.centralcoastclimate.org',
-    'https://about.dgaiero.me'
+    'https://universities.centralcoastclimate.org',
 )
 
 ROOT_URLCONF = 'c4Lookup.urls'

@@ -25,7 +25,7 @@ export function fetchSettings() {
    console.log("FETCHED")
    return dispatch => {
       dispatch(fetchSettingsBegin());
-      return axios.get('/api/v1/frontendParameters/1/?format=json')
+      return axios.get('api/v1/frontendParameters/1/?format=json')
          .then(response => {dispatch(fetchSettingsSuccess(response.data))})
          .catch(error => dispatch(fetchSettingsFailure(error)));
    }

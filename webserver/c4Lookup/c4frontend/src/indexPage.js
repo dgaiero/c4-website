@@ -71,7 +71,7 @@ class FrontPageCards extends Component {
          <WelcomeJumbotron />
             <Container>
               <Row>
-                 <Col>
+                  <Col>
                      <LookingForCollaboratorCard />
                   </Col>
                   <Col>

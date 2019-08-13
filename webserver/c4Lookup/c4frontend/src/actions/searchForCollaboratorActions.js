@@ -43,6 +43,6 @@ export const fetchCollaborators = (url) => {
 
       axios.get(url)
       .then (res => {dispatch(fetchCollaboratorsSuccess(res.data));})
-      .catch(err => {dispatch(fetchCollaboratorsFailure(err.message));});
+      .catch(err => {dispatch(fetchCollaboratorsFailure(err));});
    }
 }

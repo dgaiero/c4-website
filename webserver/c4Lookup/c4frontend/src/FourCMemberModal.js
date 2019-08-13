@@ -11,7 +11,7 @@ import './Modal.css';
 
 async function getKeywords(type, sortOrder) {
    try {
-      return await axios.get('/api/v1/keywords/?format=json&keywordType=' + type + '&sortOrder=' + sortOrder)
+      return await axios.get('api/v1/keywords/?format=json&keywordType=' + type + '&sortOrder=' + sortOrder)
    } catch (error) {
       console.error(error)
    }
@@ -77,7 +77,7 @@ export default class memberSearchModal extends Component {
 
    submitForm(e) {
       e.preventDefault();
-      var url = "/api/v1/users/?format=json";
+      var url = "api/v1/users/?format=json";
       for (let i = 0; i < this.state.selectedUniversities.length; i++) {
             url += '&organization=' + this.state.selectedUniversities[i].value;
       }
@@ -93,7 +93,7 @@ export default class memberSearchModal extends Component {
    }
 
    getUnivertisyTypes = () => {
-      const newRequest = axios.get('/api/v1/orgs/?format=json&orgType=IO')
+      const newRequest = axios.get('api/v1/orgs/?format=json&orgType=IO')
 
       if (newRequest) {
          return newRequest.then(response => {

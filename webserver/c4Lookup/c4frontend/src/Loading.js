@@ -28,7 +28,7 @@ class Loading extends Component {
          status = 'done'
       }
 
-      return <div key={friendlyName}>Loading {friendlyName}... {status}</div>
+      return (condition === false && error === null) ? null : <div key={friendlyName}>Loading {friendlyName}... {status}</div>
 
    }
 

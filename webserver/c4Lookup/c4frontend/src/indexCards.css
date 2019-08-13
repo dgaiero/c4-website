@@ -1,8 +1,8 @@
-.card,
+/* .card,
 .underConstructionCardImage,
 .lookingForCollaboratorCardImage {
    min-height: 230px;
-}
+} */
 
 .cardHideOverflow {
    background-color: rgb(255, 255, 255);

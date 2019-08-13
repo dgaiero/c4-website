@@ -83,7 +83,7 @@ class Keywords extends Component {
       if (displayText.length > 0)
          displayText = 
          <a 
-            href="#0" 
+            href="#0"
             key={keywordIDs} 
             onClick={
                () => this.setState(

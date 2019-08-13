@@ -11,7 +11,7 @@ import './Modal.css';
 
 async function getKeywords(type, sortOrder) {
    try {
-      return await axios.get('/api/v1/keywords/?format=json&keywordType=' + type + '&sortOrder=' + sortOrder)
+      return await axios.get('api/v1/keywords/?format=json&keywordType=' + type + '&sortOrder=' + sortOrder)
    } catch (error) {
       console.error(error)
    }

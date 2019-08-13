@@ -25,7 +25,7 @@ export function fetchKeywords() {
    let keywords = [];
    return dispatch => {
       dispatch(fetchKeywordsBegin());
-      return axios.get('/api/v1/keywords/?format=json')
+      return axios.get('api/v1/keywords/?format=json')
          .then(response => {
             response.data.map(keyword => {
                keywords[keyword.id] = keyword;

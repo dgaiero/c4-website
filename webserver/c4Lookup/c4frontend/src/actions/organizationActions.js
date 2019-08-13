@@ -25,7 +25,7 @@ export function fetchOrganizations() {
    let organizations = [];
    return dispatch => {
       dispatch(fetchOrganizationsBegin());
-      return axios.get('/api/v1/orgs/?format=json')
+      return axios.get('api/v1/orgs/?format=json')
          .then(response => {
             response.data.map(organization => {
                organizations[organization.id] = organization;

@@ -20,8 +20,10 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { withRouter } from "react-router";
 import StickyFooter from 'react-sticky-footer';
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import axios from 'axios';
 
-
+axios.defaults.baseURL = "https://api.centralcoastclimate.org"
+// axios.defaults.baseURL = "localhost:8000"
 
 class RootContainer extends Component {
 
@@ -42,11 +44,12 @@ class RootContainer extends Component {
    render() {
 
       let loader = [
-         { friendlyName: 'Keywords', condition: this.props.keywords.loading, error: this.props.keywords.error },
+         
          { friendlyName: 'Organizations', condition: this.props.orgs.loading, error: this.props.orgs.error },
          { friendlyName: 'Users', condition: this.props.collaborators.loading, error: this.props.collaborators.error },
          { friendlyName: 'Settings', condition: this.props.settings.loading, error: this.props.settings.error },
       ]
+      loader.push({ friendlyName: 'Keywords', condition: this.props.keywords.loading, error: this.props.keywords.error })
       let loadStatus = this.calculateLoadingState(loader);
       return (
          <main className="App content">

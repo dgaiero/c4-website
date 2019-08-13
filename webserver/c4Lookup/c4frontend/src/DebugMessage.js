@@ -27,12 +27,12 @@ class DebugMessage extends Component {
                      The 4C database query utility is currently being <b>developed</b>. To view the repository, please visit: <a href="https://github.com/dgaiero/c4-website">https://github.com/dgaiero/c4-website</a>
                   </p>
                   <p>
-                     All directory information on this website may be fake.
+                     Directory information contained on this website may be falsified while the site is under development.
                   </p>
                   <hr />
                   <p className="mb-0">
                      The current running commit has a message of: <em>{settings.commitMessage}</em>< br />
-                     If asked, please provide the following version information:< br />
+                     When providing support or feedback, please provide the following version information:< br />
                      <code>{settings.commitBranch}/{settings.commitHash}</code>< br />
                      <a href={'https://github.com/dgaiero/c4-website/tree/' + settings.commitHash} target="_blank" rel="noopener noreferrer">Open in Remote</a>
                   </p>

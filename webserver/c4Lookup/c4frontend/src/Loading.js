@@ -6,18 +6,69 @@ import ErrorModal from './AdditionalDataModal';
 import LoadingModal from './LoadingModal'
 import './App.css';
 import { connect } from 'react-redux'
+// import Loader from './Loader'
 
 
 class Loading extends Component {
    constructor(props) {
       super(props);
       this.state = {
-
+         status: false,
          errorModalOpenFlag: false,
          errorModalTitle: '',
          errorModalBody: '',
+         loadingItems: {},
+         loadingStatus: false,
       }
+      // this.addLoadItem = this.addLoadItem.bind(this);
+      // this.getLoadingItems = this.getLoadingItems.bind(this);
+      // this.loadingState = this.loadingState.bind(this);
+      // this.calculateLoadingState = this.calculateLoadingState.bind(this);
    }
+
+   // static addLoadItem(key, value) {
+   //    var pair = { [key]: value }
+   //    this.setState((prevState) => {
+   //       return { loadingItems: { ...prevState.loadingItems, ...pair},loadingStatus: this.calculateLoadingState() }
+   //    })
+   //    // this.setState({ loadingItems: { ...this.loadingItems, ...pair }});
+   //    // this.loadingStatus = this.calculateLoadingState();
+   // }
+
+   // static getLoadingItems() {
+   //    return Object.values(this.state.loadingItems)
+   // }
+
+   // static loadingState() {
+   //    return this.state.loadingStatus;
+   // }
+
+   // static calculateLoadingState() {
+   //    let openStatus = []
+   //    let loadValues = Object.values(this.loadingItems)
+   //    loadValues.map(loadInfo => openStatus.push(loadInfo.condition, loadInfo.error !== null))
+   //    openStatus = openStatus.every(x => x === false);
+   //    return openStatus
+   // }
+
+   // shouldComponentUpdate(prevProps) {
+   //    console.log(prevProps.status)
+   //    console.log(this.props.status)
+   //    if (prevProps.status !== this.props.status) {
+   //       return true;
+   //    }
+   //    return false;
+   // }
+
+   // componentDidUpdate(prevProps) {
+   //    if (prevProps.status !== this.props.status) {
+   //       this.setState({ status: this.props.status });
+   //    }
+   // }
+
+   // componentWillReceiveProps({ status }) {
+   //    this.setState({ ...this.state, status: Loader.loadingState() })
+   // }
 
    loadingText(friendlyName, condition, error) {
       let status = <Spinner color="primary" size="sm" />
@@ -43,6 +94,7 @@ class Loading extends Component {
 
    render() {
       const {body, status} = this.props;
+      // console.log(status);
       return (
          <>
          <ErrorModal

@@ -6,6 +6,7 @@ import orgs from './organizationReducer'
 import nav from './menuReducer'
 import collaborators from './searchForCollaboratorReducer'
 
+
 export default combineReducers({
    settings,
    keywords,

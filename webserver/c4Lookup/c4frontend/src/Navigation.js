@@ -12,7 +12,7 @@ import {
 import './App.css';
 import { connect } from 'react-redux';
 import { toggleNavBar, toggleDevMode, toggleSearchForCollaborator } from './actions/menuActions'
-import SearchForCollaborator from './SearchForCollaborator'
+import SearchForCollaborator from './universityCollaborators/searchForUniversity'
 import { NavLink as RRNavLink } from 'react-router-dom';
 
 class Navigation extends Component {

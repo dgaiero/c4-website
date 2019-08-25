@@ -11,7 +11,8 @@ import {fetchOrganizations} from './actions/organizationActions'
 import Keyword from './Keywords'
 import Organizations from './Organizations'
 import UserDetail from './User'
-import SearchForCollaborator from './SearchForCollaborator'
+import SearchForCollaborator from './universityCollaborators/searchForUniversity'
+// import Loader from './Loading';
 import './App.css';
 
 class TableView extends Component {
@@ -24,6 +25,10 @@ class TableView extends Component {
       this.onChangePage = this.onChangePage.bind(this);
    }
   
+   componentDidMount() {
+      this.props.fetchKeywords();
+      this.props.fetchOrganizations();
+   }
 
    onChangePage(pageOfItems) {
       this.setState({ pageItems: pageOfItems })
@@ -45,9 +50,12 @@ class TableView extends Component {
    };
 
    render() {
+      // Loader.addLoadItem('keywords', { friendlyName: 'Keywords', condition: this.props.keywordsLoading, error: this.props.keywordError })
+      // Loader.addLoadItem('orgs', { friendlyName: 'Organizations', condition: this.props.orgsLoading, error: this.props.orgError })
+      
       return (
          <>
-         <SearchForCollaborator />
+            {(!this.props.keywordsLoading || this.props.keywords === []) && (!this.props.orgsLoading || this.props.orgs === []) ? <SearchForCollaborator /> : <Spinner color="primary" /> }
          <Container fluid>
             <Table hover responsive>
                <thead>
@@ -80,6 +88,8 @@ const mapStateToProps = state => ({
    orgError: state.orgs.error,
 
    collaborators: state.collaborators.items,
+   collaboratorsLoading: state.collaborators.loading,
+   collaboratorsError: state.collaborators.error,
 })
 
 const mapDispatchToProps = {

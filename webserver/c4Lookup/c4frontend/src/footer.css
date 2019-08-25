@@ -1,0 +1,28 @@
+.footer-image {
+   background-image: url('https://dummyimage.com/400x400/000000/fff.png&text=4C');
+   /* height: 100%; */
+   width: 100%;
+   background-size: cover;
+   position: relative;
+}
+
+.c4-icon {
+     font-family: 'c4-icon' !important;
+     speak: none;
+     font-style: normal;
+     font-weight: normal;
+     font-variant: normal;
+     text-transform: none;
+     line-height: 1;
+
+     /* Better Font Rendering =========== */
+     -webkit-font-smoothing: antialiased;
+     -moz-osx-font-smoothing: grayscale;
+
+     display: inline-block;
+     /* padding-right: 40px; */
+}
+
+.c4-icon:before {
+   content: "\e900";
+}

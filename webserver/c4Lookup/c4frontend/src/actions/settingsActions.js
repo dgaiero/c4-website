@@ -22,7 +22,7 @@ export const fetchSettingsFailure = (error) => ({
 })
 
 export function fetchSettings() {
-   console.log("FETCHED")
+   // console.log("FETCHED")
    return dispatch => {
       dispatch(fetchSettingsBegin());
       return axios.get('api/v1/frontendParameters/1/?format=json')

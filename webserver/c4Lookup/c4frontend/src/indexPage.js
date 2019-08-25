@@ -45,11 +45,11 @@ const LookingForCollaboratorCard = () => {
          <Card className="cardHideOverflow" >
             <div className="lookingForCollaboratorCardImage">
                <CardBody>
-                  <h5 className='cardTitle'>Looking for a Collaborator?</h5>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
+                  <h5 className='cardTitle'>Looking for a University Collaborator?</h5>
+                  <CardText>Interested in finding a university to work on a project with?</CardText>
 
                </CardBody>
-               <CardFooter><Button color="secondary" tag={RRNavLink} exact to="/collaborator">Search For a Collaborator</Button></CardFooter>
+               <CardFooter><Button color="secondary" tag={RRNavLink} exact to="/collaborator">Search For a University Collaborator</Button></CardFooter>
             </div>
          </Card>
       </div>
@@ -70,7 +70,7 @@ class FrontPageCards extends Component {
          <>
          <WelcomeJumbotron />
             <Container>
-              <Row>
+               <Row className="row-eq-height">
                   <Col>
                      <LookingForCollaboratorCard />
                   </Col>

@@ -4,7 +4,7 @@ import {
 } from 'reactstrap';
 import './Modal.css';
 
-export default class memberSearchModal extends Component {
+export default class AdditionalDataModal extends Component {
    
    /* Passed in:
       props:

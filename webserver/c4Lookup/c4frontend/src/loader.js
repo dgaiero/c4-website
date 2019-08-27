@@ -5,7 +5,7 @@ export default class Loader {
    static addLoadItem(key, value) {
       var pair = {[key]: value}
       this.loadingItems = {...this.loadingItems, ...pair}
-      this.loadingStatus = this.calculateLoadingState();
+      // this.loadingStatus = this.calculateLoadingState();
    }
 
    static getLoadingItems() {
@@ -16,9 +16,9 @@ export default class Loader {
       return this.loadingStatus;
    }
 
-   static calculateLoadingState() {
-      let openStatus = []
-      let loadValues = Object.values(this.loadingItems)
+   static calculateLoadingState(loader) {
+      let openStatus = [];
+      let loadValues = loader;
       loadValues.map(loadInfo => openStatus.push(loadInfo.condition, loadInfo.error !== null))
       openStatus = openStatus.every(x => x === false);
       return openStatus

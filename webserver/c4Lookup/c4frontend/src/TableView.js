@@ -12,7 +12,8 @@ import Keyword from './Keywords'
 import Organizations from './Organizations'
 import UserDetail from './User'
 import SearchForCollaborator from './universityCollaborators/searchForUniversity'
-// import Loader from './Loading';
+import Loader from './loader';
+import Loading from './Loading'
 import './App.css';
 
 class TableView extends Component {
@@ -50,11 +51,15 @@ class TableView extends Component {
    };
 
    render() {
-      // Loader.addLoadItem('keywords', { friendlyName: 'Keywords', condition: this.props.keywordsLoading, error: this.props.keywordError })
-      // Loader.addLoadItem('orgs', { friendlyName: 'Organizations', condition: this.props.orgsLoading, error: this.props.orgError })
-      
+      let loader = [
+         { friendlyName: 'Keywords', condition: this.props.keywordsLoading, error: this.props.keywordError },
+         { friendlyName: 'Organizations', condition: this.props.orgsLoading, error: this.props.orgError },
+         { friendlyName: 'Users', condition: this.props.collaboratorsLoading, error: this.props.collaboratorsError },
+      ]
+      let loadStatus = Loader.calculateLoadingState(loader);      
       return (
          <>
+            <Loading body={loader} status={loadStatus} />
             {(!this.props.keywordsLoading || this.props.keywords === []) && (!this.props.orgsLoading || this.props.orgs === []) ? <SearchForCollaborator /> : <Spinner color="primary" /> }
          <Container fluid>
             <Table hover responsive>

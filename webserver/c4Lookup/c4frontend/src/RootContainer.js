@@ -21,14 +21,14 @@ import { ParseSaveQuery } from './universityCollaborators/parseSaveQuery'
 import { withRouter } from "react-router";
 import StickyFooter from 'react-sticky-footer';
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-// import Loader from './Loading';
+import Loader from './loader';
 import logo from './logo'
 
 import NotFound from './404'
 import axios from 'axios';
 
 axios.defaults.baseURL = "https://api.centralcoastclimate.org"
-// axios.defaults.baseURL = "localhost:8000"
+// axios.defaults.baseURL = "http://192.168.86.218:8000"
 
 class RootContainer extends Component {
 
@@ -37,12 +37,12 @@ class RootContainer extends Component {
       // this.props.fetchCollaborators('/api/v1/users/?format=json');
    }
 
-   calculateLoadingState(loader) {
-      let openStatus = []
-      loader.map(loadInfo => openStatus.push(loadInfo.condition, loadInfo.error !== null))
-      openStatus = openStatus.every(x => x === false);
-      return openStatus
-   }
+   // calculateLoadingState(loader) {
+   //    let openStatus = []
+   //    loader.map(loadInfo => openStatus.push(loadInfo.condition, loadInfo.error !== null))
+   //    openStatus = openStatus.every(x => x === false);
+   //    return openStatus
+   // }
 
    render() {
       // Loader.addLoadItem('settings', { friendlyName: 'Settings', condition: this.props.settings.loading, error: this.props.settings.error });
@@ -51,18 +51,9 @@ class RootContainer extends Component {
       // Loader.calculateLoadingState();
       // console.log("test")
       let loader = [
-         
          { friendlyName: 'Settings', condition: this.props.settings.loading, error: this.props.settings.error },
-         { friendlyName: 'Keywords', condition: this.props.keywords.loading, error: this.props.keywords.error },
-         { friendlyName: 'Organizations', condition: this.props.orgs.loading, error: this.props.orgs.error },
-         { friendlyName: 'Users', condition: this.props.collaborators.loading, error: this.props.collaborators.error },
       ]
-      // loader.push({ friendlyName: 'Keywords', condition: this.props.keywords.loading, error: this.props.keywords.error })
-      // loader.push({ friendlyName: 'Organizations', condition: this.props.orgs.loading, error: this.props.orgs.error })
-      // loader.push({ friendlyName: 'Users', condition: this.props.collaborators.loading, error: this.props.collaborators.error })
-      // console.log(Loader.getLoadingItems())
-      let loadStatus = this.calculateLoadingState(loader);
-      // console.log(loadStatus)
+      let loadStatus = Loader.calculateLoadingState(loader);
       return (
          <main className="App content">
             {/* {Loader.calculateLoadingState()} */}

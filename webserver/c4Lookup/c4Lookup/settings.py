@@ -47,16 +47,18 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env.bool('DEBUG', default=False)
 # DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'api.centralcoastclimate.org']
+ALLOWED_HOSTS = ['127.0.0.1', 'api.centralcoastclimate.org',
+                 'localhost', '192.168.86.218']
 
 REST_SAFE_LIST_IPS = [
     '127.0.0.1',
     'localhost:3000'
-    #  'localhost',
+     'localhost',
     #  'dgaiero.pythonanywhere.com',
     #  '192.168.86.135',
     'universities.centralcoastclimate.org',
     'about.dgaiero.me',
+    '192.168.86.218'
 ]
 
 # Application definition
@@ -125,6 +127,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://127.0.0.1:8000',
     'https://universities.centralcoastclimate.org',
+    'http://192.168.86.218:3000',
 )
 
 ROOT_URLCONF = 'c4Lookup.urls'

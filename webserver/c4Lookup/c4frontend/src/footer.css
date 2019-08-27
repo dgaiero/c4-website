@@ -20,7 +20,7 @@
      -moz-osx-font-smoothing: grayscale;
 
      display: inline-block;
-     /* padding-right: 40px; */
+     margin: 0px;
 }
 
 .c4-icon:before {

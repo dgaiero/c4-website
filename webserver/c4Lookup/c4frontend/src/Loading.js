@@ -6,7 +6,7 @@ import ErrorModal from './AdditionalDataModal';
 import LoadingModal from './LoadingModal'
 import './App.css';
 import { connect } from 'react-redux'
-// import Loader from './Loader'
+import { toTitleCase } from './helper'
 
 
 class Loading extends Component {
@@ -20,60 +20,27 @@ class Loading extends Component {
          loadingItems: {},
          loadingStatus: false,
       }
-      // this.addLoadItem = this.addLoadItem.bind(this);
-      // this.getLoadingItems = this.getLoadingItems.bind(this);
-      // this.loadingState = this.loadingState.bind(this);
-      // this.calculateLoadingState = this.calculateLoadingState.bind(this);
    }
 
-   // static addLoadItem(key, value) {
-   //    var pair = { [key]: value }
-   //    this.setState((prevState) => {
-   //       return { loadingItems: { ...prevState.loadingItems, ...pair},loadingStatus: this.calculateLoadingState() }
-   //    })
-   //    // this.setState({ loadingItems: { ...this.loadingItems, ...pair }});
-   //    // this.loadingStatus = this.calculateLoadingState();
-   // }
-
-   // static getLoadingItems() {
-   //    return Object.values(this.state.loadingItems)
-   // }
-
-   // static loadingState() {
-   //    return this.state.loadingStatus;
-   // }
-
-   // static calculateLoadingState() {
-   //    let openStatus = []
-   //    let loadValues = Object.values(this.loadingItems)
-   //    loadValues.map(loadInfo => openStatus.push(loadInfo.condition, loadInfo.error !== null))
-   //    openStatus = openStatus.every(x => x === false);
-   //    return openStatus
-   // }
-
-   // shouldComponentUpdate(prevProps) {
-   //    console.log(prevProps.status)
-   //    console.log(this.props.status)
-   //    if (prevProps.status !== this.props.status) {
-   //       return true;
-   //    }
-   //    return false;
-   // }
-
-   // componentDidUpdate(prevProps) {
-   //    if (prevProps.status !== this.props.status) {
-   //       this.setState({ status: this.props.status });
-   //    }
-   // }
-
-   // componentWillReceiveProps({ status }) {
-   //    this.setState({ ...this.state, status: Loader.loadingState() })
-   // }
+   buildErrorMessage(error) {
+      const errorJSON = Object.entries(error.response.data)
+      let bodyText = []
+      try {
+         errorJSON.map((([key, value]) => {
+            console.log("Key: " + key + " Value: " + value)
+            bodyText.push(<span key={key}><b>{toTitleCase(key)}</b>: {value.toString()}</span>)
+         }))
+      }
+      catch {
+         bodyText.push(<span key='UDEFERR'><b>Detail</b>: Undefined Error</span>)
+      }
+      return (bodyText)
+   }
 
    loadingText(friendlyName, condition, error) {
       let status = <Spinner color="primary" size="sm" />
       if (error !== null) {
-         status = <a href="#0" key="ERROR" onClick={() => this.showErrorInfo(error.toString(), <code>{error.stack.toString()}</code>)}>Error</a>
+         status = <a href="#0" key="ERROR" onClick={() => this.showErrorInfo(error.toString(), this.buildErrorMessage(error))}>Error</a>
       }
       else if (condition === false) {
          status = 'done'
@@ -84,7 +51,7 @@ class Loading extends Component {
    }
 
    showErrorInfo(title, body) {
-      this.setState({ errorModalTitle: title, errorModalBody: body, errorModalOpenFlag: !this.state.errorModalOpenFlag});
+      this.setState({ errorModalTitle: title, errorModalBody: body, errorModalOpenFlag: !this.state.errorModalOpenFlag });
    }
 
    errorModalOpenToggle = () => {
@@ -93,27 +60,24 @@ class Loading extends Component {
 
 
    render() {
-      const {body, status} = this.props;
-      // console.log(status);
+      const { body, status } = this.props;
       return (
          <>
-         <ErrorModal
-            openStatus={this.state.errorModalOpenFlag}
-            title={this.state.errorModalTitle}
-            body={this.state.errorModalBody}
-            toggle={this.errorModalOpenToggle}
-            size={'lg'}
-         />
-         
-         <LoadingModal
-            openStatus={!status}
-            title={<div>Loading Components</div>}
-            body={body.map(loadInfo => this.loadingText(loadInfo.friendlyName, loadInfo.condition, loadInfo.error))}
-         />
+            <ErrorModal
+               openStatus={this.state.errorModalOpenFlag}
+               title={this.state.errorModalTitle}
+               body={this.state.errorModalBody}
+               toggle={this.errorModalOpenToggle}
+               size={'lg'}
+            />
+            <LoadingModal
+               openStatus={!status}
+               title={<div>Loading Components</div>}
+               body={body.map(loadInfo => this.loadingText(loadInfo.friendlyName, loadInfo.condition, loadInfo.error))}
+            />
          </>
       )
    }
-
 }
 
 const mapStateToProps = state => ({

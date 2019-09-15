@@ -1,3 +1,4 @@
 {
-   "python.pythonPath": "C:\\SPB_Data\\.virtualenvs\\webserver-i0yIam11\\Scripts\\python.exe"
+   "python.pythonPath": "C:\\SPB_Data\\.virtualenvs\\webserver-i0yIam11\\Scripts\\python.exe",
+   "git.ignoreLimitWarning": true
 }

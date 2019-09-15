@@ -1,19 +1,96 @@
-import React from 'react'
+import React, { Component } from 'react';
+import {
+   Jumbotron,
+   Button
+} from 'reactstrap';
+import { NavLink as RRNavLink, Redirect } from 'react-router-dom';
+import { withRouter } from "react-router";
+import { connect } from 'react-redux'
+
+import { setQueryStatement } from '../actions/searchForUnivCollaboratorActions'
 var base64 = require('base-64');
 
-// export const ParseSaveQuery = ({ match }) => {
-//    return (
-//    <div>
-//       <h1>{match}</h1>
-//    </div>
-//    )
-//    }
+class ParseSaveQuery extends Component {
+   constructor(props) {
+      super(props);
+      this.state = { seconds: 10 }
+      this.tick = this.tick.bind(this)
+      this.props.setQueryStatement({
+         activityKeywords: [],
 
-export const ParseSaveQuery = ({ match, history }) => {
-   if (!match.params.id) {
-      history.replace({ pathname: '/collaborator' });
+         topicalKeywords: [],
+
+         selectedUniversities: [],
+      })
    }
-   let query = match.params.id;
-   let decoded_query = base64.decode(query);
-   return (<h1>Found: {decoded_query}</h1>);
+
+   componentDidMount() {
+      this.timer = setInterval(this.tick, 1000);
+   }
+
+   tick() {
+      if (this.state.seconds > 0) {
+         this.setState({ seconds: this.state.seconds - 1 })
+      } else {
+         clearInterval(this.timer);
+      }
+   }
+
+   render() {
+      const { match, history } = this.props;
+      if (!match.params.id) {
+         history.replace({ pathname: '/collaborator' });
+      }
+      let query = match.params.id;
+      let decoded_query;
+      try {
+      decoded_query = base64.decode(query);
+      }
+      catch {
+         return (
+            <Jumbotron>
+               <h1 className="display-3">No Match Found!</h1>
+               <p className="lead">A match could not be found for the code <code>{query}</code></p>
+               <hr className="my-2" />
+               <p>You will be redirected to the homepage in {this.state.seconds} seconds</p>
+               {this.state.seconds === 0 ? <Redirect to='/' /> : null}
+               <p className="lead">
+                  <Button tag={RRNavLink} exact to="/" color="primary">Go Home</Button>
+               </p>
+            </Jumbotron>
+         )
+      }
+      // history.push('/collaborator?' + decoded_query)
+      // this.setQueryURL();
+      
+      return (
+         <Jumbotron>
+            <h1 className="display-3">Match Found!</h1>
+            <p className="lead">A match could be found for the code <code>{query}</code></p>
+            {/* <hr className="my-2" /> */}
+            <hr className="my-2" />
+            <p>You will be redirected to <code>{'/collaborator?' + decoded_query}</code> in {this.state.seconds} seconds</p>
+            {this.state.seconds === 0 ? <Redirect to={'/collaborator?' + decoded_query} /> : null}
+            {/* <Redirect to={'/collaborator?'+decoded_query}/> */}
+         </Jumbotron>
+      )
+   }
 }
+
+const mapStateToProps = state => ({
+   collaborators: state.collaborators,
+})
+
+const mapDispatchToProps = {
+   setQueryStatement,
+};
+
+// function mapDispatchToProps(dispatch) {
+//    return bindActionCreators({ toggleSearchForCollaborator, fetchCollaborators}, dispatch)
+// }
+
+// SearchForCollaborator = withRouter(SearchForCollaborator);
+
+ParseSaveQuery = withRouter(ParseSaveQuery);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ParseSaveQuery);

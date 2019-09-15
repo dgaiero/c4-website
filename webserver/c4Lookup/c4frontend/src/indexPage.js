@@ -2,17 +2,10 @@ import React, { Component } from 'react';
 import {
    Container,
    Button,
-   Jumbotron,
-   Row,
-   Col,
    Card,
-   CardImg,
    CardDeck,
-   CardImgOverlay,
-   CardHeader,
    CardFooter,
    CardBody,
-   CardTitle,
    CardText,
 } from 'reactstrap';
 import './App.css';
@@ -25,8 +18,8 @@ import { NavLink as RRNavLink } from 'react-router-dom';
 
 const UnderConstructionCard = () => {
    return (
-         <Card className="cardHideOverflow" >
-            <div style={{ border: '1px solid rgb(33, 37, 41)', overflow: 'hidden', borderRadius: '.25rem', 'z-index': '300', 'height': '100%', 'position': 'relative' }}>
+      <Card className="cardHideOverflow card-no-border" >
+            <div style={{ border: '1px solid rgb(33, 37, 41)', overflow: 'hidden', borderRadius: '.25rem', 'zIndex': '300', 'height': '100%', 'position': 'relative' }}>
                 <span className="newFeaturesBanner"><b>New Features Coming Soon!</b></span>
                 <div className="underConstructionCardImage">
                 <CardBody>
@@ -42,7 +35,7 @@ const UnderConstructionCard = () => {
 
 const LookingForCollaboratorCard = () => {
    return (
-         <Card className="cardHideOverflow" >
+      <Card className="cardHideOverflow card-no-border" >
             <div style={{ border: '1px solid rgb(33, 37, 41)', overflow: 'hidden', borderRadius: '.25rem' }}>
                 <div className="lookingForCollaboratorCardImage">
                 <CardBody>
@@ -87,5 +80,7 @@ class FrontPageCards extends Component {
 const mapStateToProps = state => ({
    settings: state.settings,
 })
+
+// FrontPageCards = withRouter(FrontPageCards)
 
 export default connect(mapStateToProps)(FrontPageCards)

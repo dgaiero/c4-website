@@ -72,6 +72,6 @@
    padding-bottom: 1em;
 }
 
-.card {
+.card-no-border {
     border: none;
 }

@@ -27,7 +27,7 @@ class NotFound extends Component {
                <hr className="my-2" />
                <p>The requested URL was not found on this server</p>
                <p className="lead">
-                  The path <code>{pathname}</code> could not be found on this server.
+                  The path <code>{pathname}</code> could not be found in this application.
                </p>
             </Container>
          </Jumbotron>

@@ -87,7 +87,6 @@ export default class memberSearchModal extends Component {
       for (let i = 0; i < this.state.topicalKeywords.length; i++) {
          url += '&keywords=' + this.state.topicalKeywords[i].value;
       }
-      // console.log(url);
       return url;
 
    }

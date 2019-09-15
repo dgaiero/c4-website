@@ -4,11 +4,13 @@ import axios from "axios";
 import {
    Col, Row, Form,
    FormGroup, Label,
-   Button, FormText, Dropdown, DropdownToggle, DropdownMenu, DropdownItem
+   Button, FormText, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, UncontrolledAlert
 } from 'reactstrap';
 import '../Modal.css';
 import CopyToClipBoardModal from '../copyQueryToClipboard'
-import { NBSP } from '../helper';
+import PasteFromCipboardModal from '../PasteQueryFromKeyboard'
+import { withRouter } from "react-router";
+import { NBSP, isEmpty } from '../helper';
 import { buildQueryString } from './searchForUniversity'
 
 async function getKeywords(type, sortOrder) {
@@ -70,29 +72,10 @@ export default class memberSearchModal extends Component {
          dropdownOpen: false,
 
          copyToClipBoardToggle: false,
+         pasteFromClipBoardToggle: false,
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
-      this.isEmpty = this.isEmpty.bind(this);
-   }
-
-   componentDidMount() {
-      // console.log(this.state.queryData)
-   }
-
-
-   isEmpty = () => {
-      let empty = true;
-      if (this.state.queryData.activityKeywords.length !== 0) {
-         empty = false;
-      }
-      if (this.state.queryData.topicalKeywords.length !== 0) {
-         empty = false;
-      }
-      if (this.state.queryData.selectedUniversities.length !== 0) {
-         empty = false;
-      }
-      return empty;
    }
 
    getUnivertisyTypes = () => {
@@ -113,8 +96,6 @@ export default class memberSearchModal extends Component {
       if (e.target.type === "checkbox") {
          value = e.target.checked;
       }
-      console.log(name);
-      console.log(value);
       const queryData = { ...this.state.queryData, [name]: value === null ? [] : value };
       this.setState({ queryData });
    };
@@ -125,7 +106,7 @@ export default class memberSearchModal extends Component {
 
    }
 
-   
+
 
    render() {
 
@@ -139,10 +120,10 @@ export default class memberSearchModal extends Component {
                      name="universitySelection"
                      cacheOptions
                      defaultOptions
-                     
+
                      value={this.state.queryData.selectedUniversities}
                      loadOptions={this.getUnivertisyTypes}
-                     onChange={(val) => this.handleChange({ target: { name: 'selectedUniversities', value: val}})}
+                     onChange={(val) => this.handleChange({ target: { name: 'selectedUniversities', value: val } })}
                      isMulti={true}
                      isSearchable={false}
                      autoBlur={false}
@@ -187,31 +168,51 @@ export default class memberSearchModal extends Component {
                   <FormText>You can leave this blank to select all topical keywords.</FormText>
                </FormGroup>
                <Row>
+                  {isEmpty(this.state.queryData) ?
+                  <UncontrolledAlert color="info">
+                     <b>FYI:</b> You need to select some parameters to run or save a query!
+                  </UncontrolledAlert> : null}
+               </Row>
+               <Row>
                   <div>
-                     <Button color="success">Run Query</Button>
+                     <div id="runQueryButton" style={{ display: 'inline-block' }}>
+                     <Button color="success"><span>Run Query</span></Button>
+                     </div>
                   </div>
                   {NBSP}
                   <div>
-                     <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.setState(prevState => ({dropdownOpen: !prevState.dropdownOpen}))}>
+                     <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.setState(prevState => ({ dropdownOpen: !prevState.dropdownOpen }))}>
                         <DropdownToggle caret>
                            More Actions
                         </DropdownToggle>
                         <DropdownMenu>
-                           <DropdownItem disabled>Export Search</DropdownItem>
+                           <DropdownItem disabled>Export Search (coming soon)</DropdownItem>
                            <DropdownItem divider />
-                           <DropdownItem disabled={this.isEmpty(this.state.queryData)} onClick={() => this.setState({copyToClipBoardToggle: !this.state.copyToClipBoardToggle})}>Save Query</DropdownItem>
-                           <DropdownItem>Paste Query</DropdownItem>
+                           <DropdownItem disabled={isEmpty(this.state.queryData)} onClick={() => this.setState({ copyToClipBoardToggle: !this.state.copyToClipBoardToggle })}>Save Query</DropdownItem>
+                           <DropdownItem onClick={() => this.setState({ pasteFromClipBoardToggle: !this.state.pasteFromClipBoardToggle })}>Paste Query</DropdownItem>
                         </DropdownMenu>
                      </Dropdown>
                      <CopyToClipBoardModal
                         openStatus={this.state.copyToClipBoardToggle}
                         query={buildQueryString(this.state.queryData)}
+                        endpoint="collaborator"
                         toggle={() => this.setState(
                            {
                               copyToClipBoardToggle: !this.state.copyToClipBoardToggle
                            })}
                         size='lg'
                      />
+                     <PasteFromCipboardModal
+                        openStatus={this.state.pasteFromClipBoardToggle}
+                        endpoint="collaborator"
+                        history={this.props.history}
+                        toggle={() => this.setState(
+                           {
+                              pasteFromClipBoardToggle: !this.state.pasteFromClipBoardToggle
+                           })}
+                        size='lg'
+                     />
+                     
                   </div>
                </Row>
             </Col>
@@ -219,3 +220,5 @@ export default class memberSearchModal extends Component {
       );
    }
 }
+
+memberSearchModal = withRouter(memberSearchModal);

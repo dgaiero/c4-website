@@ -14,25 +14,20 @@ const initialState = {
 }
 
 export default function settingsReducer(state = initialState, action) {
-   // console.log(action)
    switch(action.type) {
       case Actions.FETCH_SETTINGS_BEGIN:
-         // console.log("BEGIN")
          return {
             ...state,
             loading: true,
             error: null,
          }
       case Actions.FETCH_SETTINGS_SUCCESS:
-         // console.log('SUCCESS')
-         // console.log(action.payload)
          return {
             ...state,
             ...action.payload.settings,
             loading: false,
          }
       case Actions.FETCH_SETTINGS_FAILURE:
-         // console.log("FAILURE")
          return {
             ...state,
             loading: false,

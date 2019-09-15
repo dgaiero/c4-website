@@ -21,7 +21,6 @@ export default function keywordsReducer(state = initialState, action) {
             items: action.payload.keywords,
          }
       case Actions.FETCH_KEYWORDS_FAILURE:
-         // console.log(action.payload.error);
          return {
             ...state,
             loading: false,

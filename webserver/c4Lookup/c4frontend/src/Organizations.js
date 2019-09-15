@@ -71,7 +71,6 @@ class Organizations extends Component {
    buildDisplayText = () => {
       let displayText = ''
       const organizationIDs = this.props.items;
-      // console.log(this.props.orgs)
 
       organizationIDs.map(organizationID => (
          displayText += this.props.orgs[organizationID].orgNameUnique + ", "));

@@ -7,4 +7,19 @@ export function toTitleCase(str) {
    );
 }
 
+
+export const isEmpty = (queryData) => {
+   let empty = true;
+   if (queryData.activityKeywords.length !== 0) {
+      empty = false;
+   }
+   if (queryData.topicalKeywords.length !== 0) {
+      empty = false;
+   }
+   if (queryData.selectedUniversities.length !== 0) {
+      empty = false;
+   }
+   return empty;
+}
+
 export const NBSP = '\u00A0'

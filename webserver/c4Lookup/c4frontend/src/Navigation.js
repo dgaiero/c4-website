@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-   Button,
    Collapse,
    Navbar,
    NavbarToggler,
@@ -12,7 +11,6 @@ import {
 import './App.css';
 import { connect } from 'react-redux';
 import { toggleNavBar, toggleDevMode, toggleSearchForCollaborator } from './actions/menuActions'
-import SearchForCollaborator from './universityCollaborators/searchForUniversity'
 import { NavLink as RRNavLink } from 'react-router-dom';
 
 class Navigation extends Component {
@@ -27,15 +25,9 @@ class Navigation extends Component {
             <Collapse isOpen={nav.navOpen} navbar>
                <Nav className="ml-auto" navbar>
                   <NavItem>
-                     <NavLink tag={RRNavLink} exact to="/collaborator" activeClassName="active">Search for a Collaborator</NavLink>
+                     <NavLink tag={RRNavLink} exact to="/collaborator" activeClassName="active">Search for a University Collaborator</NavLink>
                      {/* <SearchForCollaborator /> */}
                   </NavItem>
-
-                  {settings.commitBranch === "dev" && nav.devModeOpen === false ? (
-                     <NavItem>
-                        <Button color="warning" onClick={() => this.props.toggleDevMode()}>Open  development information</Button>
-                     </NavItem>
-                  ) : null}
                   <NavItem>
                   </NavItem>
                </Nav>

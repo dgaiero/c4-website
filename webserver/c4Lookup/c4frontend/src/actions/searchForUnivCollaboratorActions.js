@@ -6,7 +6,7 @@ export const Actions = {
    FETCH_COLLABORATORS_SUCCESS: 'FETCH_COLLABORATORS_SUCCESS',
    FETCH_COLLABORATORS_FAILURE: 'FETCH_COLLABORATORS_FAILURE',
    SET_QUERY_STATEMENT: 'SET_QUERY_STATEMENT',
-   GET_URL: 'GET_URL'
+   SET_URL: 'SET_URL'
 }
 
 export const fetchCollaboratorsBegin = () => ({
@@ -23,19 +23,15 @@ export const fetchCollaboratorsFailure = (error) => ({
    payload: { error }
 })
 
-export const getURL = (URL) => ({
-   type: Actions.GET_URL,
+export const setURL = (URL) => ({
+   type: Actions.SET_URL,
    payload: { URL }
 })
 
-// export function fetchCollaborators(url) {
-//    return dispatch => {
-//       dispatch(fetchCollaboratorsBegin());
-//       return axios.get(url)
-//          .then(response => dispatch(fetchCollaboratorsSuccess(response.data)))
-//          .catch(error => dispatch(fetchCollaboratorsFailure(error)));
-//    }
-// }
+export const setQueryStatement = (query) => ({
+   type: Actions.SET_QUERY_STATEMENT,
+   payload: { query }
+})
 
 export const fetchCollaborators = (url) => {
    return dispatch => {
@@ -43,6 +39,6 @@ export const fetchCollaborators = (url) => {
 
       axios.get(url)
       .then (res => {dispatch(fetchCollaboratorsSuccess(res.data));})
-      .catch(err => {dispatch(fetchCollaboratorsFailure(err));});
+         .catch(err => { dispatch(fetchCollaboratorsFailure(err));});
    }
 }

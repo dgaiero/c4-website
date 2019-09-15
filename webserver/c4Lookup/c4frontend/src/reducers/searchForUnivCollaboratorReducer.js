@@ -1,10 +1,17 @@
-import { Actions } from '../actions/searchForCollaboratorActions'
+import { Actions } from '../actions/searchForUnivCollaboratorActions'
 
 const initialState = {
    items: [],
    loading: true,
    error: null,
    url: '',
+   'selectedQueryStatements': {
+      activityKeywords: [],
+
+      topicalKeywords: [],
+
+      selectedUniversities: [],
+   }
 }
 
 export default function collaboratorsReducer(state = initialState, action) {
@@ -28,7 +35,12 @@ export default function collaboratorsReducer(state = initialState, action) {
             error: action.payload.error,
             items: [],
          }
-      case Actions.GET_URL:
+      case Actions.SET_QUERY_STATEMENT:
+         return {
+            ...state,
+            selectedQueryStatements: action.payload.query,
+         }
+      case Actions.SET_URL:
          return {
             ...state,
             url: action.payload.url,

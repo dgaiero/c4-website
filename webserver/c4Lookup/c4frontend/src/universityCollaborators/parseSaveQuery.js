@@ -13,7 +13,7 @@ var base64 = require('base-64');
 class ParseSaveQuery extends Component {
    constructor(props) {
       super(props);
-      this.state = { seconds: 10 }
+      this.state = { seconds: 5 }
       this.tick = this.tick.bind(this)
       this.props.setQueryStatement({
          activityKeywords: [],
@@ -70,8 +70,8 @@ class ParseSaveQuery extends Component {
             {/* <hr className="my-2" /> */}
             <hr className="my-2" />
             <p>You will be redirected to <code>{'/collaborator?' + decoded_query}</code> in {this.state.seconds} seconds</p>
-            {this.state.seconds === 0 ? <Redirect to={'/collaborator?' + decoded_query} /> : null}
-            {/* <Redirect to={'/collaborator?'+decoded_query}/> */}
+            {/* {this.state.seconds === 0 ? <Redirect to={'/collaborator?' + decoded_query} /> : null} */}
+            <Redirect to={'/collaborator?'+decoded_query}/>
          </Jumbotron>
       )
    }

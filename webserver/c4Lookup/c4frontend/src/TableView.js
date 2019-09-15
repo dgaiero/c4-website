@@ -15,6 +15,7 @@ import SearchForCollaborator from './universityCollaborators/searchForUniversity
 import Loader from './loader';
 import Loading from './Loading'
 import './App.css';
+import Obfuscate from 'react-obfuscate'
 
 class TableView extends Component {
    constructor(props) {
@@ -42,7 +43,7 @@ class TableView extends Component {
          <tr key={item.id}>
             <th scope="row">{item.firstName} {item.lastName}</th>
             <td>{!this.props.orgsLoading || this.props.orgs === [] ? <Organizations items={item.organization} displayLength={20} /> : <Spinner color="primary" />}</td>
-            <td><a href={'mailto:' + item.emailAddress}>{item.emailAddress}</a></td>
+            <td><Obfuscate email={item.emailAddress} /></td>
             <td>{!this.props.keywordsLoading || this.props.keywords === [] ? <Keyword items={item.keywords} displayLength={75}/> : <Spinner color="primary" />}</td>
             <td><UserDetail user={item}/></td>
          </tr>

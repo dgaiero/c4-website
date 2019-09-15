@@ -7,11 +7,10 @@ import {
 import SearchForCollaboratorForm from './searchForUniversityForm';
 import { connect } from 'react-redux'
 import { toggleSearchForCollaborator } from '../actions/menuActions'
-import { fetchCollaborators } from '../actions/searchForCollaboratorActions'
+import { fetchCollaborators, setURL, setQueryStatement } from '../actions/searchForUnivCollaboratorActions'
 import { withRouter } from "react-router";
+import { isEmpty } from '../helper'
 import '../App.css';
-// import Loader from './Loading'
-import { bindActionCreators } from 'redux';
 
 const queryString = require('query-string');
 
@@ -75,23 +74,30 @@ class SearchForCollaborator extends Component {
 
             selectedUniversities: [],
          },
-         readParams : false
+         readParams : false,
+         initialLoad: false
       };
       this.handleSubmit = this.handleSubmit.bind(this);
       this.readParams = this.readParams.bind(this);
-
    }
 
 
    componentDidMount() {
-      this.readParams()
+      if (isEmpty(this.props.collaborators.selectedQueryStatements)) {
+         this.readParams()
+         
+      }
+      else {
+         this.props.fetchCollaborators(buildURL(this.props.collaborators.selectedQueryStatements));
+         this.props.history.push(`?${buildQueryString(this.props.collaborators.selectedQueryStatements)}`);
+         this.setState({ readParams: true })
+      }
    }
 
    readParams() {
       let orgsA = [];
       let aKey = [];
       let tKey = [];
-      console.log(this.props)
       const parsed = queryString.parse(this.props.location.search);
       if (parsed.keyA) {
          let keyA = parsed.keyA;
@@ -119,23 +125,21 @@ class SearchForCollaborator extends Component {
          topicalKeywords: tKey,
          selectedUniversities: orgsA
       }
-      // console.log(selectedQueryStatements)
-      this.setState({ selectedQueryStatements: selectedQueryStatements})
+      this.props.setQueryStatement(selectedQueryStatements)
       this.props.fetchCollaborators(buildURL(selectedQueryStatements));
       this.setState({readParams: true})
    }
 
    handleSubmit = (item) => {
-      // console.log(item)
-      this.setState({ selectedQueryStatements: item });
+      if (this.props.collaborators.selectedQueryStatements === item) {
+         return
+      }
+      this.props.setQueryStatement(item);
       this.props.history.push(`?${buildQueryString(item)}`);
       this.props.fetchCollaborators(buildURL(item));
    }
 
    render() {
-      // console.log("Collaborators Loading: " + this.props.collaborators.loading)
-      // Loader.addLoadItem('users', { friendlyName: 'Users', condition: this.props.collaborators.loading, error: this.props.collaborators.error })
-      // Loader.calculateLoadingState()
       return (
          <>
             <Jumbotron fluid>
@@ -143,9 +147,11 @@ class SearchForCollaborator extends Component {
                   <h1 className="display-3">Looking for a Collaborator?</h1>
                   <p className="lead">Use the form below to query potential collaborators.</p>
                   <hr className="my-2" />
-                  {this.state.readParams ? <SearchForCollaboratorForm 
-                     selectedQuery={this.state.selectedQueryStatements}
-                     submitHandler={this.handleSubmit}/>: null}
+                  {this.state.readParams ? 
+                  <SearchForCollaboratorForm 
+                     selectedQuery={this.props.collaborators.selectedQueryStatements}
+                     submitHandler={this.handleSubmit}
+                     history={this.props.history}/>: null}
                </Container>
             </Jumbotron>
          </>
@@ -163,6 +169,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
    toggleSearchForCollaborator,
    fetchCollaborators,
+   setURL,
+   setQueryStatement,
 };
 
 // function mapDispatchToProps(dispatch) {

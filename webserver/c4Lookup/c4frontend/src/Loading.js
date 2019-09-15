@@ -23,11 +23,10 @@ class Loading extends Component {
    }
 
    buildErrorMessage(error) {
-      const errorJSON = Object.entries(error.response.data)
       let bodyText = []
       try {
+         const errorJSON = Object.entries(error.response.data)
          errorJSON.map((([key, value]) => {
-            console.log("Key: " + key + " Value: " + value)
             bodyText.push(<span key={key}><b>{toTitleCase(key)}</b>: {value.toString()}</span>)
          }))
       }

@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import {
-    Button, Modal, ModalHeader, ModalBody, ModalFooter, InputGroup, InputGroupAddon, Input, UncontrolledPopover, PopoverHeader, PopoverBody
+   Button,
+   Modal,
+   ModalHeader,
+   ModalBody,
+   ModalFooter,
+   InputGroup,
+   InputGroupAddon,
+   Input,
+   UncontrolledPopover,
+   PopoverHeader,
+   PopoverBody
 } from 'reactstrap';
 import './Modal.css';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -11,8 +21,8 @@ export default class CopyQueryToClipboard extends Component {
    constructor(props) {
       super(props);
       this.state = {
-          copyCode: false,
-          copyURL: false,
+         copyCode: false,
+         copyURL: false,
       }
    }
    /* Passed in:
@@ -22,11 +32,11 @@ export default class CopyQueryToClipboard extends Component {
     */
 
    render() {
-      const { openStatus, toggle, size, query } = this.props;
-       const protocol = window.location.protocol;
-       const host = window.location.host;
-       const encodedQuery = base64.encode(query)
-       const URL = protocol.concat("//",host,"/",encodedQuery);
+      const { openStatus, toggle, size, query, endpoint } = this.props;
+      const protocol = window.location.protocol;
+      const host = window.location.host;
+      const encodedQuery = base64.encode(query)
+      const URL = protocol.concat("//", host, "/", endpoint, "/save/", encodedQuery);
       return (
          <Modal isOpen={openStatus} toggle={toggle} centered size={size}>
             <ModalHeader toggle={toggle}>Copy Query to Clipboard</ModalHeader>
@@ -37,36 +47,36 @@ export default class CopyQueryToClipboard extends Component {
                <b>Copy code to clipboard</b>
 
                <InputGroup>
-                  <Input disabled placeholder={encodedQuery}/>
+                  <Input disabled placeholder={encodedQuery} />
                   <InputGroupAddon addonType="append">
 
-                          <CopyToClipboard text={encodedQuery}
+                     <CopyToClipboard text={encodedQuery}
                         onCopy={() => this.setState({ copyCode: true })}>
-                              <Button id="copyCodeToClipboard" color="success">Copy to clipboard</Button>
+                        <Button id="copyCodeToClipboard" color="success">Copy to clipboard</Button>
                      </CopyToClipboard>
-                        <UncontrolledPopover trigger="focus" placement="bottom" target="copyCodeToClipboard">
+                     <UncontrolledPopover trigger="focus" placement="right" target="copyCodeToClipboard">
                         <PopoverHeader>Copied Code to Clipboard</PopoverHeader>
                         <PopoverBody>You can share or save this code to return to this query later!<br /><kbd>Ctrl</kbd> + <kbd>V</kbd> can retrieve the code from your clipboard.</PopoverBody>
-                    </UncontrolledPopover>
+                     </UncontrolledPopover>
                   </InputGroupAddon>
                </InputGroup>
-                <br />
-                <b>Want to Copy a URL instead?</b>
+               <br />
+               <b>Want to Copy a URL instead?</b>
 
-                <InputGroup>
-                      <Input disabled placeholder={URL} />
-                    <InputGroupAddon addonType="append">
+               <InputGroup>
+                  <Input disabled placeholder={URL} />
+                  <InputGroupAddon addonType="append">
 
-                          <CopyToClipboard text={URL}
-                            onCopy={() => this.setState({ copyURL: true })}>
-                              <Button id="copyURLToClipboard" color="success">Copy to clipboard</Button>
-                        </CopyToClipboard>
-                        <UncontrolledPopover trigger="focus" placement="bottom" target="copyURLToClipboard">
-                            <PopoverHeader>Copied URL to Clipboard</PopoverHeader>
-                            <PopoverBody>You can share or save this URL to return to this query later!<br /><kbd>Ctrl</kbd> + <kbd>V</kbd> can retrieve the code from your clipboard.</PopoverBody>
-                        </UncontrolledPopover>
-                    </InputGroupAddon>
-                </InputGroup>
+                     <CopyToClipboard text={URL}
+                        onCopy={() => this.setState({ copyURL: true })}>
+                        <Button id="copyURLToClipboard" color="success">Copy to clipboard</Button>
+                     </CopyToClipboard>
+                     <UncontrolledPopover trigger="focus" placement="bottom" target="copyURLToClipboard">
+                        <PopoverHeader>Copied URL to Clipboard</PopoverHeader>
+                        <PopoverBody>You can share or save this URL to return to this query later!<br /><kbd>Ctrl</kbd> + <kbd>V</kbd> can retrieve the code from your clipboard.</PopoverBody>
+                     </UncontrolledPopover>
+                  </InputGroupAddon>
+               </InputGroup>
             </ModalBody>
             <ModalFooter>
                <Button color="primary" onClick={toggle}>Close</Button>

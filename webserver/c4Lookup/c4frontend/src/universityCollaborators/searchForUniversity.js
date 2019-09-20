@@ -11,6 +11,7 @@ import { fetchCollaborators, setURL, setQueryStatement } from '../actions/search
 import { withRouter } from "react-router";
 import { isEmpty } from '../helper'
 import '../App.css';
+import Title from '../head'
 
 const queryString = require('query-string');
 
@@ -142,6 +143,7 @@ class SearchForCollaborator extends Component {
    render() {
       return (
          <>
+            <Title name="Search for University Collaborator" />
             <Jumbotron fluid>
                <Container fluid>
                   <h1 className="display-3">Looking for a Collaborator?</h1>

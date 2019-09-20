@@ -1,5 +1,3 @@
-// https://api.github.com/repos/dgaiero/c4-website/commits/gh-pages
-
 import React, { Component } from 'react';
 import axios from "axios";
 import {
@@ -19,6 +17,7 @@ import './appInfo.css';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Obfuscate from "react-obfuscate";
+import Title from './head'
 var base64 = require('base-64');
 
 class AppInfo extends Component {
@@ -190,6 +189,7 @@ class AppInfo extends Component {
       const { openStatus, toggle, settings } = this.props;
       return (
          <>
+         <Title name="About" />
             {/* <span className = "text-muted">{this.state.hash}</span> */}
             <Modal isOpen={openStatus} toggle={toggle} size="lg">
                <ModalHeader toggle={toggle}>Application Information</ModalHeader>

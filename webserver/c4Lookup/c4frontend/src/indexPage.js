@@ -13,6 +13,7 @@ import './indexCards.css'
 import { connect } from 'react-redux';
 import WelcomeJumbotron from './WelcomeJumbotron';
 import { NavLink as RRNavLink } from 'react-router-dom';
+import Title from './head'
 
 
 
@@ -62,6 +63,7 @@ class FrontPageCards extends Component {
    render() {
       return (
          <>
+         <Title name="Home" />
          <WelcomeJumbotron />
             <Container>
                <div style={{ marginBottom: '32px' }}>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AsyncSelect from 'react-select/async';
+import Select from 'react-select'
 import axios from "axios";
 import {
    Col, Row, Form,
@@ -12,6 +12,7 @@ import PasteFromCipboardModal from '../PasteQueryFromKeyboard'
 import { withRouter } from "react-router";
 import { NBSP, isEmpty } from '../helper';
 import { buildQueryString } from './searchForUniversity'
+import { connect } from 'react-redux'
 
 async function getKeywords(type, sortOrder) {
    try {
@@ -21,21 +22,48 @@ async function getKeywords(type, sortOrder) {
    }
 }
 
-async function parseKeywordData(keywordType) {
-   const keywordLow = await getKeywords(keywordType, 'LS');
-   const keywordMedium = await getKeywords(keywordType, 'MS');
-   const keywordHigh = await getKeywords(keywordType, 'HS');
+class SearchForUniversityForm extends Component {
+   constructor(props) {
+      super(props);
+      this.state = {
+         queryData: this.props.selectedQuery,
+         validate: {
+            emailState: '',
+         },
+         selectedOption: null,
+         modal: false,
+         dropdownOpen: false,
 
-   if (keywordLow.data && keywordMedium.data && keywordHigh.data) {
-      let keywordLowNormalized = keywordLow.data.map(keyword => ({
+         copyToClipBoardToggle: false,
+         pasteFromClipBoardToggle: false,
+      }
+      this.handleChange = this.handleChange.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
+      this.univOptions = this.getUnivertisyTypes();
+      this.aKeywords = this.getKeywordTypes('AK');
+      this.tKeywords = this.getKeywordTypes('TK');
+   }
+
+   getUnivertisyTypes = () => {
+      let univOrgs = this.props.orgs.items.filter( function(org) {return org.orgType === "IO"});
+      return univOrgs.map(org => ({label: org.orgNameUnique, value: org.id}));
+   }
+
+   getKeywordTypes = (keywordType) => {
+      const keywordsFiltered = this.props.keywords.items.filter(function (keyword) { return keyword.keywordType === keywordType })
+      console.log(keywordsFiltered)
+      const keywordLow = keywordsFiltered.filter(function (keyword) { return keyword.sortOrder === "LS" });
+      const keywordMedium = keywordsFiltered.filter(function (keyword) { return keyword.sortOrder === "MS" });
+      const keywordHigh = keywordsFiltered.filter(function (keyword) { return keyword.sortOrder === "HS" });
+      let keywordLowNormalized = keywordLow.map(keyword => ({
          label: keyword.keywordName,
          value: keyword.id
       }));
-      let keywordMediumNormalized = keywordMedium.data.map(keyword => ({
+      let keywordMediumNormalized = keywordMedium.map(keyword => ({
          label: keyword.keywordName,
          value: keyword.id
       }));
-      let keywordHighNormalized = keywordHigh.data.map(keyword => ({
+      let keywordHighNormalized = keywordHigh.map(keyword => ({
          label: keyword.keywordName,
          value: keyword.id
       }));
@@ -53,42 +81,8 @@ async function parseKeywordData(keywordType) {
                label: 'Low Level Keywords',
                options: keywordLowNormalized,
             },
-         ]
-      return keywordOptionData;
-   }
-}
-
-
-export default class memberSearchModal extends Component {
-   constructor(props) {
-      super(props);
-      this.state = {
-         queryData: this.props.selectedQuery,
-         validate: {
-            emailState: '',
-         },
-         selectedOption: null,
-         modal: false,
-         dropdownOpen: false,
-
-         copyToClipBoardToggle: false,
-         pasteFromClipBoardToggle: false,
-      }
-      this.handleChange = this.handleChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
-   }
-
-   getUnivertisyTypes = () => {
-      const newRequest = axios.get('/api/v1/orgs/?format=json&orgType=IO')
-
-      if (newRequest) {
-         return newRequest.then(response => {
-            return response.data.map(keyword => ({
-               label: keyword.orgNameUnique,
-               value: keyword.id
-            }))
-         })
-      }
+         ];
+         return keywordOptionData;
    }
 
    handleChange = (e) => {
@@ -115,17 +109,14 @@ export default class memberSearchModal extends Component {
             <Col>
                <FormGroup>
                   <Label>University Selection</Label>
-                  <AsyncSelect
+                  <Select
                      ref="universitySelection"
                      name="universitySelection"
-                     cacheOptions
-                     defaultOptions
 
                      value={this.state.queryData.selectedUniversities}
-                     loadOptions={this.getUnivertisyTypes}
+                     options={this.univOptions}
                      onChange={(val) => this.handleChange({ target: { name: 'selectedUniversities', value: val } })}
                      isMulti={true}
-                     isSearchable={false}
                      autoBlur={false}
                      closeOnSelect={false}
                      closeMenuOnSelect={false}
@@ -134,15 +125,12 @@ export default class memberSearchModal extends Component {
 
                <FormGroup>
                   <Label>Activity Keywords Selection</Label>
-                  <AsyncSelect
+                  <Select
                      ref="activityKeywords"
-                     cacheOptions
-                     defaultOptions
                      value={this.state.queryData.activityKeywords}
-                     loadOptions={() => parseKeywordData('AK')}
+                     options = {this.aKeywords}
                      onChange={(val) => this.handleChange({ target: { name: 'activityKeywords', value: val } })}
                      isMulti={true}
-                     isSearchable={false}
                      autoBlur={false}
                      closeOnSelect={false}
                      closeMenuOnSelect={false}
@@ -152,21 +140,34 @@ export default class memberSearchModal extends Component {
 
                <FormGroup>
                   <Label>Topical Keywords Selection</Label>
-                  <AsyncSelect
-                     ref="topicalKeywordSelection"
-                     cacheOptions
-                     defaultOptions
+                  <Select
+                     ref="topicalKeywords"
                      value={this.state.queryData.topicalKeywords}
-                     loadOptions={() => parseKeywordData('TK')}
+                     options={this.tKeywords}
                      onChange={(val) => this.handleChange({ target: { name: 'topicalKeywords', value: val } })}
                      isMulti={true}
-                     isSearchable={false}
                      autoBlur={false}
                      closeOnSelect={false}
                      closeMenuOnSelect={false}
                   />
                   <FormText>You can leave this blank to select all topical keywords.</FormText>
                </FormGroup>
+               
+               <FormGroup>
+                  <Label>Collaborations Selection</Label>
+                  <Select
+                     ref="topicalKeywords"
+                     value={this.state.queryData.topicalKeywords}
+                     options={this.tKeywords}
+                     onChange={(val) => this.handleChange({ target: { name: 'topicalKeywords', value: val } })}
+                     isMulti={true}
+                     autoBlur={false}
+                     closeOnSelect={false}
+                     closeMenuOnSelect={false}
+                  />
+                  <FormText>You can leave this blank to select all topical keywords.</FormText>
+               </FormGroup>
+
                <Row>
                   {isEmpty(this.state.queryData) ?
                   <UncontrolledAlert color="info">
@@ -221,4 +222,14 @@ export default class memberSearchModal extends Component {
    }
 }
 
-memberSearchModal = withRouter(memberSearchModal);
+
+const mapStateToProps = state => ({
+   nav: state.nav,
+   orgs: state.orgs,
+   keywords: state.keywords,
+   collaborators: state.collaborators,
+})
+
+SearchForUniversityForm = withRouter(SearchForUniversityForm);
+
+export default connect(mapStateToProps)(SearchForUniversityForm);

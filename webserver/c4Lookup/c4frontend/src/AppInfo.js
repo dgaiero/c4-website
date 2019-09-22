@@ -17,7 +17,6 @@ import './appInfo.css';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Obfuscate from "react-obfuscate";
-import Title from './head'
 var base64 = require('base-64');
 
 class AppInfo extends Component {
@@ -186,11 +185,9 @@ class AppInfo extends Component {
    }
 
    render() {
-      const { openStatus, toggle, settings } = this.props;
+      const { openStatus, toggle } = this.props;
       return (
          <>
-         <Title name="About" />
-            {/* <span className = "text-muted">{this.state.hash}</span> */}
             <Modal isOpen={openStatus} toggle={toggle} size="lg">
                <ModalHeader toggle={toggle}>Application Information</ModalHeader>
                <ModalBody>

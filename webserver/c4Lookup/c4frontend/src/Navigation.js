@@ -19,14 +19,16 @@ class Navigation extends Component {
       const {nav, settings} = this.props;
       return (
 
-         <Navbar color="light" light expand="md">
+         <Navbar color="dark" dark expand="md">
             <NavbarBrand tag={RRNavLink} exact to="/">{settings.siteHeading}</NavbarBrand>
             <NavbarToggler onClick={() => this.props.toggleNavBar()} />
             <Collapse isOpen={nav.navOpen} navbar>
                <Nav className="ml-auto" navbar>
                   <NavItem>
                      <NavLink tag={RRNavLink} exact to="/univCollaborator" activeClassName="active">Search for a University Collaborator</NavLink>
-                     {/* <SearchForCollaborator /> */}
+                  </NavItem>
+                  <NavItem>
+                     <NavLink tag={RRNavLink} exact to="/govNGOCollaborator" activeClassName="active">Search for an NGO/Government Collaborator</NavLink>
                   </NavItem>
                   <NavItem>
                   </NavItem>

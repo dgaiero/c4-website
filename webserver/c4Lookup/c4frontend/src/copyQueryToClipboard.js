@@ -35,8 +35,8 @@ export default class CopyQueryToClipboard extends Component {
       const { openStatus, toggle, size, query, endpoint } = this.props;
       const protocol = window.location.protocol;
       const host = window.location.host;
-      const encodedQuery = base64.encode(query)
-      const URL = protocol.concat("//", host, "/", endpoint, "/save/", encodedQuery);
+      const encodedQuery = base64.encode(endpoint + "?" + query)
+      const URL = protocol.concat("//", host, "/save/", encodedQuery);
       return (
          <Modal isOpen={openStatus} toggle={toggle} centered size={size}>
             <ModalHeader toggle={toggle}>Copy Query to Clipboard</ModalHeader>
@@ -71,7 +71,7 @@ export default class CopyQueryToClipboard extends Component {
                         onCopy={() => this.setState({ copyURL: true })}>
                         <Button id="copyURLToClipboard" color="success">Copy to clipboard</Button>
                      </CopyToClipboard>
-                     <UncontrolledPopover trigger="focus" placement="bottom" target="copyURLToClipboard">
+                     <UncontrolledPopover trigger="focus" placement="right" target="copyURLToClipboard">
                         <PopoverHeader>Copied URL to Clipboard</PopoverHeader>
                         <PopoverBody>You can share or save this URL to return to this query later!<br /><kbd>Ctrl</kbd> + <kbd>V</kbd> can retrieve the code from your clipboard.</PopoverBody>
                      </UncontrolledPopover>

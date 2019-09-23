@@ -5,7 +5,7 @@ import {
 import './Modal.css';
 
 
-export default class CopyQueryToClipboard extends Component {
+export default class PasteQueryToClipboard extends Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -22,7 +22,7 @@ export default class CopyQueryToClipboard extends Component {
 
    runQuery = () => {
 
-      let newLocation = '/collaborator/save/' + this.state.value
+      let newLocation = "save/" + this.state.value
       this.props.history.push(newLocation)
    }
 
@@ -31,7 +31,7 @@ export default class CopyQueryToClipboard extends Component {
    }
 
    render() {
-      const { openStatus, toggle, size, endpoint } = this.props;
+      const { openStatus, toggle, size } = this.props;
       return (
          <Modal isOpen={openStatus} toggle={toggle} centered size={size}>
             <ModalHeader toggle={toggle}>Paste Query from Clipboard</ModalHeader>
@@ -40,7 +40,7 @@ export default class CopyQueryToClipboard extends Component {
                <b>Paste Code From Clipboard</b>
 
                <InputGroup>
-                  <Input value={this.state.value} onChange={this.handleChange} autofocus="true"/>
+                  <Input value={this.state.value} onChange={this.handleChange} autoFocus="true"/>
                   <InputGroupAddon addonType="append">
                      <Button color="success" onClick={() => this.runQuery()}>Run Query</Button>
                   </InputGroupAddon>

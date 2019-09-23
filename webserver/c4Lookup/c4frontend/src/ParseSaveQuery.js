@@ -7,8 +7,8 @@ import { NavLink as RRNavLink, Redirect } from 'react-router-dom';
 import { withRouter } from "react-router";
 import { connect } from 'react-redux'
 
-import { setQueryStatement } from '../actions/searchForUnivCollaboratorActions'
-import Title from '../head'
+import { setQueryStatement } from './actions/searchForUnivCollaboratorActions'
+import Title from './head'
 var base64 = require('base-64');
 
 class ParseSaveQuery extends Component {
@@ -18,9 +18,8 @@ class ParseSaveQuery extends Component {
       this.tick = this.tick.bind(this)
       this.props.setQueryStatement({
          activityKeywords: [],
-
          topicalKeywords: [],
-
+          collaborations: [],
          selectedUniversities: [],
       })
    }
@@ -40,7 +39,7 @@ class ParseSaveQuery extends Component {
    render() {
       const { match, history } = this.props;
       if (!match.params.id) {
-         history.replace({ pathname: '/collaborator' });
+         history.replace({ pathname: '/' });
       }
       let query = match.params.id;
       let decoded_query;
@@ -63,21 +62,17 @@ class ParseSaveQuery extends Component {
                </Jumbotron>
             </>
          )
-      }
-      // history.push('/collaborator?' + decoded_query)
-      // this.setQueryURL();
-      
+      }      
       return (
          <>
             <Title name="Match Found" />
             <Jumbotron>
                <h1 className="display-3">Match Found!</h1>
                <p className="lead">A match could be found for the code <code>{query}</code></p>
-               {/* <hr className="my-2" /> */}
                <hr className="my-2" />
-               <p>You will be redirected to <code>{'/collaborator?' + decoded_query}</code> in {this.state.seconds} seconds</p>
-               {/* {this.state.seconds === 0 ? <Redirect to={'/collaborator?' + decoded_query} /> : null} */}
-               <Redirect to={'/collaborator?'+decoded_query}/>
+               <p>You will be redirected to <code>{decoded_query}</code> in {this.state.seconds} seconds</p>
+               {/* {this.state.seconds === 0 ? <Redirect to={decoded_query} /> : null} */}
+               <Redirect to={"/" + decoded_query}/>
             </Jumbotron>
          </>
       )
@@ -91,12 +86,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
    setQueryStatement,
 };
-
-// function mapDispatchToProps(dispatch) {
-//    return bindActionCreators({ toggleSearchForCollaborator, fetchCollaborators}, dispatch)
-// }
-
-// SearchForCollaborator = withRouter(SearchForCollaborator);
 
 ParseSaveQuery = withRouter(ParseSaveQuery);
 

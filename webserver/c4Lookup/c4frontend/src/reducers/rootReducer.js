@@ -4,7 +4,8 @@ import settings from './settingsReducer'
 import keywords from './keywordReducer'
 import orgs from './organizationReducer'
 import nav from './menuReducer'
-import collaborators from './searchForUnivCollaboratorReducer'
+import collaborations from './collaborationsReducer'
+import univCollaborators from './searchForUnivCollaboratorReducer'
 
 
 export default combineReducers({
@@ -12,6 +13,7 @@ export default combineReducers({
    keywords,
    orgs,
    nav,
-   collaborators,
+   univCollaborators,
+   collaborations,
 
 });

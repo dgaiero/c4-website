@@ -16,6 +16,9 @@ export const isEmpty = (queryData) => {
    if (queryData.topicalKeywords.length !== 0) {
       empty = false;
    }
+   if (queryData.collaborations.length !== 0) {
+      empty = false;
+   }
    if (queryData.selectedUniversities.length !== 0) {
       empty = false;
    }

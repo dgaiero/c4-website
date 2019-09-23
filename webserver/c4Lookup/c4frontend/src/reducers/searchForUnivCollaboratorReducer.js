@@ -7,14 +7,13 @@ const initialState = {
    url: '',
    'selectedQueryStatements': {
       activityKeywords: [],
-
       topicalKeywords: [],
-
+      collaborations: [],
       selectedUniversities: [],
    }
 }
 
-export default function collaboratorsReducer(state = initialState, action) {
+export default function univCollaboratorsReducer(state = initialState, action) {
    switch(action.type) {
       case Actions.FETCH_COLLABORATORS_BEGIN:
          return {

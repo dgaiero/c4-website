@@ -1,5 +1,5 @@
 /*
- * Pagination component from @cornflourblue on github
+ * Pagination component modified from @cornflourblue on github
  * https://github.com/cornflourblue/react-pagination-example
  *
  * MIT License

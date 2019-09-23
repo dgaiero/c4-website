@@ -8,7 +8,7 @@ import DebugMessage from './DebugMessage'
 import { fetchSettings }from './actions/settingsActions'
 import FrontPageCards from './indexPage';
 import { Route, Switch } from 'react-router-dom'
-import ParseSaveQuery from './universityCollaborators/parseSaveQuery'
+import ParseSaveQuery from './ParseSaveQuery'
 import Loader from './loader';
 import NotFound from './404'
 import axios from 'axios';
@@ -34,8 +34,8 @@ class RootContainer extends Component {
                   <Navigation />
                   <Switch>
                      <Route path="/" exact component={FrontPageCards} />
-                     <Route path="/collaborator/save/:id?" component={ParseSaveQuery} />
-                     <Route path="/collaborator/" exact component={TableView} />
+                     <Route path="/save/:id?" component={ParseSaveQuery} />
+                     <Route path="/univCollaborator/" exact component={TableView} />
                      <Route component={NotFound} status={404}/>
                   </Switch>
          </main>

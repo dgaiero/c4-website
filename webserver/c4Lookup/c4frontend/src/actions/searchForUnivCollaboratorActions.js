@@ -9,16 +9,16 @@ export const Actions = {
    SET_URL: 'SET_URL'
 }
 
-export const fetchCollaboratorsBegin = () => ({
+export const fetchUnivCollaboratorsBegin = () => ({
    type: Actions.FETCH_COLLABORATORS_BEGIN
 });
 
-export const fetchCollaboratorsSuccess = (collaborators) => ({
+export const fetchUnivCollaboratorsSuccess = (collaborators) => ({
    type: Actions.FETCH_COLLABORATORS_SUCCESS,
    payload: { collaborators }
 })
 
-export const fetchCollaboratorsFailure = (error) => ({
+export const fetchUnivCollaboratorsFailure = (error) => ({
    type: Actions.FETCH_COLLABORATORS_FAILURE,
    payload: { error }
 })
@@ -33,12 +33,12 @@ export const setQueryStatement = (query) => ({
    payload: { query }
 })
 
-export const fetchCollaborators = (url) => {
+export const fetchUnivCollaborators = (url) => {
    return dispatch => {
-      dispatch(fetchCollaboratorsBegin());
+      dispatch(fetchUnivCollaboratorsBegin());
 
       axios.get(url)
-      .then (res => {dispatch(fetchCollaboratorsSuccess(res.data));})
-         .catch(err => { dispatch(fetchCollaboratorsFailure(err));});
+      .then (res => {dispatch(fetchUnivCollaboratorsSuccess(res.data));})
+         .catch(err => { dispatch(fetchUnivCollaboratorsFailure(err));});
    }
 }

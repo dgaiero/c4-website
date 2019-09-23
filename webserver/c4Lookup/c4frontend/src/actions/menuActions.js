@@ -2,7 +2,7 @@ export const Actions = {
    TOGGLE_DEV_MODE: 'TOGGLE_DEV_MODE',
    TOGGLE_NAV_BAR: 'TOGGLE_NAV_BAR',
 
-   TOGGLE_SEARCH_FOR_COLLABORATOR: 'TOGGLE_SEARCH_FOR_COLLABORATOR',
+   TOGGLE_SEARCH_FOR_UNIV_COLLABORATOR: 'TOGGLE_SEARCH_FOR_UNIV_COLLABORATOR',
 }
 
 export const toggleDevMode = () => ({
@@ -13,6 +13,6 @@ export const toggleNavBar = () => ({
    type: Actions.TOGGLE_NAV_BAR
 });
 
-export const toggleSearchForCollaborator = () => ({
-   type: Actions.TOGGLE_SEARCH_FOR_COLLABORATOR
+export const toggleSearchForUnivCollaborator = () => ({
+   type: Actions.TOGGLE_SEARCH_FOR_UNIV_COLLABORATOR
 })

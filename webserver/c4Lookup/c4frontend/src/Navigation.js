@@ -10,7 +10,7 @@ import {
    } from 'reactstrap';
 import './App.css';
 import { connect } from 'react-redux';
-import { toggleNavBar, toggleDevMode, toggleSearchForCollaborator } from './actions/menuActions'
+import { toggleNavBar, toggleDevMode, toggleSearchForUnivCollaborator } from './actions/menuActions'
 import { NavLink as RRNavLink } from 'react-router-dom';
 
 class Navigation extends Component {
@@ -25,7 +25,7 @@ class Navigation extends Component {
             <Collapse isOpen={nav.navOpen} navbar>
                <Nav className="ml-auto" navbar>
                   <NavItem>
-                     <NavLink tag={RRNavLink} exact to="/collaborator" activeClassName="active">Search for a University Collaborator</NavLink>
+                     <NavLink tag={RRNavLink} exact to="/univCollaborator" activeClassName="active">Search for a University Collaborator</NavLink>
                      {/* <SearchForCollaborator /> */}
                   </NavItem>
                   <NavItem>
@@ -45,7 +45,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
    toggleNavBar,
    toggleDevMode,
-   toggleSearchForCollaborator
+   toggleSearchForUnivCollaborator
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation)

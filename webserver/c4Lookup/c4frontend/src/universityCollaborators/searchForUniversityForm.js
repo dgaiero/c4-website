@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Select from 'react-select'
-import axios from "axios";
 import {
    Col, Row, Form,
    FormGroup, Label,
@@ -13,14 +12,6 @@ import { withRouter } from "react-router";
 import { NBSP, isEmpty } from '../helper';
 import { buildQueryString } from './searchForUniversity'
 import { connect } from 'react-redux'
-
-async function getKeywords(type, sortOrder) {
-   try {
-      return await axios.get('api/v1/keywords/?format=json&keywordType=' + type + '&sortOrder=' + sortOrder)
-   } catch (error) {
-      console.error(error)
-   }
-}
 
 class SearchForUniversityForm extends Component {
    constructor(props) {
@@ -42,16 +33,21 @@ class SearchForUniversityForm extends Component {
       this.univOptions = this.getUnivertisyTypes();
       this.aKeywords = this.getKeywordTypes('AK');
       this.tKeywords = this.getKeywordTypes('TK');
+      this.collaborations = this.getCollaborationsTypes();;
    }
 
    getUnivertisyTypes = () => {
-      let univOrgs = this.props.orgs.items.filter( function(org) {return org.orgType === "IO"});
+      const orgTypes = ["IO"]
+      let univOrgs = this.props.orgs.items.filter(function (org) { return orgTypes.includes(org.orgType)});
       return univOrgs.map(org => ({label: org.orgNameUnique, value: org.id}));
+   }
+
+   getCollaborationsTypes = () => {
+      return this.props.collaborations.items.map(collaboration => ({ label: collaboration.collaborationName, value: collaboration.id }));
    }
 
    getKeywordTypes = (keywordType) => {
       const keywordsFiltered = this.props.keywords.items.filter(function (keyword) { return keyword.keywordType === keywordType })
-      console.log(keywordsFiltered)
       const keywordLow = keywordsFiltered.filter(function (keyword) { return keyword.sortOrder === "LS" });
       const keywordMedium = keywordsFiltered.filter(function (keyword) { return keyword.sortOrder === "MS" });
       const keywordHigh = keywordsFiltered.filter(function (keyword) { return keyword.sortOrder === "HS" });
@@ -156,10 +152,10 @@ class SearchForUniversityForm extends Component {
                <FormGroup>
                   <Label>Collaborations Selection</Label>
                   <Select
-                     ref="topicalKeywords"
-                     value={this.state.queryData.topicalKeywords}
-                     options={this.tKeywords}
-                     onChange={(val) => this.handleChange({ target: { name: 'topicalKeywords', value: val } })}
+                     ref="collaborations"
+                     value={this.state.queryData.collaborations}
+                     options={this.collaborations}
+                     onChange={(val) => this.handleChange({ target: { name: 'collaborations', value: val } })}
                      isMulti={true}
                      autoBlur={false}
                      closeOnSelect={false}
@@ -171,7 +167,7 @@ class SearchForUniversityForm extends Component {
                <Row>
                   {isEmpty(this.state.queryData) ?
                   <UncontrolledAlert color="info">
-                     <b>FYI:</b> You need to select some parameters to run or save a query!
+                     <b>FYI:</b> You need to select some parameters to save a query!
                   </UncontrolledAlert> : null}
                </Row>
                <Row>
@@ -196,7 +192,7 @@ class SearchForUniversityForm extends Component {
                      <CopyToClipBoardModal
                         openStatus={this.state.copyToClipBoardToggle}
                         query={buildQueryString(this.state.queryData)}
-                        endpoint="collaborator"
+                        endpoint="univCollaborator"
                         toggle={() => this.setState(
                            {
                               copyToClipBoardToggle: !this.state.copyToClipBoardToggle
@@ -205,7 +201,7 @@ class SearchForUniversityForm extends Component {
                      />
                      <PasteFromCipboardModal
                         openStatus={this.state.pasteFromClipBoardToggle}
-                        endpoint="collaborator"
+                        endpoint="univCollaborator"
                         history={this.props.history}
                         toggle={() => this.setState(
                            {
@@ -227,6 +223,7 @@ const mapStateToProps = state => ({
    nav: state.nav,
    orgs: state.orgs,
    keywords: state.keywords,
+   collaborations: state.collaborations,
    collaborators: state.collaborators,
 })
 

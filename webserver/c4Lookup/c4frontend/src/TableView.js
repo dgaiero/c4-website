@@ -3,11 +3,13 @@ import {
    Container,
    Table,
    Spinner,
+   Alert,
 } from 'reactstrap';
 import PaginationWrapper from './Pagination'
 import { connect } from 'react-redux'
 import {fetchKeywords} from './actions/keywordActions'
 import {fetchOrganizations} from './actions/organizationActions'
+import { fetchCollaborations } from './actions/collaborationsActions'
 import Keyword from './Keywords'
 import Organizations from './Organizations'
 import UserDetail from './User'
@@ -16,6 +18,7 @@ import Loader from './loader';
 import Loading from './Loading'
 import './App.css';
 import Obfuscate from 'react-obfuscate'
+import { isEmpty } from './helper'
 
 class TableView extends Component {
    constructor(props) {
@@ -25,11 +28,13 @@ class TableView extends Component {
          pageSize: 30,
       };
       this.onChangePage = this.onChangePage.bind(this);
+      console.log(this.props.univCollaborators)
    }
   
    componentDidMount() {
       this.props.fetchKeywords();
       this.props.fetchOrganizations();
+      this.props.fetchCollaborations();
    }
 
    onChangePage(pageOfItems) {
@@ -55,29 +60,41 @@ class TableView extends Component {
       let loader = [
          { friendlyName: 'Keywords', condition: this.props.keywordsLoading, error: this.props.keywordError },
          { friendlyName: 'Organizations', condition: this.props.orgsLoading, error: this.props.orgError },
-         { friendlyName: 'Users', condition: this.props.collaboratorsLoading, error: this.props.collaboratorsError },
+         { friendlyName: 'Collaborations', condition: this.props.collaborationsLoading, error: this.props.collaborationsError },
+         { friendlyName: 'University Collaborators', condition: this.props.univCollaboratorsLoading, error: this.props.univCollaboratorsError },
       ]
       let loadStatus = Loader.calculateLoadingState(loader);      
       return (
          <>
             <Loading body={loader} status={loadStatus} />
-            {(!this.props.keywordsLoading || this.props.keywords === []) && (!this.props.orgsLoading || this.props.orgs === []) ? <SearchForCollaborator /> : <Spinner color="primary" /> }
+            {(!this.props.keywordsLoading || this.props.keywords === []) && (!this.props.orgsLoading || this.props.orgs === []) && (!this.props.collaborationsLoading || this.props.collaborations === []) ? <SearchForCollaborator /> : <Spinner color="primary" /> }
          <Container fluid>
-            <Table hover responsive>
-               <thead>
-                  <tr>
-                     <th>Name</th>
-                     <th>Organization</th>
-                     <th>Email Address</th>
-                     <th>Keywords</th>
-                     <th>More Information</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {this.renderDisplayUserItems()}
-               </tbody>
-            </Table>
-            <PaginationWrapper pageSize={this.state.pageSize} items={this.props.collaborators} onChangePage={this.onChangePage} />
+            {this.props.univCollaborators.length === 0 ? 
+               <Alert color="info">
+                  <h4 className="alert-heading">No Results</h4>
+                  <p>
+                     Hmm, it looks like there are no results with your
+                     current query. Try a different combination.
+                  </p>
+               </Alert> :
+               <>
+                  <Table hover responsive>
+                     <thead>
+                        <tr>
+                           <th>Name</th>
+                           <th>Organization</th>
+                           <th>Email Address</th>
+                           <th>Keywords</th>
+                           <th>More Information</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {this.renderDisplayUserItems()}
+                     </tbody>
+                  </Table>
+                     <PaginationWrapper pageSize={this.state.pageSize} items={this.props.univCollaborators} onChangePage={this.onChangePage} />
+               </>
+            }
          </Container>
          </>
       );
@@ -93,14 +110,19 @@ const mapStateToProps = state => ({
    orgsLoading: state.orgs.loading,
    orgError: state.orgs.error,
 
-   collaborators: state.collaborators.items,
-   collaboratorsLoading: state.collaborators.loading,
-   collaboratorsError: state.collaborators.error,
+   univCollaborators: state.univCollaborators.items,
+   univCollaboratorsLoading: state.univCollaborators.loading,
+   univCollaboratorsError: state.univCollaborators.error,
+
+   collaborations: state.collaborations.items,
+   collaborationsLoading: state.collaborations.loading,
+   collaborationsError: state.collaborations.error,
 })
 
 const mapDispatchToProps = {
    fetchKeywords,
-   fetchOrganizations
+   fetchOrganizations,
+   fetchCollaborations
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableView);

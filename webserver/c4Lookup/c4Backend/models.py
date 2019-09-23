@@ -203,7 +203,7 @@ class Keyword(models.Model):
 
 class FrontendParameters(SingletonModel):
    siteHeading = models.CharField(
-      max_length=30,
+      max_length=75,
       verbose_name="Site Heading",
       default="4C DATABASE QUERY UTILITY"
    )

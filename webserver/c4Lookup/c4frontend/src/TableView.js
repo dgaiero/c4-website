@@ -28,7 +28,6 @@ class TableView extends Component {
          pageSize: 30,
       };
       this.onChangePage = this.onChangePage.bind(this);
-      console.log(this.props.univCollaborators)
    }
   
    componentDidMount() {

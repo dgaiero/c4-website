@@ -9,11 +9,11 @@ import rootReducer from './reducers/rootReducer'
 import thunk from 'redux-thunk'; 
 import { Provider } from 'react-redux';
 
-import unregisterServiceWorker from './registerServiceWorker';
+import registerServiceWorker from './registerServiceWorker';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(rootReducer);
 
 ReactDOM.render(
    [<App store={store} key={1} />, <Provider store={store} key={2} ><Footer store={store}/></Provider>], document.getElementById('root'));
-unregisterServiceWorker();
+registerServiceWorker();

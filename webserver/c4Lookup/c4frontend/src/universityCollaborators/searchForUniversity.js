@@ -132,7 +132,6 @@ class SearchForCollaborator extends Component {
          if (!(Array.isArray(parsed.keyT))) {
             keyT = [parsed.keyT]
          }
-         console.log(keyT)
          keyT.map(keyID => tKey.push({ label: this.props.keywords.items[keyID].keywordName, value: keyID }))
       }
       if (parsed.clb) {
@@ -140,7 +139,6 @@ class SearchForCollaborator extends Component {
          if (!(Array.isArray(parsed.clb))) {
             clb = [parsed.clb]
          }
-         console.log(clb)
          clb.map(clbID => cKey.push({ label: this.props.collaborations.items[clbID].collaborationName, value: clbID }))
       }
       if (parsed.org) {

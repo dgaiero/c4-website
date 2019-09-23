@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import {
    Container,
-   Button,
    Jumbotron,
 } from 'reactstrap';
 import './App.css';
-import { withRouter } from 'react-router-dom';
+import Title from './head'
 
 class NotFound extends Component {
    constructor(props) {
@@ -19,7 +18,8 @@ class NotFound extends Component {
    render() {
       const { pathname } = this.props.location;
       return (
-
+         <>
+         <Title name="404" />
          <Jumbotron fluid>
             <Container fluid>
                <h1 className="display-3">404</h1>
@@ -31,6 +31,7 @@ class NotFound extends Component {
                </p>
             </Container>
          </Jumbotron>
+         </>
       );
    }
 }

@@ -5,20 +5,20 @@ import {
    Spinner,
    Alert,
 } from 'reactstrap';
-import PaginationWrapper from './Pagination'
+import PaginationWrapper from '../Pagination'
 import { connect } from 'react-redux'
-import {fetchKeywords} from './actions/keywordActions'
-import {fetchOrganizations} from './actions/organizationActions'
-import { fetchCollaborations } from './actions/collaborationsActions'
-import Keyword from './Keywords'
-import Organizations from './Organizations'
-import UserDetail from './User'
-import SearchForCollaborator from './universityCollaborators/searchForUniversity'
-import Loader from './loader';
-import Loading from './Loading'
-import './App.css';
+import {fetchKeywords} from '../actions/keywordActions'
+import {fetchOrganizations} from '../actions/organizationActions'
+import { fetchCollaborations } from '../actions/collaborationsActions'
+import Keyword from '../Keywords'
+import Organizations from '../Organizations'
+import UserDetail from '../User'
+import SearchForCollaborator from './searchForUniversity'
+import Loader from '../loader';
+import Loading from '../Loading'
+import '../App.css';
 import Obfuscate from 'react-obfuscate'
-import { isEmpty } from './helper'
+import { isEmpty } from '../helper'
 
 class TableView extends Component {
    constructor(props) {
@@ -66,7 +66,7 @@ class TableView extends Component {
       return (
          <>
             <Loading body={loader} status={loadStatus} />
-            {(!this.props.keywordsLoading || this.props.keywords === []) && (!this.props.orgsLoading || this.props.orgs === []) && (!this.props.collaborationsLoading || this.props.collaborations === []) ? <SearchForCollaborator /> : <Spinner color="primary" /> }
+            {(!this.props.keywordsLoading || this.props.keywords === []) && (!this.props.orgsLoading || this.props.orgs === []) && (!this.props.collaborationsLoading || this.props.collaborations === []) ? <SearchForCollaborator /> : null }
          <Container fluid>
             {this.props.univCollaborators.length === 0 ? 
                <Alert color="info">
@@ -81,9 +81,9 @@ class TableView extends Component {
                      <thead>
                         <tr>
                            <th>Name</th>
-                           <th>Organization</th>
+                           <th>Organization(s)</th>
                            <th>Email Address</th>
-                           <th>Keywords</th>
+                           <th>Keyword(s)</th>
                            <th>More Information</th>
                         </tr>
                      </thead>

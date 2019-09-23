@@ -106,8 +106,7 @@ class Organizations extends Component {
             {getOrgType(orgInfo.orgType).name}
             </Badge>
          </div>
-
-      let body = orgInfo.website !== null ? (
+      let body = (orgInfo.website !== null && orgInfo.website !== "") ? (
          <Button outline color="primary" size="sm" href={orgInfo.website} target="_blank" rel="noopener noreferrer">Visit Website</Button>
       ) : "No website provided";
       this.setState({ organizationDetailModalTitle: title, organizationDetailModalBody: body, showOrganizationDetailModal: !this.state.showOrganizationDetailModal });

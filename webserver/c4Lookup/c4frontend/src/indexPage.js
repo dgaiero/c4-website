@@ -14,6 +14,8 @@ import './indexCards.css'
 import { connect } from 'react-redux';
 import WelcomeJumbotron from './WelcomeJumbotron';
 import { NavLink as RRNavLink } from 'react-router-dom';
+
+import PasteFromCipboardModal from './PasteQueryFromKeyboard'
 import Title from './head'
 
 
@@ -76,8 +78,38 @@ class FrontPageCards extends Component {
 
          navIsOpen: false,
          devModeOpen: true,
+         pasteFromClipBoardToggle: false,
       };
    }
+
+   PasteQCode = () => {
+      return (
+         <Card className="cardHideOverflow card-no-border" >
+            <div style={{ border: '1px solid rgb(33, 37, 41)', overflow: 'hidden', borderRadius: '.25rem' }}>
+               <div className="PasteQCodeCardImage">
+                  <CardBody>
+                     <h5 className='cardTitle'>Have a saved query?</h5>
+                     <CardText>If you have a query code from a perviously saved query, or a query from someone else, use the button below to retreive the parameters.</CardText>
+
+                  </CardBody>
+                  <CardFooter><Button color="secondary" onClick={() => this.setState({ pasteFromClipBoardToggle: !this.state.pasteFromClipBoardToggle })}>Paste Code</Button></CardFooter>
+                  <PasteFromCipboardModal
+                     openStatus={this.state.pasteFromClipBoardToggle}
+                     endpoint="univCollaborator"
+                     history={this.props.history}
+                     toggle={() => this.setState(
+                        {
+                           pasteFromClipBoardToggle: !this.state.pasteFromClipBoardToggle
+                        })}
+                     size='lg'
+                  />
+               </div>
+            </div>
+         </Card>
+      )
+   }
+
+
    render() {
       return (
          <>
@@ -86,9 +118,9 @@ class FrontPageCards extends Component {
             <Container>
                <CardDeck style={{ marginBottom: '32px' }}>
                   <LookingForUnivCollaboratorCard />
-                  {/* <LookingForGovCollaboratorCard /> */}
-                  <UnderConstructionCard />
-                  <UnderConstructionCard />
+                  <LookingForGovCollaboratorCard />
+                  {/* <UnderConstructionCard /> */}
+                  <this.PasteQCode />
                </CardDeck>
             </Container>
         </>

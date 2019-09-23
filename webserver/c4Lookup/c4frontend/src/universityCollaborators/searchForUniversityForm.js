@@ -165,10 +165,10 @@ class SearchForUniversityForm extends Component {
                </FormGroup>
 
                <Row>
-                  {isEmpty(this.state.queryData) ?
+                  {/* {isEmpty(this.state.queryData) ?
                   <UncontrolledAlert color="info">
                      <b>FYI:</b> You need to select some parameters to save a query!
-                  </UncontrolledAlert> : null}
+                  </UncontrolledAlert> : null} */}
                </Row>
                <Row>
                   <div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Loading from './Loading'
 import './App.css';
 import { connect } from 'react-redux';
-import TableView from './TableView'
+import TableView from './universityCollaborators/TableView'
 import Navigation from './Navigation'
 import DebugMessage from './DebugMessage'
 import { fetchSettings }from './actions/settingsActions'
@@ -11,6 +11,7 @@ import { Route, Switch } from 'react-router-dom'
 import ParseSaveQuery from './ParseSaveQuery'
 import Loader from './loader';
 import NotFound from './404'
+import ComingSoon from './ComingSoon'
 import axios from 'axios';
 
 axios.defaults.baseURL = "https://api.centralcoastclimate.org"
@@ -36,6 +37,7 @@ class RootContainer extends Component {
                      <Route path="/" exact component={FrontPageCards} />
                      <Route path="/save/:id?" component={ParseSaveQuery} />
                      <Route path="/univCollaborator/" exact component={TableView} />
+                     <Route path="/govNGOCollaborator/" exact component={ComingSoon} />
                      <Route component={NotFound} status={404}/>
                   </Switch>
          </main>

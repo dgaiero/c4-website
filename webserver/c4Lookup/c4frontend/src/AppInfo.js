@@ -179,6 +179,12 @@ class AppInfo extends Component {
                      <CardText><span>Photo by <a href="https://unsplash.com/@johnonolan?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">John O'Nolan</a> on <a href="/?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></CardText>
                   </CardBody>
                </Card>
+               <Card>
+                  <CardImg top width="100%" src="https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Waves Image" />
+                  <CardBody>
+                     <CardText><span>Photo by <a href="https://unsplash.com/@austindistel?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Austin Distel</a> on <a href="/?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></CardText>
+                  </CardBody>
+               </Card>
             </CardColumns>
          </>
       )

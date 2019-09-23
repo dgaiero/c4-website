@@ -4,6 +4,7 @@ import {
    Button,
    Card,
    CardDeck,
+   CardColumns,
    CardFooter,
    CardBody,
    CardText,
@@ -34,20 +35,37 @@ const UnderConstructionCard = () => {
    )
 }
 
-const LookingForCollaboratorCard = () => {
+const LookingForUnivCollaboratorCard = () => {
    return (
       <Card className="cardHideOverflow card-no-border" >
             <div style={{ border: '1px solid rgb(33, 37, 41)', overflow: 'hidden', borderRadius: '.25rem' }}>
-                <div className="lookingForCollaboratorCardImage">
+                <div className="lookingForUnivCollaboratorCardImage">
                 <CardBody>
                     <h5 className='cardTitle'>Looking for a University Collaborator?</h5>
                     <CardText>Interested in finding a university to work on a project with?</CardText>
 
                 </CardBody>
-                <CardFooter><Button color="secondary" tag={RRNavLink} exact to="/collaborator">Search For a University Collaborator</Button></CardFooter>
+               <CardFooter><Button color="secondary" tag={RRNavLink} exact to="/univCollaborator">Search For a University Collaborator</Button></CardFooter>
                 </div>
             </div>
          </Card>
+   )
+}
+
+const LookingForGovCollaboratorCard = () => {
+   return (
+      <Card className="cardHideOverflow card-no-border" >
+         <div style={{ border: '1px solid rgb(33, 37, 41)', overflow: 'hidden', borderRadius: '.25rem' }}>
+            <div className="lookingForGovCollaboratorCardImage">
+               <CardBody>
+                  <h5 className='cardTitle'>Looking for a Government Collaborator?</h5>
+                  <CardText>Interested in finding a city, NGO, etc... to work on a project with?</CardText>
+
+               </CardBody>
+               <CardFooter><Button color="secondary" tag={RRNavLink} exact to="/govNGOCollaborator">Search For a Government Collaborator</Button></CardFooter>
+            </div>
+         </div>
+      </Card>
    )
 }
 
@@ -66,13 +84,12 @@ class FrontPageCards extends Component {
          <Title name="Home" />
          <WelcomeJumbotron />
             <Container>
-               <div style={{ marginBottom: '32px' }}>
-                  <CardDeck className="">
-                     <LookingForCollaboratorCard />
-                     <UnderConstructionCard />
-                     <UnderConstructionCard />
-                  </CardDeck>
-               </div>
+               <CardDeck style={{ marginBottom: '32px' }}>
+                  <LookingForUnivCollaboratorCard />
+                  {/* <LookingForGovCollaboratorCard /> */}
+                  <UnderConstructionCard />
+                  <UnderConstructionCard />
+               </CardDeck>
             </Container>
         </>
       );

@@ -1,36 +1,26 @@
-/* .card,
-.underConstructionCardImage,
-.lookingForCollaboratorCardImage {
-   min-height: 230px;
-} */
-
-.row-eq-height {
-   display: -webkit-box;
-   display: -webkit-flex;
-   display: -ms-flexbox;
-   display: flex;
-   flex-wrap: wrap;
-}
-
-/* [class*="col"] {
-   padding-top: 15px;
-   padding-bottom: 15px;
-   background-color: #eee;
-   background-color: rgba(86, 61, 124, .15);
-   border: 1px solid #ddd;
-   border: 1px solid rgba(86, 61, 124, .2);
-} */
-
 .cardHideOverflow {
    background-color: rgb(255, 255, 255);
    overflow: hidden;
 }
 
-.lookingForCollaboratorCardImage {
+.lookingForUnivCollaboratorCardImage {
    background: linear-gradient(rgba(255, 255, 255, 1),
          rgba(255, 255, 255, 0.6)),
 
       url(https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80);
+   background-repeat: no-repeat;
+   background-position: fixed;
+   background-size: cover;
+   position: relative;
+   display: flex;
+   flex-direction: column;
+}
+
+.lookingForGovCollaboratorCardImage {
+   background: linear-gradient(rgba(255, 255, 255, 1),
+         rgba(255, 255, 255, 0.6)),
+
+      url(https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1934&q=80);
    background-repeat: no-repeat;
    background-position: fixed;
    background-size: cover;

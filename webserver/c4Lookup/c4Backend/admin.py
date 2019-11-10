@@ -14,7 +14,7 @@ class OrganizationAdmin(ImportExportModelAdmin):
       ('Debug Information', {'fields': ['orgNameUnique', ]}),
    ]
    search_fields = ['orgName', 'orgType', 'department']
-   list_display = ('orgName', 'department', 'orgType')
+   list_display = ('orgNameUnique', 'orgName', 'department', 'orgType')
    list_filter = ('orgName', 'department', 'orgType')
    readonly_fields = ['orgNameUnique']
 

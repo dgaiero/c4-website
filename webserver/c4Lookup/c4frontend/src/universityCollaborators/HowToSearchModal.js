@@ -27,7 +27,7 @@ class HowToSearchModal extends Component {
 
       return (
          <>
-            <Modal size="lg" isOpen={this.state.modal} toggle={() => this.setState({ modal: !this.state.modal })}>
+            <Modal size="xl" isOpen={this.state.modal} toggle={() => this.setState({ modal: !this.state.modal })}>
                <ModalHeader toggle={() => this.setState({ modal: !this.state.modal })}><FontAwesomeIcon icon="life-ring" /> Need Help?</ModalHeader>
                <ModalBody>
                   <Alert color="info">
@@ -38,6 +38,40 @@ class HowToSearchModal extends Component {
                   </Alert>
 
                   <ListGroup>
+                     <ListGroupItem>
+                        <ListGroupItemHeading>How To Search</ListGroupItemHeading>
+                        <ListGroupItemText>
+                           <p>Not sure how to use this tool? Here are a couple of
+                           tips to get started.</p>
+                           <p>Here is a general formula for searching:{NBSP}
+                           <em>Query = University AND (Activity Keywords OR 
+                              Topical Keywords) AND Collaborations</em>.
+                           </p>
+                           <p>
+                              This means that your results will contain members
+                              from any university your selected that match any of
+                              the keywords (activity and topical) and each person
+                              identifies with the collaborations selected.
+                           </p>
+                           <p>
+                              It's best to start broad and narrow your search
+                              results. If you are looking for a person that
+                              specializes in water, you may want to start with
+                              the keywords and omit any university selection at
+                              the start (unless you only want someone from a
+                              specific univeristy). Then, select activity and
+                              topical high level keywords to get an idea of who
+                              specializes in water. At this point, if you know
+                              what types of collaborations you are looking for,
+                              go ahead an input them. Then, click {NBSP}
+                              <code>Run Query</code>. This will give you anybody
+                              who specializes in water. At this point, you can
+                              start narrowing down your parameters by adding
+                              some medium level or low level keywords to find
+                              someone more specific.
+                           </p>
+                        </ListGroupItemText>
+                     </ListGroupItem>
                      <ListGroupItem>
                         <ListGroupItemHeading>Universities</ListGroupItemHeading>
                         <ListGroupItemText>

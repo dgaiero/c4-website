@@ -82,7 +82,7 @@ class TableView extends Component {
                      </p>
                   </div>
                   <Table hover responsive>
-                     <thead>
+                     <thead className="thead-light">
                         <tr>
                            <th>Name</th>
                            <th>Organization(s)</th>

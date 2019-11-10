@@ -19,7 +19,14 @@ class Loading extends Component {
          errorModalBody: '',
          loadingItems: {},
          loadingStatus: false,
+         render: false,
       }
+   }
+
+   componentDidMount() {
+      setTimeout(function () { //Start the timer
+         this.setState({ render: true }) //After 1 second, set render to true
+      }.bind(this), 1000)
    }
 
    buildErrorMessage(error) {
@@ -60,8 +67,9 @@ class Loading extends Component {
 
    render() {
       const { body, status } = this.props;
-      return (
-         <>
+         let renderContainer = false //By default don't render anything
+         if (this.state.render) {
+         renderContainer = (<>
             <ErrorModal
                openStatus={this.state.errorModalOpenFlag}
                title={this.state.errorModalTitle}
@@ -74,7 +82,11 @@ class Loading extends Component {
                title={<div>Loading Components</div>}
                body={body.map(loadInfo => this.loadingText(loadInfo.friendlyName, loadInfo.condition, loadInfo.error))}
             />
-         </>
+         </>)
+         }
+
+      return (
+         renderContainer //Render the dom elements, or, when this.state == false, nothing.
       )
    }
 }

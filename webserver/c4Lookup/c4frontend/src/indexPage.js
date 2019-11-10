@@ -20,53 +20,49 @@ import Title from './head'
 
 
 
-const UnderConstructionCard = () => {
-   return (
-      <Card className="cardHideOverflow card-no-border" >
-            <div style={{ border: '1px solid rgb(33, 37, 41)', overflow: 'hidden', borderRadius: '.25rem', 'zIndex': '300', 'height': '100%', 'position': 'relative' }}>
-                <span className="newFeaturesBanner"><b>New Features Coming Soon!</b></span>
-                <div className="underConstructionCardImage">
-                <CardBody>
-                    <h5 className='cardTitle'>Under Construction</h5>
-                    <CardText>New features will be coming soon!</CardText>
-                </CardBody>
-                <CardFooter><Button color="secondary" disabled>Button Coming Soon</Button></CardFooter>
-                </div>
-            </div>
-         </Card>
-   )
-}
+// const UnderConstructionCard = () => {
+//    return (
+//       <Card className="cardHideOverflow card-no-border shadow text-light">
+//             <div style={{ border: '1px solid rgb(33, 37, 41)', overflow: 'hidden', borderRadius: '.25rem', 'zIndex': '300', 'height': '100%', 'position': 'relative' }}>
+//                 <span className="newFeaturesBanner"><b>New Features Coming Soon!</b></span>
+//                 <div className="underConstructionCardImage">
+//                 <CardBody>
+//                     <h5 className='cardTitle'>Under Construction</h5>
+//                     <CardText>New features will be coming soon!</CardText>
+//                 </CardBody>
+//                 <div className="card-footer-light"><Button color="light" disabled>Button Coming Soon</Button></div>
+//                 </div>
+//             </div>
+//          </Card>
+//    )
+// }
 
 const LookingForUnivCollaboratorCard = () => {
    return (
-      <Card className="cardHideOverflow card-no-border" >
-            <div style={{ border: '1px solid rgb(33, 37, 41)', overflow: 'hidden', borderRadius: '.25rem' }}>
-                <div className="lookingForUnivCollaboratorCardImage">
+      <Card className="cardHideOverflow card-no-border shadow text-light" >
+                <div className="lookingForUnivCollaboratorCardImage card-defaults">
                 <CardBody>
                     <h5 className='cardTitle'>Looking for a University Collaborator?</h5>
-                    <CardText>Interested in finding a university to work on a project with?</CardText>
+                    <CardText>Interested in finding faculty, staff, or students to work on a project?</CardText>
 
                 </CardBody>
-               <CardFooter><Button color="secondary" tag={RRNavLink} exact to="/univCollaborator">Search For a University Collaborator</Button></CardFooter>
+            <div className="card-footer-light"><Button color="light" tag={RRNavLink} exact to="/univCollaborator">Search For a University Collaborator</Button></div>
                 </div>
-            </div>
          </Card>
    )
 }
 
-const LookingForGovCollaboratorCard = () => {
+const LookingFor4CCollaboratorCard = () => {
    return (
-      <Card className="cardHideOverflow card-no-border" >
-         <div style={{ border: '1px solid rgb(33, 37, 41)', overflow: 'hidden', borderRadius: '.25rem' }}>
-            <div className="lookingForGovCollaboratorCardImage">
+      <Card className="cardHideOverflow card-no-border shadow text-light" >
+            <div className="lookingForGovCollaboratorCardImage card-defaults">
                <CardBody>
-                  <h5 className='cardTitle'>Looking for a Government Collaborator?</h5>
-                  <CardText>Interested in finding a city, NGO, etc... to work on a project with?</CardText>
+                  <h5 className='cardTitle'>Looking for a 4C Collaborator?</h5>
+                  <CardText>Interested in finding a city, county, NGO, or regional staff?</CardText>
 
                </CardBody>
-               <CardFooter><Button color="secondary" tag={RRNavLink} exact to="/govNGOCollaborator">Search For a Government Collaborator</Button></CardFooter>
+            <div className="card-footer-light"><Button color="light" tag={RRNavLink} exact to="/4CCollaborator">Search For a 4C Collaborator</Button></div>
             </div>
-         </div>
       </Card>
    )
 }
@@ -84,15 +80,14 @@ class FrontPageCards extends Component {
 
    PasteQCode = () => {
       return (
-         <Card className="cardHideOverflow card-no-border" >
-            <div style={{ border: '1px solid rgb(33, 37, 41)', overflow: 'hidden', borderRadius: '.25rem' }}>
-               <div className="PasteQCodeCardImage">
+         <Card className="cardHideOverflow card-no-border shadow text-light" >
+               <div className="PasteQCodeCardImage card-defaults">
                   <CardBody>
                      <h5 className='cardTitle'>Have a saved query?</h5>
-                     <CardText>If you have a query code from a perviously saved query, or a query from someone else, use the button below to retreive the parameters.</CardText>
+                     <CardText>If you have a saved code, you can retrieve it here.</CardText>
 
                   </CardBody>
-                  <CardFooter><Button color="secondary" onClick={() => this.setState({ pasteFromClipBoardToggle: !this.state.pasteFromClipBoardToggle })}>Paste Code</Button></CardFooter>
+                  <div className="card-footer-light"><Button color="light" onClick={() => this.setState({ pasteFromClipBoardToggle: !this.state.pasteFromClipBoardToggle })}>Paste Code</Button></div>
                   <PasteFromCipboardModal
                      openStatus={this.state.pasteFromClipBoardToggle}
                      endpoint="univCollaborator"
@@ -104,7 +99,6 @@ class FrontPageCards extends Component {
                      size='lg'
                   />
                </div>
-            </div>
          </Card>
       )
    }
@@ -116,9 +110,9 @@ class FrontPageCards extends Component {
          <Title name="Home" />
          <WelcomeJumbotron />
             <Container>
-               <CardDeck style={{ marginBottom: '32px' }}>
+               <CardDeck className="card-deck-overrides">
                   <LookingForUnivCollaboratorCard />
-                  <LookingForGovCollaboratorCard />
+                  <LookingFor4CCollaboratorCard />
                   {/* <UnderConstructionCard /> */}
                   <this.PasteQCode />
                </CardDeck>

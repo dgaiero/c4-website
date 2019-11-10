@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
    Container,
-   Jumbotron, UncontrolledAlert
+   Jumbotron, UncontrolledAlert, Row, Col,
 } from 'reactstrap';
 
 import SearchForCollaboratorForm from './searchForUniversityForm';
@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { isEmpty } from '../helper'
 import '../App.css';
 import Title from '../head'
+import HowToSearchModal from './HowToSearchModal'
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -174,31 +175,19 @@ class SearchForCollaborator extends Component {
             <Title name="Search for University Collaborator" />
             <Jumbotron fluid>
                <Container fluid>
-                  <h1 className="display-3">Looking for a Collaborator?</h1>
-                  <p className="lead">Use the form below to query potential collaborators.</p>
-                  <UncontrolledAlert color="light">
-                     <h4 className="alert-heading"><FontAwesomeIcon icon="life-ring" /> Need Help?</h4>
-                        <p>
-                           If you're looking for potential university collaborators, then you're in the right place! If instead, you want to search for NGO or government (city, regional, county), you'll need to go <Link to="govNGOCollaborator">here</Link>.
-                        </p>
-                     <hr />
-                        <p className="mb-0">
-                           <b>Universities</b><br />
-                           To select universities that you can collaborate with, use the <code>University Selection</code> dropdown. You can select universities and departments or, you can start typing in the field to filter universities. To select an entire univeristy, you'll need to individually select each department.
-                           <br /><b>Keywords</b><br />
-                           Selecting keywords is very similar. The only difference is the keywords are broken up into high level, medium level, and low level. You can think of a high level keyword as <b>Fruit</b>, a medium level keyword <b>Apple</b> and a low level keyword <b>Honeycrisp</b>. This way, you can more easily narrow your search.
-                           <br /><b>Collaborations</b><br />
-                           To select collaborations, it's identical to Universities, you can select a collaboration, or type to filter the results.
-                           <br /><b>There's More!</b><br />
-                           If you want to save a query for later or share it with someone, click the <code>More Actions</code> dropdown, and then select <code>Save Query</code> (Note, you can only select this button if there are no parameters selected).<br />
-                           If you have a code from someone else, you can use the <code>Paste Query</code> option to paste your qcode (query code) and the system will return the same query that was saved.
-                        </p>
-                  </UncontrolledAlert>
-                  {this.state.readParams? 
-                  <SearchForCollaboratorForm 
-                     selectedQuery={this.props.collaborators.selectedQueryStatements}
-                     submitHandler={this.handleSubmit}
-                     history={this.props.history}/>: null}
+                  <Row>
+                  <Col sm={{ size: 6, order: 2, offset: 1 }}>
+                     <h1 className="display-3">Looking for a Collaborator?</h1>
+                     <p className="lead">Use the form below to query potential collaborators.</p>
+                     <HowToSearchModal />
+                     <hr className="my-2" />
+                     {this.state.readParams? 
+                     <SearchForCollaboratorForm 
+                        selectedQuery={this.props.collaborators.selectedQueryStatements}
+                        submitHandler={this.handleSubmit}
+                        history={this.props.history}/>: null}
+                        </Col>
+                        </Row>
                </Container>
             </Jumbotron>
          </>

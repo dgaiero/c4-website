@@ -37,7 +37,7 @@ class RootContainer extends Component {
                      <Route path="/" exact component={FrontPageCards} />
                      <Route path="/save/:id?" component={ParseSaveQuery} />
                      <Route path="/univCollaborator/" exact component={TableView} />
-                     <Route path="/govNGOCollaborator/" exact component={ComingSoon} />
+                     <Route path="/4CCollaborator/" exact component={ComingSoon} />
                      <Route component={NotFound} status={404}/>
                   </Switch>
          </main>

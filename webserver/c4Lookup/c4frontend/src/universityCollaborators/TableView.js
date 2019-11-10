@@ -18,7 +18,6 @@ import Loader from '../loader';
 import Loading from '../Loading'
 import '../App.css';
 import Obfuscate from 'react-obfuscate'
-import { isEmpty } from '../helper'
 
 class TableView extends Component {
    constructor(props) {
@@ -91,7 +90,9 @@ class TableView extends Component {
                         {this.renderDisplayUserItems()}
                      </tbody>
                   </Table>
+                  <div className="centerd-pagination">
                      <PaginationWrapper pageSize={this.state.pageSize} items={this.props.univCollaborators} onChangePage={this.onChangePage} />
+                  </div>
                </>
             }
          </Container>

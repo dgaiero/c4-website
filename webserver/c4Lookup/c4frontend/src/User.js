@@ -61,7 +61,7 @@ class UserDetail extends Component {
    render() {
       return (
          <>
-            <Button onClick={() => this.showUserDetailModal()}><FontAwesomeIcon icon="info" />{NBSP}</Button>
+            <a href="#0" onClick={() => this.showUserDetailModal()}>About {this.props.user.firstName} {this.props.user.lastName}</a>
             <UserDetailModal
                openStatus={this.state.showUserDetails}
                title={this.state.userDetailModalTitle}

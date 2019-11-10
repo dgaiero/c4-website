@@ -3,6 +3,8 @@ import {
    Container,
    Button,
    Jumbotron,
+   Row,
+   Col,
 } from 'reactstrap';
 import './App.css';
 import './welcomeJumbotron.css'
@@ -21,15 +23,19 @@ class WelcomeJumbotron extends Component {
       const { settings } = this.props;
       return (
 
-         <Jumbotron className="welcome" fluid>
+         <Jumbotron className="welcome text-light" fluid>
             <Container fluid>
-               <h1 className="display-3">{settings.frontHeading}</h1>
-               <p className="lead">{settings.frontMessage}</p>
-               <hr className="my-2" />
-               <p>{settings.frontMessageSubText}</p>
-               <p className="lead">
-                  <Button href={'mailto:' + settings.additionEmailAddress} color="secondary">Request Addition to Database</Button>
-               </p>
+               <Row>
+                  <Col sm={{ size: 6, order: 2, offset: 1 }}>
+                  <h1 className="display-3">{settings.frontHeading}</h1>
+                  <p className="lead">{settings.frontMessage}</p>
+                  <hr className="my-2 hr-light" />
+                  <p>{settings.frontMessageSubText}</p>
+                  <p className="lead">
+                     <Button href={'mailto:' + settings.additionEmailAddress} color="light">Request Addition to Database</Button>
+                  </p>
+                  </Col>
+               </Row>
             </Container>
          </Jumbotron>
       );

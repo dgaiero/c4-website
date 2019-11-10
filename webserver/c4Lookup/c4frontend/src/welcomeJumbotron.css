@@ -1,6 +1,6 @@
 .welcome {
-    background: linear-gradient(rgba(255, 255, 255, 0.8),
-        rgba(255, 255, 255, 0.8)),
+    background: linear-gradient(rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)),
 /* Photo by <a href="https://unsplash.com/@johnonolan?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">John O'Nolan</a> on <a href="/search/photos/waves?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a> */
     url(https://images.unsplash.com/photo-1491772135384-20292e4b5ea1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1936&q=80);
     background-position: 0% 40%;
@@ -10,4 +10,11 @@
     position: relative;
     display: flex;
     flex-direction: column;
+}
+
+.hr-light {
+   margin-top: 1rem;
+   margin-bottom: 1rem;
+   border: 0;
+   border-top: 1px solid rgba(255, 255, 255, .1);
 }

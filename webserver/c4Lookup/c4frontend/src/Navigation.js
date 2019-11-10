@@ -28,7 +28,7 @@ class Navigation extends Component {
                      <NavLink tag={RRNavLink} exact to="/univCollaborator" activeClassName="active">Search for a University Collaborator</NavLink>
                   </NavItem>
                   <NavItem>
-                     <NavLink tag={RRNavLink} exact to="/govNGOCollaborator" activeClassName="active">Search for an NGO/Government Collaborator</NavLink>
+                     <NavLink tag={RRNavLink} exact to="/4CCollaborator" activeClassName="active">Search for a 4C Member</NavLink>
                   </NavItem>
                   <NavItem>
                   </NavItem>

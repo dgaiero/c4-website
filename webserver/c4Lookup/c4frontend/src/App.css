@@ -40,3 +40,8 @@ body {
    stroke: currentColor;
    fill: currentColor;
 }
+
+.centerd-pagination {
+     display: table;
+     margin: 0 auto;
+}

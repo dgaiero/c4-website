@@ -38,8 +38,8 @@ class SearchForUniversityForm extends Component {
 
    getUnivertisyTypes = () => {
       const orgTypes = ["IO"]
-      let univOrgs = this.props.orgs.items.filter(function (org) { return orgTypes.includes(org.orgType)});
-      return univOrgs.map(org => ({label: org.orgNameUnique, value: org.id}));
+      let univOrgs = this.props.orgs.items.filter(function (org) { return orgTypes.includes(org.orgType) });
+      return univOrgs.map(org => ({ label: org.orgNameUnique, value: org.id }));
    }
 
    getCollaborationsTypes = () => {
@@ -78,7 +78,7 @@ class SearchForUniversityForm extends Component {
                options: keywordLowNormalized,
             },
          ];
-         return keywordOptionData;
+      return keywordOptionData;
    }
 
    handleChange = (e) => {
@@ -102,117 +102,125 @@ class SearchForUniversityForm extends Component {
 
       return (
          <Form onSubmit={this.handleSubmit}>
-            <Col>
-               <FormGroup>
-                  <Label>University Selection</Label>
-                  <Select
-                     ref="universitySelection"
-                     name="universitySelection"
+            <Row>
+               <Col>
+                  <FormGroup>
+                     <Label>University Selection</Label>
+                     <Select
+                        ref="universitySelection"
+                        name="universitySelection"
 
-                     value={this.state.queryData.selectedUniversities}
-                     options={this.univOptions}
-                     onChange={(val) => this.handleChange({ target: { name: 'selectedUniversities', value: val } })}
-                     isMulti={true}
-                     autoBlur={false}
-                     closeOnSelect={false}
-                     closeMenuOnSelect={false}
-                  />
-               </FormGroup>
+                        value={this.state.queryData.selectedUniversities}
+                        options={this.univOptions}
+                        onChange={(val) => this.handleChange({ target: { name: 'selectedUniversities', value: val } })}
+                        isMulti={true}
+                        autoBlur={false}
+                        closeOnSelect={false}
+                        closeMenuOnSelect={false}
+                     />
+                  </FormGroup>
+               </Col>
+            </Row>
 
-               <FormGroup>
-                  <Label>Activity Keywords Selection</Label>
-                  <Select
-                     ref="activityKeywords"
-                     value={this.state.queryData.activityKeywords}
-                     options = {this.aKeywords}
-                     onChange={(val) => this.handleChange({ target: { name: 'activityKeywords', value: val } })}
-                     isMulti={true}
-                     autoBlur={false}
-                     closeOnSelect={false}
-                     closeMenuOnSelect={false}
-                  />
-                  <FormText>You can leave this blank to select all activity keywords.</FormText>
-               </FormGroup>
+            <Row>
+               <Col>
+                  <FormGroup>
+                     <Label>Activity Keywords Selection</Label>
+                     <Select
+                        ref="activityKeywords"
+                        value={this.state.queryData.activityKeywords}
+                        options={this.aKeywords}
+                        onChange={(val) => this.handleChange({ target: { name: 'activityKeywords', value: val } })}
+                        isMulti={true}
+                        autoBlur={false}
+                        closeOnSelect={false}
+                        closeMenuOnSelect={false}
+                     />
+                     <FormText>You can leave this blank to select all activity keywords.</FormText>
+                  </FormGroup>
+               </Col>
+            </Row>
 
-               <FormGroup>
-                  <Label>Topical Keywords Selection</Label>
-                  <Select
-                     ref="topicalKeywords"
-                     value={this.state.queryData.topicalKeywords}
-                     options={this.tKeywords}
-                     onChange={(val) => this.handleChange({ target: { name: 'topicalKeywords', value: val } })}
-                     isMulti={true}
-                     autoBlur={false}
-                     closeOnSelect={false}
-                     closeMenuOnSelect={false}
-                  />
-                  <FormText>You can leave this blank to select all topical keywords.</FormText>
-               </FormGroup>
-               
-               <FormGroup>
-                  <Label>Collaborations Selection</Label>
-                  <Select
-                     ref="collaborations"
-                     value={this.state.queryData.collaborations}
-                     options={this.collaborations}
-                     onChange={(val) => this.handleChange({ target: { name: 'collaborations', value: val } })}
-                     isMulti={true}
-                     autoBlur={false}
-                     closeOnSelect={false}
-                     closeMenuOnSelect={false}
-                  />
-                  <FormText>You can leave this blank to select all topical keywords.</FormText>
-               </FormGroup>
+            <Row>
+               <Col>
+                  <FormGroup>
+                     <Label>Topical Keywords Selection</Label>
+                     <Select
+                        ref="topicalKeywords"
+                        value={this.state.queryData.topicalKeywords}
+                        options={this.tKeywords}
+                        onChange={(val) => this.handleChange({ target: { name: 'topicalKeywords', value: val } })}
+                        isMulti={true}
+                        autoBlur={false}
+                        closeOnSelect={false}
+                        closeMenuOnSelect={false}
+                     />
+                     <FormText>You can leave this blank to select all topical keywords.</FormText>
+                  </FormGroup>
+               </Col>
+            </Row>
 
-               <Row>
-                  {/* {isEmpty(this.state.queryData) ?
-                  <UncontrolledAlert color="info">
-                     <b>FYI:</b> You need to select some parameters to save a query!
-                  </UncontrolledAlert> : null} */}
-               </Row>
-               <Row>
-                  <div>
-                     <div id="runQueryButton" style={{ display: 'inline-block' }}>
+            <Row>
+               <Col>
+                  <FormGroup>
+                     <Label>Collaborations Selection</Label>
+                     <Select
+                        ref="collaborations"
+                        value={this.state.queryData.collaborations}
+                        options={this.collaborations}
+                        onChange={(val) => this.handleChange({ target: { name: 'collaborations', value: val } })}
+                        isMulti={true}
+                        autoBlur={false}
+                        closeOnSelect={false}
+                        closeMenuOnSelect={false}
+                     />
+                     <FormText>You can leave this blank to select all topical keywords.</FormText>
+                  </FormGroup>
+               </Col>
+            </Row>
+
+            <Row noGutters>
+               <div>
+                  <div id="runQueryButton" style={{ display: 'inline-block' }}>
                      <Button color="success"><span>Run Query</span></Button>
-                     </div>
                   </div>
-                  {NBSP}
-                  <div>
-                     <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.setState(prevState => ({ dropdownOpen: !prevState.dropdownOpen }))}>
-                        <DropdownToggle caret>
-                           More Actions
+               </div>
+               {NBSP}
+               <div>
+                  <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.setState(prevState => ({ dropdownOpen: !prevState.dropdownOpen }))}>
+                     <DropdownToggle caret>
+                        More Actions
                         </DropdownToggle>
-                        <DropdownMenu>
-                           <DropdownItem disabled>Export Search (coming soon)</DropdownItem>
-                           <DropdownItem divider />
-                           <DropdownItem disabled={isEmpty(this.state.queryData)} onClick={() => this.setState({ copyToClipBoardToggle: !this.state.copyToClipBoardToggle })}>Save Query</DropdownItem>
-                           <DropdownItem onClick={() => this.setState({ pasteFromClipBoardToggle: !this.state.pasteFromClipBoardToggle })}>Paste Query</DropdownItem>
-                        </DropdownMenu>
-                     </Dropdown>
-                     <CopyToClipBoardModal
-                        openStatus={this.state.copyToClipBoardToggle}
-                        query={buildQueryString(this.state.queryData)}
-                        endpoint="univCollaborator"
-                        toggle={() => this.setState(
-                           {
-                              copyToClipBoardToggle: !this.state.copyToClipBoardToggle
-                           })}
-                        size='lg'
-                     />
-                     <PasteFromCipboardModal
-                        openStatus={this.state.pasteFromClipBoardToggle}
-                        endpoint="univCollaborator"
-                        history={this.props.history}
-                        toggle={() => this.setState(
-                           {
-                              pasteFromClipBoardToggle: !this.state.pasteFromClipBoardToggle
-                           })}
-                        size='lg'
-                     />
-                     
-                  </div>
-               </Row>
-            </Col>
+                     <DropdownMenu>
+                        <DropdownItem disabled>Export Search (coming soon)</DropdownItem>
+                        <DropdownItem divider />
+                        <DropdownItem disabled={isEmpty(this.state.queryData)} onClick={() => this.setState({ copyToClipBoardToggle: !this.state.copyToClipBoardToggle })}>Save Query</DropdownItem>
+                        <DropdownItem onClick={() => this.setState({ pasteFromClipBoardToggle: !this.state.pasteFromClipBoardToggle })}>Paste Query</DropdownItem>
+                     </DropdownMenu>
+                  </Dropdown>
+                  <CopyToClipBoardModal
+                     openStatus={this.state.copyToClipBoardToggle}
+                     query={buildQueryString(this.state.queryData)}
+                     endpoint="univCollaborator"
+                     toggle={() => this.setState(
+                        {
+                           copyToClipBoardToggle: !this.state.copyToClipBoardToggle
+                        })}
+                     size='lg'
+                  />
+                  <PasteFromCipboardModal
+                     openStatus={this.state.pasteFromClipBoardToggle}
+                     endpoint="univCollaborator"
+                     history={this.props.history}
+                     toggle={() => this.setState(
+                        {
+                           pasteFromClipBoardToggle: !this.state.pasteFromClipBoardToggle
+                        })}
+                     size='lg'
+                  />
+
+               </div>
+            </Row>
          </Form>
       );
    }

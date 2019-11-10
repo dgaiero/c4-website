@@ -141,6 +141,13 @@ class Collaborations(models.Model):
          verbose_name="Collaboration Name",
          unique=True
    )
+   collaborationDescription = models.TextField(
+       verbose_name="Description",
+       help_text="A short, optional description of the collaboration.",
+       blank=True,
+       null=True
+   )
+   dateAdded = models.DateTimeField(auto_now_add=True)
    class Meta:
       verbose_name = 'Collaboration'
       verbose_name_plural = 'Collaborations'

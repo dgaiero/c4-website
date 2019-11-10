@@ -12,6 +12,8 @@ class CollaborationResource(resources.ModelResource):
       attribute='collaborationName',
       column_name=('Collaboration Name')
    )
+collaborationDescription = fields.Field(
+       column_name='Collaboration Description', attribute='collaborationDescription')
 
 class OrganizationResource(resources.ModelResource):
 

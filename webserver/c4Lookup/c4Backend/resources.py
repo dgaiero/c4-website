@@ -18,7 +18,7 @@ class CollaborationResource(resources.ModelResource):
    class Meta:
       skip_unchanged = True
       report_skipped = False
-      model = Organization
+      model = Collaborations
       exclude = ('id', 'dateAdded')
       import_id_fields = ('collaborationName', 'collaborationDescription')
       fields = ('id', 'collaborationName', 'collaborationDescription',)

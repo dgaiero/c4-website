@@ -61,10 +61,11 @@ class KeywordAdmin(ImportExportModelAdmin):
 class CollaborationAdmin(ImportExportModelAdmin):
    resource_class = CollaborationResource
    fieldsets = [
-      ('Collaboration Information', {'fields': ['collaborationName']})
+       ('Collaboration Information', {'fields': [
+        'collaborationName', 'collaborationDescription']})
    ]
    search_fields = ['collaborationName']
-   list_display = ('collaborationName',)
+   list_display = ('collaborationName', 'collaborationDescription')
    list_filter = ('collaborationName',)
 
 # admin.site.register(Organization)

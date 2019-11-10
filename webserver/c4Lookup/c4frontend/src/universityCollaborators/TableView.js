@@ -76,6 +76,11 @@ class TableView extends Component {
                   </p>
                </Alert> :
                <>
+                  <div className="clearfix">
+                     <p className="text-muted float-right">Your query returned
+                        exactly {this.props.univCollaborators.length} results.
+                     </p>
+                  </div>
                   <Table hover responsive>
                      <thead>
                         <tr>

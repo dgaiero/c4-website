@@ -1,10 +1,11 @@
-import React from 'react';
 import './App.css';
 
-import { Provider } from 'react-redux';
+import { Route, BrowserRouter as Router } from 'react-router-dom'
+
 import PropTypes from 'prop-types'
+import { Provider } from 'react-redux';
+import React from 'react';
 import RootContainer from './RootContainer';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 const App = ({ store }) => (
    <Provider store={store}>

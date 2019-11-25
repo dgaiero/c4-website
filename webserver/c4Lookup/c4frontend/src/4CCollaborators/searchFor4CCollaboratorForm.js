@@ -13,17 +13,17 @@ import {
    Label,
    Row
 } from 'reactstrap';
-import { NBSP, isEmptyUniv as isEmpty } from '../helper';
+import { NBSP, isEmptyOrg as isEmpty } from '../helper';
 import React, { Component } from 'react';
 
 import CopyToClipBoardModal from '../copyQueryToClipboard'
 import PasteFromCipboardModal from '../PasteQueryFromKeyboard'
 import Select from 'react-select'
-import { buildQueryString } from './searchForUniversity'
+import { buildQueryString } from './searchFor4CCollaborator'
 import { connect } from 'react-redux'
 import { withRouter } from "react-router";
 
-class SearchForUniversityForm extends Component {
+class SearchFor4CCollaboratorForm extends Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -40,16 +40,16 @@ class SearchForUniversityForm extends Component {
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
-      this.univOptions = this.getUnivertisyTypes();
+      this.orgOptions = this.getOrgTypes();
       this.aKeywords = this.getKeywordTypes('AK');
       this.tKeywords = this.getKeywordTypes('TK');
-      this.collaborations = this.getCollaborationsTypes();
+      this.collaborations = this.getCollaborationsTypes();;
    }
 
-   getUnivertisyTypes = () => {
-      const orgTypes = ["IO"]
-      let univOrgs = this.props.orgs.items.filter(function (org) { return orgTypes.includes(org.orgType) });
-      return univOrgs.map(org => ({ label: org.orgNameUnique, value: org.id }));
+   getOrgTypes = () => {
+      const orgTypes = ["CY", "CO", "NG", "RA"]
+      let orgs = this.props.orgs.items.filter(function (org) { return orgTypes.includes(org.orgType) });
+      return orgs.map(org => ({ label: org.orgNameUnique, value: org.id }));
    }
 
    getCollaborationsTypes = () => {
@@ -115,14 +115,14 @@ class SearchForUniversityForm extends Component {
             <Row>
                <Col>
                   <FormGroup>
-                     <Label>University Selection</Label>
+                     <Label>Organization Selection</Label>
                      <Select
-                        ref="universitySelection"
-                        name="universitySelection"
+                        ref="orgSelection"
+                        name="orgSelection"
 
-                        value={this.state.queryData.selectedUniversities}
-                        options={this.univOptions}
-                        onChange={(val) => this.handleChange({ target: { name: 'selectedUniversities', value: val } })}
+                        value={this.state.queryData.selectedOrganization}
+                        options={this.orgOptions}
+                        onChange={(val) => this.handleChange({ target: { name: 'selectedOrganization', value: val } })}
                         isMulti={true}
                         autoBlur={false}
                         closeOnSelect={false}
@@ -212,7 +212,7 @@ class SearchForUniversityForm extends Component {
                   <CopyToClipBoardModal
                      openStatus={this.state.copyToClipBoardToggle}
                      query={buildQueryString(this.state.queryData)}
-                     endpoint="univCollaborator"
+                     endpoint="4CCollaborator"
                      toggle={() => this.setState(
                         {
                            copyToClipBoardToggle: !this.state.copyToClipBoardToggle
@@ -221,7 +221,7 @@ class SearchForUniversityForm extends Component {
                   />
                   <PasteFromCipboardModal
                      openStatus={this.state.pasteFromClipBoardToggle}
-                     endpoint="univCollaborator"
+                     endpoint="4CCollaborator"
                      history={this.props.history}
                      toggle={() => this.setState(
                         {
@@ -243,9 +243,9 @@ const mapStateToProps = state => ({
    orgs: state.orgs,
    keywords: state.keywords,
    collaborations: state.collaborations,
-   collaborators: state.univCollaborators,
+   collaborators: state.orgCollaborators,
 })
 
-SearchForUniversityForm = withRouter(SearchForUniversityForm);
+SearchFor4CCollaboratorForm = withRouter(SearchFor4CCollaboratorForm);
 
-export default connect(mapStateToProps)(SearchForUniversityForm);
+export default connect(mapStateToProps)(SearchFor4CCollaboratorForm);

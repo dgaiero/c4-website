@@ -1,18 +1,22 @@
-import React, { Component } from 'react';
-import Loading from './Loading'
 import './App.css';
-import { connect } from 'react-redux';
-import TableView from './universityCollaborators/TableView'
-import Navigation from './Navigation'
-import DebugMessage from './DebugMessage'
-import { fetchSettings }from './actions/settingsActions'
-import FrontPageCards from './indexPage';
+
+import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
-import ParseSaveQuery from './ParseSaveQuery'
+
+import C4TableView from './4CCollaborators/TableView'
+import FrontPageCards from './indexPage';
 import Loader from './loader';
+import Loading from './Loading'
+import Navigation from './Navigation'
 import NotFound from './404'
-import ComingSoon from './ComingSoon'
+import ParseSaveQuery from './ParseSaveQuery'
+import UnivTableView from './universityCollaborators/TableView'
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { fetchSettings } from './actions/settingsActions'
+
+// import DebugMessage from './DebugMessage'
+// import ComingSoon from './ComingSoon'
 
 axios.defaults.baseURL = "https://api.centralcoastclimate.org"
 // axios.defaults.baseURL = "http://192.168.86.218:8000"
@@ -31,15 +35,15 @@ class RootContainer extends Component {
       return (
          <main className="App content">
             <Loading body={loader} status={loadStatus} />
-                  <DebugMessage />
-                  <Navigation />
-                  <Switch>
-                     <Route path="/" exact component={FrontPageCards} />
-                     <Route path="/save/:id?" component={ParseSaveQuery} />
-                     <Route path="/univCollaborator/" exact component={TableView} />
-                     <Route path="/4CCollaborator/" exact component={ComingSoon} />
-                     <Route component={NotFound} status={404}/>
-                  </Switch>
+            {/* <DebugMessage /> */}
+            <Navigation />
+            <Switch>
+               <Route path="/" exact component={FrontPageCards} />
+               <Route path="/save/:id?" component={ParseSaveQuery} />
+               <Route path="/univCollaborator/" exact component={UnivTableView} />
+               <Route path="/4CCollaborator/" exact component={C4TableView} />
+               <Route component={NotFound} status={404} />
+            </Switch>
          </main>
       );
    }
@@ -47,9 +51,8 @@ class RootContainer extends Component {
 
 const mapStateToProps = state => ({
    settings: state.settings,
-   keywords: state.keywords,
-   orgs: state.orgs,
-   collaborators: state.collaborators
+   orgCollaborators: state.C4Collaborators,
+   univCollaborators: state.univCollaborators,
 })
 
 const mapDispatchToProps = {

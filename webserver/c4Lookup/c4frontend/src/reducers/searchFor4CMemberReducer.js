@@ -1,4 +1,4 @@
-import { UnivActions } from '../actions/searchForUnivCollaboratorActions'
+import { C4Actions } from '../actions/searchFor4CMemberActions'
 
 const initialState = {
    items: [],
@@ -9,37 +9,37 @@ const initialState = {
       activityKeywords: [],
       topicalKeywords: [],
       collaborations: [],
-      selectedUniversities: [],
+      selectedOrganization: [],
    }
 }
 
-export default function univCollaboratorsReducer(state = initialState, action) {
+export default function C4MembersReducer(state = initialState, action) {
    switch(action.type) {
-      case UnivActions.UNIV_FETCH_COLLABORATORS_BEGIN:
+      case C4Actions.C4_FETCH_COLLABORATORS_BEGIN:
          return {
             ...state,
             loading: true,
             error: null,
          }
-      case UnivActions.UNIV_FETCH_COLLABORATORS_SUCCESS:
+      case C4Actions.C4_FETCH_COLLABORATORS_SUCCESS:
          return {
             ...state,
             loading: false,
-            items: action.payload.collaborators.filter(user => user.userType === 'US'),
+            items: action.payload.collaborators.filter(user => user.userType !== 'US'),
          }
-      case UnivActions.UNIV_FETCH_COLLABORATORS_FAILURE:
+      case C4Actions.C4_FETCH_COLLABORATORS_FAILURE:
          return {
             ...state,
             loading: false,
             error: action.payload.error,
             items: [],
          }
-      case UnivActions.UNIV_SET_QUERY_STATEMENT:
+      case C4Actions.C4_SET_QUERY_STATEMENT1:
          return {
             ...state,
             selectedQueryStatements: action.payload.query,
          }
-      case UnivActions.UNIV_SET_URL:
+      case C4Actions.C4_SET_URL:
          return {
             ...state,
             url: action.payload.url,

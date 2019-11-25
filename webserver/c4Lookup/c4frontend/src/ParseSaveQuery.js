@@ -1,14 +1,17 @@
-import React, { Component } from 'react';
 import {
-   Jumbotron,
-   Button
+   Button,
+   Jumbotron
 } from 'reactstrap';
 import { NavLink as RRNavLink, Redirect } from 'react-router-dom';
-import { withRouter } from "react-router";
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
 
-import { setQueryStatement } from './actions/searchForUnivCollaboratorActions'
 import Title from './head'
+import { connect } from 'react-redux'
+import { withRouter } from "react-router";
+
+// import { setQueryStatement } from './actions/searchForUnivCollaboratorActions'
+
+
 var base64 = require('base-64');
 
 class ParseSaveQuery extends Component {
@@ -19,7 +22,7 @@ class ParseSaveQuery extends Component {
       this.props.setQueryStatement({
          activityKeywords: [],
          topicalKeywords: [],
-          collaborations: [],
+         collaborations: [],
          selectedUniversities: [],
       })
    }
@@ -83,10 +86,6 @@ const mapStateToProps = state => ({
    collaborators: state.collaborators,
 })
 
-const mapDispatchToProps = {
-   setQueryStatement,
-};
-
 ParseSaveQuery = withRouter(ParseSaveQuery);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ParseSaveQuery);
+export default connect(mapStateToProps)(ParseSaveQuery);

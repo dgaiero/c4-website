@@ -1,16 +1,23 @@
-import React, { Component } from 'react';
-import {
-   Modal, ModalHeader, ModalBody, Button, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Alert
-} from 'reactstrap';
-
-import { Link } from 'react-router-dom';
 import '../App.css';
-import { NBSP } from '../helper'
 
+import {
+   Alert,
+   Button,
+   ListGroup,
+   ListGroupItem,
+   ListGroupItemHeading,
+   ListGroupItemText,
+   Modal,
+   ModalBody,
+   ModalHeader
+} from 'reactstrap';
+import React, { Component } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { Link } from 'react-router-dom';
+import { NBSP } from '../helper'
 import { faLifeRing } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 library.add(faLifeRing);
 
@@ -31,10 +38,11 @@ class HowToSearchModal extends Component {
                <ModalHeader toggle={() => this.setState({ modal: !this.state.modal })}><FontAwesomeIcon icon="life-ring" /> Need Help?</ModalHeader>
                <ModalBody>
                   <Alert color="info">
-                     If you're looking for potential university collaborators, then
-                     you're in the right place! If instead, you want to search for NGO or
-                     government (city, regional, county), you'll need to go{NBSP}
-                     <Link to="4CCollaborator">here</Link>.
+                     If you're looking for NGO or government (city, regional, county)
+                     collaborators, then you're in the right place!
+                     If instead, you want to search for university collaborators
+                     , you'll need to go{NBSP}
+                     <Link to="univCollaborator">here</Link>.
                   </Alert>
 
                   <ListGroup>
@@ -44,12 +52,12 @@ class HowToSearchModal extends Component {
                            <p>Not sure how to use this tool? Here are a couple of
                            tips to get started.</p>
                            <p>Here is a general formula for searching:{NBSP}
-                           <em>Query = University AND (Activity Keywords OR 
+                           <em>Query = Organization AND (Activity Keywords OR 
                               Topical Keywords) AND Collaborations</em>.
                            </p>
                            <p>
                               This means that your results will contain members
-                              from any university you selected that match any of
+                              from any organization you selected that match any of
                               the keywords (activity and topical) and each person
                               identifies with the collaborations selected.
                            </p>
@@ -57,9 +65,9 @@ class HowToSearchModal extends Component {
                               It's best to start broad and narrow your search
                               results. If you are looking for a person that
                               specializes in water, you may want to start with
-                              the keywords and omit any university selection at
+                              the keywords and omit any organization selection at
                               the start (unless you only want someone from a
-                              specific univeristy). Then, select activity and
+                              specific organization). Then, select activity and
                               topical high level keywords to get an idea of who
                               specializes in water. At this point, if you know
                               what types of collaborations you are looking for,
@@ -73,14 +81,14 @@ class HowToSearchModal extends Component {
                         </ListGroupItemText>
                      </ListGroupItem>
                      <ListGroupItem>
-                        <ListGroupItemHeading>Universities</ListGroupItemHeading>
+                        <ListGroupItemHeading>Organizations</ListGroupItemHeading>
                         <ListGroupItemText>
-                           To select universities that you can collaborate with,
-                           use the <code>University Selection</code> dropdown.
-                           You can select universities and departments or, you
-                           can start typing in the field to filter universities.
-                           To select an entire univeristy, you'll need to
-                           individually select each department.
+                           To select organizations that you can collaborate with,
+                           use the <code>Organization Selection</code> dropdown.
+                           You can select organizations and departments or, you
+                           can start typing in the field to filter organizations.
+                           To select an organization with multiple departments,
+                           you will need to select each org + department pair.
                         </ListGroupItemText>
                      </ListGroupItem>
 

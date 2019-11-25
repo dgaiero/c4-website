@@ -15,12 +15,12 @@ import Loading from '../Loading'
 import Obfuscate from 'react-obfuscate'
 import Organizations from '../Organizations'
 import PaginationWrapper from '../Pagination'
-import SearchForCollaborator from './searchForUniversity'
+import SearchForCollaborator from './searchFor4CCollaborator'
 import UserDetail from '../User'
 import { connect } from 'react-redux'
 import { fetchCollaborations } from '../actions/collaborationsActions'
-import { fetchKeywords } from '../actions/keywordActions'
-import { fetchOrganizations } from '../actions/organizationActions'
+import {fetchKeywords} from '../actions/keywordActions'
+import {fetchOrganizations} from '../actions/organizationActions'
 
 class TableView extends Component {
    constructor(props) {
@@ -41,11 +41,6 @@ class TableView extends Component {
    onChangePage(pageOfItems) {
       this.setState({ pageItems: pageOfItems })
    }
-
-   filterUnivResults = (user) => {
-   const userOrgs = user.organization.map(orgID => this.props.orgs[orgID]);
-   return userOrgs.map(org => ["IO"].includes(org.orgType));
-   };
 
    renderDisplayUserItems = () => {
       const items = this.state.pageItems;
@@ -68,16 +63,15 @@ class TableView extends Component {
          { friendlyName: 'Keywords', condition: this.props.keywordsLoading, error: this.props.keywordError },
          { friendlyName: 'Organizations', condition: this.props.orgsLoading, error: this.props.orgError },
          { friendlyName: 'Collaborations', condition: this.props.collaborationsLoading, error: this.props.collaborationsError },
-         { friendlyName: 'University Collaborators', condition: this.props.univCollaboratorsLoading, error: this.props.univCollaboratorsError },
+         { friendlyName: 'Organization Collaborators', condition: this.props.C4CollaboratorsLoading, error: this.props.C4CollaboratorsError },
       ]
-      let loadStatus = Loader.calculateLoadingState(loader); 
-      
+      let loadStatus = Loader.calculateLoadingState(loader);      
       return (
          <>
             <Loading body={loader} status={loadStatus} />
             {(!this.props.keywordsLoading || this.props.keywords === []) && (!this.props.orgsLoading || this.props.orgs === []) && (!this.props.collaborationsLoading || this.props.collaborations === []) ? <SearchForCollaborator /> : null }
          <Container fluid>
-            {this.props.univCollaborators.length === 0 ? 
+            {this.props.C4Collaborators.length === 0 ? 
                <Alert color="info">
                   <h4 className="alert-heading">No Results</h4>
                   <p>
@@ -87,12 +81,9 @@ class TableView extends Component {
                </Alert> :
                <>
                   <div className="clearfix">
-                        {!(this.props.orgsLoading || this.props.orgError) && !(this.univCollaboratorsLoading || this.univCollaboratorsError) ? 
-                        <p className="text-muted float-right">Your query returned
-                           exactly {this.props.univCollaborators.length} results.
-                        </p> : 'Loading'
-                     }
-                     
+                     <p className="text-muted float-right">Your query returned
+                        exactly {this.props.C4Collaborators.length} results.
+                     </p>
                   </div>
                   <Table hover responsive>
                      <thead className="thead-light">
@@ -110,7 +101,7 @@ class TableView extends Component {
                      </tbody>
                   </Table>
                   <div className="centerd-pagination">
-                        <PaginationWrapper pageSize={this.state.pageSize} items={this.props.univCollaborators} onChangePage={this.onChangePage} />
+                     <PaginationWrapper pageSize={this.state.pageSize} items={this.props.C4Collaborators} onChangePage={this.onChangePage} />
                   </div>
                </>
             }
@@ -129,9 +120,9 @@ const mapStateToProps = state => ({
    orgsLoading: state.orgs.loading,
    orgError: state.orgs.error,
 
-   univCollaborators: state.univCollaborators.items,
-   univCollaboratorsLoading: state.univCollaborators.loading,
-   univCollaboratorsError: state.univCollaborators.error,
+   C4Collaborators: state.C4Collaborators.items,
+   C4CollaboratorsLoading: state.C4Collaborators.loading,
+   C4CollaboratorsError: state.C4Collaborators.error,
 
    collaborations: state.collaborations.items,
    collaborationsLoading: state.collaborations.loading,

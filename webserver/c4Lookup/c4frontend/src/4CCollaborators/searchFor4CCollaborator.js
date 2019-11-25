@@ -7,21 +7,20 @@ import {
    Row,
 } from 'reactstrap';
 import React, { Component } from 'react';
-import { fetchUnivCollaborators, setURL, setUnivQueryStatement } from '../actions/searchForUnivCollaboratorActions'
+import { fetch4CMembers, setQueryStatement, setURL } from '../actions/searchFor4CMemberActions'
 
 import HowToSearchModal from './HowToSearchModal'
-import SearchForCollaboratorForm from './searchForUniversityForm';
+import SearchForCollaboratorForm from './searchFor4CCollaboratorForm';
 import Title from '../head'
 import { connect } from 'react-redux'
-import { isEmptyUniv as isEmpty } from '../helper'
-import { toggleSearchForUnivCollaborator } from '../actions/menuActions'
+import { isEmptyOrg as isEmpty } from '../helper'
 import { withRouter } from "react-router";
 
 const queryString = require('query-string');
 
 
 export function buildURL(item) {
-   let org = item.selectedUniversities;
+   let org = item.selectedOrganization;
    let activityKeywords = item.activityKeywords;
    let topicalKeywords = item.topicalKeywords;
    let collaborations = item.collaborations;
@@ -51,7 +50,7 @@ export function buildURL(item) {
 }
 
 export function buildQueryString(item) {
-   let org = item.selectedUniversities;
+   let org = item.selectedOrganization;
    let activityKeywords = item.activityKeywords;
    let topicalKeywords = item.topicalKeywords;
    let collaborations = item.collaborations;
@@ -80,7 +79,7 @@ export function buildQueryString(item) {
    return params;
 }
 
-class SearchForUnivCollaborator extends Component {
+class SearchForCollaborator extends Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -88,7 +87,7 @@ class SearchForUnivCollaborator extends Component {
             activityKeywords: [],
             topicalKeywords: [],
             collaborations: [],
-            selectedUniversities: [],
+            selectedOrganization: [],
          },
          readParams : false,
          initialLoad: false
@@ -101,13 +100,15 @@ class SearchForUnivCollaborator extends Component {
    componentDidMount() {
       if (isEmpty(this.props.collaborators.selectedQueryStatements)) {
          this.readParams()
-         
       }
-      // else {
-      //    this.props.fetchUnivCollaborators(buildURL(this.props.collaborators.selectedQueryStatements));
-      //    this.props.history.push(`?${buildQueryString(this.props.collaborators.selectedQueryStatements)}`);
-      //    this.setState({ readParams: true })
-      // }
+      else {
+         this.props.fetch4CMembers(buildURL(this.props.collaborators.selectedQueryStatements));
+         this.props.history.push(`?${buildQueryString(this.props.collaborators.selectedQueryStatements)}`);
+         this.setState({ readParams: true })
+      }
+      // this.props.fetch4CMembers(buildURL(this.props.collaborators.selectedQueryStatements));
+      // this.props.history.push(`?${buildQueryString(this.props.collaborators.selectedQueryStatements)}`);
+      // this.setState({ readParams: true })
    }
 
    readParams() {
@@ -148,10 +149,10 @@ class SearchForUnivCollaborator extends Component {
          activityKeywords: aKey,
          topicalKeywords: tKey,
          collaborations: cKey,
-         selectedUniversities: orgsA,
+         selectedOrganization: orgsA
       }
-      this.props.setUnivQueryStatement(selectedQueryStatements)
-      this.props.fetchUnivCollaborators(buildURL(selectedQueryStatements));
+      this.props.setQueryStatement(selectedQueryStatements)
+      this.props.fetch4CMembers(buildURL(selectedQueryStatements));
       this.setState({readParams: true})
    }
 
@@ -159,20 +160,20 @@ class SearchForUnivCollaborator extends Component {
       if (this.props.collaborators.selectedQueryStatements === item) {
          return
       }
-      this.props.setUnivQueryStatement(item);
+      this.props.setQueryStatement(item);
       this.props.history.push(`?${buildQueryString(item)}`);
-      this.props.fetchUnivCollaborators(buildURL(item));
+      this.props.fetch4CMembers(buildURL(item));
    }
 
    render() {
       return (
          <>
-            <Title name="Search for University Collaborator" />
+            <Title name="Search for 4C Member" />
             <Jumbotron fluid>
                <Container fluid>
                   <Row>
                   <Col sm={{ size: 6, order: 2, offset: 1 }}>
-                     <h1 className="display-3">Looking for a Collaborator?</h1>
+                     <h1 className="display-3">Looking for a 4C Member?</h1>
                      <p className="lead">Use the form below to query potential collaborators.</p>
                      <HowToSearchModal />
                      <hr className="my-2" />
@@ -195,20 +196,19 @@ const mapStateToProps = state => ({
    orgs: state.orgs,
    keywords: state.keywords,
    collaborations: state.collaborations,
-   collaborators: state.univCollaborators,
+   collaborators: state.C4Collaborators,
 })
 
 const mapDispatchToProps = {
-   toggleSearchForUnivCollaborator,
-   fetchUnivCollaborators,
+   fetch4CMembers,
    setURL,
-   setUnivQueryStatement,
+   setQueryStatement,
 };
 
 // function mapDispatchToProps(dispatch) {
 //    return bindActionCreators({ toggleSearchForCollaborator, fetchCollaborators}, dispatch)
 // }
 
-SearchForUnivCollaborator = withRouter(SearchForUnivCollaborator);
+SearchForCollaborator = withRouter(SearchForCollaborator);
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchForUnivCollaborator);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchForCollaborator);

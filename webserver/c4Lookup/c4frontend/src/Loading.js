@@ -1,13 +1,14 @@
+import './App.css';
+
 import React, { Component } from 'react';
+
+import ErrorModal from './AdditionalDataModal';
+import LoadingModal from './LoadingModal'
 import {
    Spinner,
 } from 'reactstrap';
-import ErrorModal from './AdditionalDataModal';
-import LoadingModal from './LoadingModal'
-import './App.css';
 import { connect } from 'react-redux'
 import { toTitleCase } from './helper'
-
 
 class Loading extends Component {
    constructor(props) {
@@ -33,7 +34,7 @@ class Loading extends Component {
       let bodyText = []
       try {
          const errorJSON = Object.entries(error.response.data)
-         errorJSON.map((([key, value]) => {
+         errorJSON.forEach((([key, value]) => {
             bodyText.push(<span key={key}><b>{toTitleCase(key)}</b>: {value.toString()}</span>)
          }))
       }

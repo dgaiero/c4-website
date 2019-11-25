@@ -1,12 +1,11 @@
-import {combineReducers} from 'redux'
-
-import settings from './settingsReducer'
-import keywords from './keywordReducer'
-import orgs from './organizationReducer'
-import nav from './menuReducer'
+import C4Collaborators from './searchFor4CMemberReducer'
 import collaborations from './collaborationsReducer'
-import univCollaborators from './searchForUnivCollaboratorReducer'
-
+import {combineReducers} from 'redux'
+import keywords from './keywordReducer'
+import nav from './menuReducer'
+import orgs from './organizationReducer'
+import settings from './settingsReducer'
+import univCollaborators from './searchForUnivCollaboratorReducer';
 
 export default combineReducers({
    settings,
@@ -14,6 +13,7 @@ export default combineReducers({
    orgs,
    nav,
    univCollaborators,
+   C4Collaborators,
    collaborations,
 
 });

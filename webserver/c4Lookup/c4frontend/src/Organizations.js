@@ -3,6 +3,8 @@ import {
    Button,
    Badge,
    ListGroupItem,
+   ListGroupItemHeading,
+   ListGroupItemText,
    ListGroup,
 } from 'reactstrap';
 
@@ -55,14 +57,8 @@ class Organizations extends Component {
       organizationIDs.map(
          organizationID => (
             modalBody.push(
-               <ListGroupItem
-                  key={organizationID}
-                  tag="a"
-                  onClick={() => this.showOrgExtendedData(organizationID)}
-                  href="#0"
-                  action
-               >
-                  {this.props.orgs[organizationID].orgNameUnique}
+               <ListGroupItem key={organizationID} >
+                  {this.showOrgExtendedData(organizationID)}
                </ListGroupItem>)))
       modalBody = <ListGroup>{modalBody}</ListGroup>
       return modalBody;
@@ -98,18 +94,22 @@ class Organizations extends Component {
 
    showOrgExtendedData(orgID) {
       let orgInfo = this.props.orgs[orgID];
-      let title = 
-         <div>
-            {this.props.orgs[orgID].orgNameUnique}
-            {NBSP}
-            <Badge color={getOrgType(orgInfo.orgType).color}>
-            {getOrgType(orgInfo.orgType).name}
-            </Badge>
-         </div>
-      let body = (orgInfo.website !== null && orgInfo.website !== "") ? (
-         <Button outline color="primary" size="sm" href={orgInfo.website} target="_blank" rel="noopener noreferrer">Visit Website</Button>
-      ) : "No website provided";
-      this.setState({ organizationDetailModalTitle: title, organizationDetailModalBody: body, showOrganizationDetailModal: !this.state.showOrganizationDetailModal });
+
+      return (
+         <>
+            <ListGroupItemHeading>
+               {this.props.orgs[orgID].orgNameUnique}
+               {NBSP}
+               <Badge color={getOrgType(orgInfo.orgType).color}>
+                  {getOrgType(orgInfo.orgType).name}
+               </Badge>
+            </ListGroupItemHeading>
+            <ListGroupItemText>
+               {(orgInfo.website !== null && orgInfo.website !== "") ? (
+                  <Button outline color="primary" size="sm" href={orgInfo.website} target="_blank" rel="noopener noreferrer">Visit Website</Button>
+               ) : "No website provided"}
+            </ListGroupItemText>
+         </>);
    }
 
    render() {

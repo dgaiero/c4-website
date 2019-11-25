@@ -1,24 +1,21 @@
-import React, { Component } from 'react';
-import {
-   Container,
-   Button,
-   Card,
-   CardDeck,
-   CardColumns,
-   CardFooter,
-   CardBody,
-   CardText,
-} from 'reactstrap';
 import './App.css';
 import './indexCards.css'
-import { connect } from 'react-redux';
-import WelcomeJumbotron from './WelcomeJumbotron';
-import { NavLink as RRNavLink } from 'react-router-dom';
+
+import {
+   Button,
+   Card,
+   CardBody,
+   CardDeck,
+   CardText,
+   Container,
+} from 'reactstrap';
+import React, { Component } from 'react';
 
 import PasteFromCipboardModal from './PasteQueryFromKeyboard'
+import { NavLink as RRNavLink } from 'react-router-dom';
 import Title from './head'
-
-
+import WelcomeJumbotron from './WelcomeJumbotron';
+import { connect } from 'react-redux';
 
 // const UnderConstructionCard = () => {
 //    return (

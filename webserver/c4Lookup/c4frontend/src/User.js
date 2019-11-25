@@ -1,20 +1,13 @@
-import React, { Component } from 'react';
-import {
-   Button,
-   Badge,
-} from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faInfo } from '@fortawesome/free-solid-svg-icons';
-
-import UserDetailModal from './AdditionalDataModal';
-import Obfuscate from 'react-obfuscate'
 import './App.css';
 
+import React, { Component } from 'react';
+
+import {
+   Badge,
+} from 'reactstrap';
 import { NBSP } from './helper'
-
-library.add(faInfo);
-
+import Obfuscate from 'react-obfuscate'
+import UserDetailModal from './AdditionalDataModal';
 
 function getUserTypes(shortUserType) {
    switch (shortUserType) {

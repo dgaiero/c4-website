@@ -1,19 +1,23 @@
-import React, { Component } from 'react';
+import './Modal.css';
+
 import {
    Button,
-   Modal,
-   ModalHeader,
-   ModalBody,
-   ModalFooter,
+   Input,
    InputGroup,
    InputGroupAddon,
-   Input,
-   UncontrolledPopover,
+   Modal,
+   ModalBody,
+   ModalFooter,
+   ModalHeader,
+   PopoverBody,
    PopoverHeader,
-   PopoverBody
+   UncontrolledAlert,
+   UncontrolledPopover
 } from 'reactstrap';
-import './Modal.css';
+import React, { Component } from 'react';
+
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+
 var base64 = require('base-64');
 
 
@@ -41,6 +45,9 @@ export default class CopyQueryToClipboard extends Component {
          <Modal isOpen={openStatus} toggle={toggle} centered size={size}>
             <ModalHeader toggle={toggle}>Copy Query to Clipboard</ModalHeader>
             <ModalBody>
+               <UncontrolledAlert  color="info">
+                  Copying a code is coming soon
+               </UncontrolledAlert>
                Saving or sharing a query is easy! You can copy the code below to
                your clipboard and paste it in on this page later, or you can copy
                the sharable URL.< br />
@@ -52,7 +59,7 @@ export default class CopyQueryToClipboard extends Component {
 
                      <CopyToClipboard text={encodedQuery}
                         onCopy={() => this.setState({ copyCode: true })}>
-                        <Button id="copyCodeToClipboard" color="success">Copy to clipboard</Button>
+                        <Button disabled id="copyCodeToClipboard" color="success">Copy to clipboard</Button>
                      </CopyToClipboard>
                      <UncontrolledPopover trigger="focus" placement="right" target="copyCodeToClipboard">
                         <PopoverHeader>Copied Code to Clipboard</PopoverHeader>

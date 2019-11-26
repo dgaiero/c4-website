@@ -17,22 +17,22 @@ import Title from './head'
 import WelcomeJumbotron from './WelcomeJumbotron';
 import { connect } from 'react-redux';
 
-// const UnderConstructionCard = () => {
-//    return (
-//       <Card className="cardHideOverflow card-no-border shadow text-light">
-//             <div style={{ border: '1px solid rgb(33, 37, 41)', overflow: 'hidden', borderRadius: '.25rem', 'zIndex': '300', 'height': '100%', 'position': 'relative' }}>
-//                 <span className="newFeaturesBanner"><b>New Features Coming Soon!</b></span>
-//                 <div className="underConstructionCardImage">
-//                 <CardBody>
-//                     <h5 className='cardTitle'>Under Construction</h5>
-//                     <CardText>New features will be coming soon!</CardText>
-//                 </CardBody>
-//                 <div className="card-footer-light"><Button color="light" disabled>Button Coming Soon</Button></div>
-//                 </div>
-//             </div>
-//          </Card>
-//    )
-// }
+const UnderConstructionCard = () => {
+   return (
+      <Card className="cardHideOverflow card-no-border shadow text-light">
+            <div className="card-defaults">
+                <span className="newFeaturesBanner"><b>New Features Coming Soon!</b></span>
+                <div className="underConstructionCardImage">
+                <CardBody>
+                    <h5 className='cardTitle'>Under Construction</h5>
+                    <CardText>New features will be coming soon!</CardText>
+                </CardBody>
+                <div className="card-footer-light"><Button color="light" disabled>Button Coming Soon</Button></div>
+                </div>
+            </div>
+         </Card>
+   )
+}
 
 const LookingForUnivCollaboratorCard = () => {
    return (
@@ -110,8 +110,8 @@ class FrontPageCards extends Component {
                <CardDeck className="card-deck-overrides">
                   <LookingForUnivCollaboratorCard />
                   <LookingFor4CCollaboratorCard />
-                  {/* <UnderConstructionCard /> */}
-                  <this.PasteQCode />
+                  <UnderConstructionCard />
+                  {/* <this.PasteQCode /> */}
                </CardDeck>
             </Container>
         </>

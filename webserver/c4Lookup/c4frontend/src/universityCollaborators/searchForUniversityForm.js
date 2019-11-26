@@ -206,7 +206,7 @@ class SearchForUniversityForm extends Component {
                         {/* <DropdownItem disabled>Export Search (coming soon)</DropdownItem> */}
                         {/* <DropdownItem divider /> */}
                         <DropdownItem disabled={isEmpty(this.state.queryData)} onClick={() => this.setState({ copyToClipBoardToggle: !this.state.copyToClipBoardToggle })}>Save Query</DropdownItem>
-                        <DropdownItem onClick={() => this.setState({ pasteFromClipBoardToggle: !this.state.pasteFromClipBoardToggle })}>Paste Query</DropdownItem>
+                        <DropdownItem disabled onClick={() => this.setState({ pasteFromClipBoardToggle: !this.state.pasteFromClipBoardToggle })}>Paste Query (coming soon)</DropdownItem>
                      </DropdownMenu>
                   </Dropdown>
                   <CopyToClipBoardModal

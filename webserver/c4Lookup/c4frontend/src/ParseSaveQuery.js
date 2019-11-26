@@ -3,10 +3,12 @@ import {
    Jumbotron
 } from 'reactstrap';
 import { NavLink as RRNavLink, Redirect } from 'react-router-dom';
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 import Title from './head'
 import { connect } from 'react-redux'
+import { setQueryStatement as setOrgQueryStatement } from './actions/searchFor4CMemberActions'
+import { setUnivQueryStatement } from './actions/searchForUnivCollaboratorActions'
 import { withRouter } from "react-router";
 
 // import { setQueryStatement } from './actions/searchForUnivCollaboratorActions'
@@ -19,11 +21,17 @@ class ParseSaveQuery extends Component {
       super(props);
       this.state = { seconds: 5 }
       this.tick = this.tick.bind(this)
-      this.props.setQueryStatement({
+      this.props.setUnivQueryStatement({
          activityKeywords: [],
          topicalKeywords: [],
          collaborations: [],
          selectedUniversities: [],
+      })
+      this.props.setOrgQueryStatement({
+         activityKeywords: [],
+         topicalKeywords: [],
+         collaborations: [],
+         selectedOrganization: [],
       })
    }
 
@@ -86,6 +94,11 @@ const mapStateToProps = state => ({
    collaborators: state.collaborators,
 })
 
+const mapDispatchToProps = {
+   setUnivQueryStatement,
+   setOrgQueryStatement,
+};
+
 ParseSaveQuery = withRouter(ParseSaveQuery);
 
-export default connect(mapStateToProps)(ParseSaveQuery);
+export default connect(mapStateToProps, mapDispatchToProps)(ParseSaveQuery);

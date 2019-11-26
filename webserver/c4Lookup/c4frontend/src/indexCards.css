@@ -79,6 +79,7 @@
       url(https://images.unsplash.com/photo-1478486982180-2de2fafa19f9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80);
    background-repeat: no-repeat;
    background-size: cover;
+   transform: scale(1.2);
 }
 
 
@@ -89,8 +90,9 @@
    z-index: 2;
    text-align: center;
    transform: translate(-50%, -50%);
-   background-color: rgba(255, 255, 255, 0.8);
+   /* background-color: rgba(0, 0, 0, 0.4); */
    width: 100%;
+   font-size: 1.8em;
    padding-top: 1em;
    padding-bottom: 1em;
 }

@@ -31,7 +31,7 @@ class TableView extends Component {
       };
       this.onChangePage = this.onChangePage.bind(this);
    }
-  
+
    componentDidMount() {
       this.props.fetchKeywords();
       this.props.fetchOrganizations();
@@ -43,8 +43,8 @@ class TableView extends Component {
    }
 
    filterUnivResults = (user) => {
-   const userOrgs = user.organization.map(orgID => this.props.orgs[orgID]);
-   return userOrgs.map(org => ["IO"].includes(org.orgType));
+      const userOrgs = user.organization.map(orgID => this.props.orgs[orgID]);
+      return userOrgs.map(org => ["IO"].includes(org.orgType));
    };
 
    renderDisplayUserItems = () => {
@@ -55,9 +55,9 @@ class TableView extends Component {
             <th scope="row">{item.firstName} {item.lastName}</th>
             <td>{!this.props.orgsLoading || this.props.orgs === [] ? <Organizations items={item.organization} displayLength={20} /> : <Spinner color="primary" />}</td>
             <td><Obfuscate email={item.emailAddress} /></td>
-            <td>{!this.props.keywordsLoading || this.props.keywords === [] ? <Keyword items={item.keywords} displayLength={25}/> : <Spinner color="primary" />}</td>
-            <td>{!this.props.collaborationsLoading || this.props.collaborations === [] ? <Collaborations items={item.collaborations} displayLength={25}/> : <Spinner color="primary" />}</td>
-            <td><UserDetail user={item}/></td>
+            <td>{!this.props.keywordsLoading || this.props.keywords === [] ? <Keyword items={item.keywords} displayLength={25} /> : <Spinner color="primary" />}</td>
+            <td>{!this.props.collaborationsLoading || this.props.collaborations === [] ? <Collaborations items={item.collaborations} displayLength={25} /> : <Spinner color="primary" />}</td>
+            <td><UserDetail user={item} /></td>
          </tr>
       ));
       return renderItems;
@@ -70,51 +70,51 @@ class TableView extends Component {
          { friendlyName: 'Collaborations', condition: this.props.collaborationsLoading, error: this.props.collaborationsError },
          { friendlyName: 'University Collaborators', condition: this.props.univCollaboratorsLoading, error: this.props.univCollaboratorsError },
       ]
-      let loadStatus = Loader.calculateLoadingState(loader); 
-      
+      let loadStatus = Loader.calculateLoadingState(loader);
+
       return (
          <>
             <Loading body={loader} status={loadStatus} />
-            {(!this.props.keywordsLoading || this.props.keywords === []) && (!this.props.orgsLoading || this.props.orgs === []) && (!this.props.collaborationsLoading || this.props.collaborations === []) ? <SearchForCollaborator /> : null }
-         <Container fluid>
-            {this.props.univCollaborators.length === 0 ? 
-               <Alert color="info">
-                  <h4 className="alert-heading">No Results</h4>
-                  <p>
-                     Hmm, it looks like there are no results with your
-                     current query. Try a different combination.
+            {(!this.props.keywordsLoading || this.props.keywords === []) && (!this.props.orgsLoading || this.props.orgs === []) && (!this.props.collaborationsLoading || this.props.collaborations === []) ? <SearchForCollaborator /> : null}
+            <Container fluid>
+               {this.props.univCollaborators.length === 0 ?
+                  <Alert color="info">
+                     <h4 className="alert-heading">No Results</h4>
+                     <p>
+                        Hmm, it looks like there are no results with your
+                        current query. Try a different combination.
                   </p>
-               </Alert> :
-               <>
-                  <div className="clearfix">
-                        {!(this.props.orgsLoading || this.props.orgError) && !(this.univCollaboratorsLoading || this.univCollaboratorsError) ? 
-                        <p className="text-muted float-right">Your query returned
+                  </Alert> :
+                  <>
+                     <div className="clearfix">
+                        {!(this.props.orgsLoading || this.props.orgError) && !(this.univCollaboratorsLoading || this.univCollaboratorsError) ?
+                           <p className="text-muted float-right">Your query returned
                            exactly {this.props.univCollaborators.length} results.
                         </p> : 'Loading'
-                     }
-                     
-                  </div>
-                  <Table hover responsive>
-                     <thead className="thead-light">
-                        <tr>
-                           <th>Name</th>
-                           <th>Organization(s)</th>
-                           <th>Email Address</th>
-                           <th>Keyword(s)</th>
-                           <th>Collaboration(s)</th>
-                           <th>More Information</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        {this.renderDisplayUserItems()}
-                     </tbody>
-                  </Table>
-                  <div className="centerd-pagination">
+                        }
+
+                     </div>
+                     <Table hover responsive className="table-curved">
+                        <thead className="thead-light">
+                           <tr>
+                              <th>Name</th>
+                              <th>Organization(s)</th>
+                              <th>Email Address</th>
+                              <th>Keyword(s)</th>
+                              <th>Collaboration(s)</th>
+                              <th>More Information</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           {this.renderDisplayUserItems()}
+                        </tbody>
+                     </Table>
+                     <div className="centerd-pagination">
                         <PaginationWrapper pageSize={this.state.pageSize} items={this.props.univCollaborators} onChangePage={this.onChangePage} />
-                  </div>
-               </>
-            }
-         </Container>
+                     </div>
+                  </>
+               }
+            </Container>
          </>
       );
    }

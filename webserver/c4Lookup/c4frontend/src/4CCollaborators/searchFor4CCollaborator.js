@@ -202,12 +202,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
    fetch4CMembers,
    setURL,
-   setQueryStatement,
+   setQueryStatement
 };
-
-// function mapDispatchToProps(dispatch) {
-//    return bindActionCreators({ toggleSearchForCollaborator, fetchCollaborators}, dispatch)
-// }
 
 SearchForCollaborator = withRouter(SearchForCollaborator);
 

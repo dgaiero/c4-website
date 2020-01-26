@@ -5,7 +5,8 @@ export const UnivActions = {
    UNIV_FETCH_COLLABORATORS_SUCCESS: 'UNIV_FETCH_COLLABORATORS_SUCCESS',
    UNIV_FETCH_COLLABORATORS_FAILURE: 'UNIV_FETCH_COLLABORATORS_FAILURE',
    UNIV_SET_QUERY_STATEMENT: 'UNIV_SET_QUERY_STATEMENT',
-   UNIV_SET_URL: 'UNIV_SET_URL'
+   UNIV_SET_URL: 'UNIV_SET_URL',
+   UNIV_TOGGLE_TOAST: 'UNIV_TOGGLE_TOAST',
 }
 
 export const fetchUnivCollaboratorsBegin = () => ({
@@ -30,6 +31,10 @@ export const setURL = (URL) => ({
 export const setUnivQueryStatement = (query) => ({
    type: UnivActions.UNIV_SET_QUERY_STATEMENT,
    payload: { query }
+})
+
+export const toggleToast = () => ({
+   type: UnivActions.UNIV_TOGGLE_TOAST
 })
 
 export const fetchUnivCollaborators = (url) => {

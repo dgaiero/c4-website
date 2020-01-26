@@ -5,7 +5,11 @@ import {
    Container,
    Spinner,
    Table,
+   Toast,
+   ToastBody,
+   ToastHeader
 } from 'reactstrap';
+import { Element, scroller } from 'react-scroll';
 import React, { Component } from 'react';
 
 import Collaborations from '../Collaborations'
@@ -21,6 +25,7 @@ import { connect } from 'react-redux'
 import { fetchCollaborations } from '../actions/collaborationsActions'
 import { fetchKeywords } from '../actions/keywordActions'
 import { fetchOrganizations } from '../actions/organizationActions'
+import { toggleToast } from '../actions/searchForUnivCollaboratorActions'
 
 class TableView extends Component {
    constructor(props) {
@@ -30,6 +35,7 @@ class TableView extends Component {
          pageSize: 30,
       };
       this.onChangePage = this.onChangePage.bind(this);
+      this.scrollToTable = this.scrollToTable.bind(this);
    }
 
    componentDidMount() {
@@ -40,6 +46,16 @@ class TableView extends Component {
 
    onChangePage(pageOfItems) {
       this.setState({ pageItems: pageOfItems })
+   }
+
+   toggleToastInter = () => this.props.toggleToast();
+
+   scrollToTable() {
+      scroller.scrollTo('resultsTable', {
+         duration: 500,
+         smooth: true,
+      });
+      this.props.toggleToast();
    }
 
    filterUnivResults = (user) => {
@@ -74,6 +90,17 @@ class TableView extends Component {
 
       return (
          <>
+         {this.props.univCollaborators.length > 0 ?
+            <div style={{ position: "relative", zIndex: "1000" }}>
+               <Toast isOpen={this.props.toastOpen} style={{ position: "fixed", top: "50px", right: "20px" }}>
+                  <ToastHeader toggle={this.toggleToastInter} icon="success">Results Loaded</ToastHeader>
+                  <ToastBody>
+                     <a href="#0" onClick={this.scrollToTable}>
+                        Click here to scroll to results.
+                     </a>
+                  </ToastBody>
+               </Toast>
+            </div> : null}
             <Loading body={loader} status={loadStatus} />
             {(!this.props.keywordsLoading || this.props.keywords === []) && (!this.props.orgsLoading || this.props.orgs === []) && (!this.props.collaborationsLoading || this.props.collaborations === []) ? <SearchForCollaborator /> : null}
             <Container fluid>
@@ -94,6 +121,7 @@ class TableView extends Component {
                         }
 
                      </div>
+                     <Element name="resultsTable">
                      <Table hover responsive className="table-curved">
                         <thead className="thead-light">
                            <tr>
@@ -109,6 +137,7 @@ class TableView extends Component {
                            {this.renderDisplayUserItems()}
                         </tbody>
                      </Table>
+                     </Element>
                      <div className="centerd-pagination">
                         <PaginationWrapper pageSize={this.state.pageSize} items={this.props.univCollaborators} onChangePage={this.onChangePage} />
                      </div>
@@ -132,6 +161,7 @@ const mapStateToProps = state => ({
    univCollaborators: state.univCollaborators.items,
    univCollaboratorsLoading: state.univCollaborators.loading,
    univCollaboratorsError: state.univCollaborators.error,
+   toastOpen: state.univCollaborators.showToast,
 
    collaborations: state.collaborations.items,
    collaborationsLoading: state.collaborations.loading,
@@ -141,7 +171,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
    fetchKeywords,
    fetchOrganizations,
-   fetchCollaborations
+   fetchCollaborations,
+   toggleToast,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableView);

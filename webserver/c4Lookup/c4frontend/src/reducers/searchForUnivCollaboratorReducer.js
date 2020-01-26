@@ -10,7 +10,8 @@ const initialState = {
       topicalKeywords: [],
       collaborations: [],
       selectedUniversities: [],
-   }
+   },
+   showToast: false,
 }
 
 export default function univCollaboratorsReducer(state = initialState, action) {
@@ -22,10 +23,12 @@ export default function univCollaboratorsReducer(state = initialState, action) {
             error: null,
          }
       case UnivActions.UNIV_FETCH_COLLABORATORS_SUCCESS:
+         const collaborators = action.payload.collaborators.filter(user => user.userType === 'US');
          return {
             ...state,
             loading: false,
-            items: action.payload.collaborators.filter(user => user.userType === 'US'),
+            items: collaborators,
+            showToast: collaborators.length > 0 ? true : false,
          }
       case UnivActions.UNIV_FETCH_COLLABORATORS_FAILURE:
          return {
@@ -43,6 +46,11 @@ export default function univCollaboratorsReducer(state = initialState, action) {
          return {
             ...state,
             url: action.payload.url,
+         }
+      case UnivActions.UNIV_TOGGLE_TOAST:
+         return {
+            ...state,
+            showToast: !state.showToast,
          }
       default:
          return state;

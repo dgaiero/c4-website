@@ -9,7 +9,6 @@ import {
    DropdownToggle,
    Form,
    FormGroup,
-   FormText,
    Label,
    Row
 } from 'reactstrap';
@@ -128,7 +127,7 @@ class SearchForUniversityForm extends Component {
                         closeOnSelect={false}
                         closeMenuOnSelect={false}
                      />
-                     <FormText>This field is optional, you can leave it blank to select all organiztions.</FormText>
+                     {/* <FormText>This field is optional, you can leave it blank to select all organiztions.</FormText> */}
                   </FormGroup>
                </Col>
             </Row>
@@ -147,7 +146,7 @@ class SearchForUniversityForm extends Component {
                         closeOnSelect={false}
                         closeMenuOnSelect={false}
                      />
-                     <FormText>This field is optional, you can leave it blank to select all activity keywords. <b>The level indicators only indicate scope, not priority or importance.</b></FormText>
+                     {/* <FormText>This field is optional, you can leave it blank to select all activity keywords. <b>The level indicators only indicate scope, not priority or importance.</b></FormText> */}
                   </FormGroup>
                </Col>
             </Row>
@@ -166,7 +165,7 @@ class SearchForUniversityForm extends Component {
                         closeOnSelect={false}
                         closeMenuOnSelect={false}
                      />
-                     <FormText>This field is optional, you can leave it blank to select all topical keywords. <b>The level indicators only indicate scope, not priority or importance.</b></FormText>
+                     {/* <FormText>This field is optional, you can leave it blank to select all topical keywords. <b>The level indicators only indicate scope, not priority or importance.</b></FormText> */}
                   </FormGroup>
                </Col>
             </Row>
@@ -185,7 +184,7 @@ class SearchForUniversityForm extends Component {
                         closeOnSelect={false}
                         closeMenuOnSelect={false}
                      />
-                     <FormText>This field is optional, you can leave it blank to select all collaborations.</FormText>
+                     {/* <FormText>This field is optional, you can leave it blank to select all collaborations.</FormText> */}
                   </FormGroup>
                </Col>
             </Row>

@@ -1,5 +1,4 @@
 import { C4Actions } from '../actions/searchFor4CMemberActions'
-import StateManager from 'react-select'
 
 const initialState = {
    items: [],

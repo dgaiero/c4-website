@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
-import {
-   Container,
-   Button,
-   Jumbotron,
-   Row,
-   Col,
-} from 'reactstrap';
 import './App.css';
 import './welcomeJumbotron.css'
+
+import {
+   Button,
+   Col,
+   Container,
+   Jumbotron,
+   Row,
+} from 'reactstrap';
+import React, { Component } from 'react';
+
 import { connect } from 'react-redux';
 
 class WelcomeJumbotron extends Component {
@@ -32,7 +34,7 @@ class WelcomeJumbotron extends Component {
                   <hr className="my-2 hr-light" />
                   <p>{settings.frontMessageSubText}</p>
                   <p className="lead">
-                     <Button href={'mailto:' + settings.additionEmailAddress} color="light">Request Addition to Database</Button>
+                        <Button href={'mailto:' + settings.additionEmailAddress +'?subject=C4 Request&body=Please add me to the CCC database.'} color="light"  target="_blank" rel="noopener noreferrer">Request Addition to Database</Button>
                   </p>
                   </Col>
                </Row>

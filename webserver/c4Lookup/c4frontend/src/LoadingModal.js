@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
-import {
-   Modal, ModalHeader, ModalBody,
-} from 'reactstrap';
 import './Modal.css';
+
+import {
+   Modal,
+   ModalBody,
+   ModalHeader,
+} from 'reactstrap';
+import React, { Component } from 'react';
 
 export default class LoadingModal extends Component {
    
@@ -18,6 +21,7 @@ export default class LoadingModal extends Component {
          <Modal isOpen={openStatus} centered size={size}>
             <ModalHeader>{this.props.title}</ModalHeader>
             <ModalBody>
+               This might take a little while if this is the first time you're here.<br />
                {this.props.body}
             </ModalBody>
          </Modal>

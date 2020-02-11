@@ -1,16 +1,23 @@
-import React, { Component } from 'react';
-import {
-   Modal, ModalHeader, ModalBody, Button, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Alert
-} from 'reactstrap';
-
-import { Link } from 'react-router-dom';
 import '../App.css';
-import { NBSP } from '../helper'
 
+import {
+   Alert,
+   Button,
+   ListGroup,
+   ListGroupItem,
+   ListGroupItemHeading,
+   ListGroupItemText,
+   Modal,
+   ModalBody,
+   ModalHeader
+} from 'reactstrap';
+import React, { Component } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { Link } from 'react-router-dom';
+import { NBSP } from '../helper'
 import { faLifeRing } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 library.add(faLifeRing);
 
@@ -32,7 +39,7 @@ class HowToSearchModal extends Component {
                <ModalBody>
                   <Alert color="info">
                      If you're looking for potential university collaborators, then
-                     you're in the right place! If instead, you want to search for NGO or
+                     you're in the right place! If you want to search for NGO or
                      government (city, regional, county), you'll need to go{NBSP}
                      <Link to="4CCollaborator">here</Link>.
                   </Alert>
@@ -43,15 +50,15 @@ class HowToSearchModal extends Component {
                         <ListGroupItemText>
                            <p>Not sure how to use this tool? Here are a couple of
                            tips to get started.</p>
-                           <p>Here is a general formula for searching:{NBSP}
+                           <p>Here is a general formula for how queries are structured:{NBSP}
                            <em>Query = University AND (Activity Keywords OR 
                               Topical Keywords) AND Collaborations</em>.
                            </p>
                            <p>
-                              This means that your results will contain members
+                              This means that your results will contain collaborators
                               from any university you selected that match any of
                               the keywords (activity and topical) and each person
-                              identifies with the collaborations selected.
+                              identified with the collaborations selected.
                            </p>
                            <p>
                               It's best to start broad and narrow your search
@@ -63,7 +70,7 @@ class HowToSearchModal extends Component {
                               topical high level keywords to get an idea of who
                               specializes in water. At this point, if you know
                               what types of collaborations you are looking for,
-                              go ahead an input them. Then, click {NBSP}
+                              go ahead and input them. Then, click {NBSP}
                               <code>Run Query</code>. This will give you anybody
                               who specializes in water. At this point, you can
                               start narrowing down your parameters by adding
@@ -100,9 +107,9 @@ class HowToSearchModal extends Component {
                      <ListGroupItem>
                         <ListGroupItemHeading>Collaborations</ListGroupItemHeading>
                         <ListGroupItemText>
-                           To select collaborations,
-                           it's identical to Universities, you can select a
-                           collaboration, or type to filter the results.
+                           Selecting collaborations is similar to selecting a
+                           university. You can select a
+                           collaboration, or type to filter the results
                         </ListGroupItemText>
                      </ListGroupItem>
 
@@ -111,14 +118,14 @@ class HowToSearchModal extends Component {
                         <ListGroupItemText>
                            If you want to save a query for later or share it
                            with someone, click the <code>More Actions</code>
-                           {NBSP}dropdown, and then select
+                           {NBSP}dropdown, and then select{NBSP}
                            <code>Save Query</code>{NBSP}
                            (Note, you can only select this button if there are
-                           no parameters selected).<br />
-                           If you have a code from someone else, you can use the
+                           some parameters selected).<br />
+                           {/* If you have a code from someone else, you can use the
                            {NBSP}<code>Paste Query</code> option to paste your
                            qcode (query code) and the system will return the
-                           same query that was saved.
+                           same query that was saved. */}
                         </ListGroupItemText>
                      </ListGroupItem>
                   </ListGroup>

@@ -172,7 +172,7 @@ class SearchForUnivCollaborator extends Component {
                <Container fluid>
                   <Row>
                   <Col sm={{ size: 6, order: 2, offset: 1 }}>
-                     <h1 className="display-3">Looking for a Collaborator?</h1>
+                     <h1 className="display-3">Looking for a University Collaborator?</h1>
                      <p className="lead">Use the form below to query potential collaborators.</p>
                      <p className="text-muted">All fields are optional. Leave blank to select all options in that category.< br />
                      <b>The level indicators only indicate scope, not priority or importance.</b></p>

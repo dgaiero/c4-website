@@ -1,9 +1,8 @@
+import { Helmet } from 'react-helmet'
 import React from 'react'
 
-import { Helmet } from 'react-helmet'
-
 export const delimiter = "|"
-export const appTitle = "4C Member Lookup"
+export const appTitle = "4C Collaborator Lookup"
 
 export default function Title(props) {
    return (

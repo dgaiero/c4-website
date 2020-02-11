@@ -34,7 +34,10 @@ class WelcomeJumbotron extends Component {
                   <hr className="my-2 hr-light" />
                   <p>{settings.frontMessageSubText}</p>
                   <p className="lead">
-                        <Button href={'mailto:' + settings.additionEmailAddress +'?subject=C4 Request&body=Please add me to the CCC database.'} color="light"  target="_blank" rel="noopener noreferrer">Request Addition to Database</Button>
+                        <Button href={'mailto:' + settings.additionEmailAddress
+                        +'?subject=C4 Request&body=Please add me to the 4C database.'}
+                        color="light"  target="_blank" rel="noopener noreferrer">
+                        Request Addition to Database</Button>
                   </p>
                   </Col>
                </Row>

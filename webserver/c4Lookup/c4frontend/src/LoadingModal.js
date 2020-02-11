@@ -1,6 +1,7 @@
 import './Modal.css';
 
 import {
+   Alert,
    Modal,
    ModalBody,
    ModalHeader,
@@ -8,7 +9,7 @@ import {
 import React, { Component } from 'react';
 
 export default class LoadingModal extends Component {
-   
+
    /* Passed in:
       props:
          - title
@@ -21,7 +22,10 @@ export default class LoadingModal extends Component {
          <Modal isOpen={openStatus} centered size={size}>
             <ModalHeader>{this.props.title}</ModalHeader>
             <ModalBody>
-               This might take a little while if this is the first time you're here.<br />
+               <Alert color="dark">
+                  This might take a little while depending on network
+                  conditions.
+               </Alert>
                {this.props.body}
             </ModalBody>
          </Modal>

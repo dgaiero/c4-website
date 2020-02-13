@@ -13,14 +13,15 @@ class CollaborationResource(resources.ModelResource):
       column_name=('Collaboration Name')
    )
    collaborationDescription = fields.Field(
-      column_name='Collaboration Description', attribute='collaborationDescription')
+      column_name='Collaboration Description',
+      attribute='collaborationDescription')
 
    class Meta:
       skip_unchanged = True
       report_skipped = False
       model = Collaborations
       exclude = ('id', 'dateAdded')
-      import_id_fields = ('collaborationName', 'collaborationDescription')
+      import_id_fields = ('collaborationName',)
       fields = ('id', 'collaborationName', 'collaborationDescription',)
       export_order = ('id', 'collaborationName', 'collaborationDescription',)
 

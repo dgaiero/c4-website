@@ -53,14 +53,17 @@ class ParseSaveQuery extends Component {
          history.replace({ pathname: '/' });
       }
       let query = match.params.id;
+      const buf = new Buffer(query, 'hex');
+      query = buf.toString('utf8');
       let decoded_query;
       try {
-      decoded_query = base64.decode(query);
+         decoded_query = base64.decode(query);
+         console.log(decoded_query);
       }
       catch {
          return (
             <>
-            <Title name="No Match Found" />
+               <Title name="No Match Found" />
                <Jumbotron>
                   <h1 className="display-3">No Match Found!</h1>
                   <p className="lead">A match could not be found for the code <code>{query}</code></p>
@@ -73,7 +76,7 @@ class ParseSaveQuery extends Component {
                </Jumbotron>
             </>
          )
-      }      
+      }
       return (
          <>
             <Title name="Match Found" />
@@ -83,7 +86,7 @@ class ParseSaveQuery extends Component {
                <hr className="my-2" />
                <p>You will be redirected to <code>{decoded_query}</code> in {this.state.seconds} seconds</p>
                {/* {this.state.seconds === 0 ? <Redirect to={decoded_query} /> : null} */}
-               <Redirect to={"/" + decoded_query}/>
+               <Redirect to={"/" + decoded_query} />
             </Jumbotron>
          </>
       )

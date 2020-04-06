@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
 
 import C4TableView from './4CCollaborators/TableView'
-import ComingSoon from './ComingSoon'
+// import ComingSoon from './ComingSoon'
 import FrontPageCards from './indexPage';
 import Loader from './loader';
 import Loading from './Loading'
@@ -15,7 +15,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { fetchSettings } from './actions/settingsActions'
 
-// import ParseSaveQuery from './ParseSaveQuery'
+import ParseSaveQuery from './ParseSaveQuery'
 // import DebugMessage from './DebugMessage'
 
 
@@ -40,7 +40,7 @@ class RootContainer extends Component {
             <Navigation />
             <Switch>
                <Route path="/" exact component={FrontPageCards} />
-               <Route path="/save/:id?" component={ComingSoon} />
+               <Route path="/save/:id?" component={ParseSaveQuery} />
                <Route path="/univCollaborator/" exact component={UnivTableView} />
                <Route path="/4CCollaborator/" exact component={C4TableView} />
                <Route component={NotFound} status={404} />

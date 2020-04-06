@@ -105,8 +105,8 @@ class FrontPageCards extends Component {
                <CardDeck className="card-deck-overrides">
                   <LookingForUnivCollaboratorCard />
                   <LookingFor4CCollaboratorCard />
-                  <UnderConstructionCard />
-                  {/* <this.PasteQCode /> */}
+                  {/* <UnderConstructionCard />
+                  <this.PasteQCode /> */}
                </CardDeck>
             </Container>
          </>

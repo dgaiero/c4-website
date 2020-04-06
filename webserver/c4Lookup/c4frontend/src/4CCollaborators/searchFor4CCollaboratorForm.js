@@ -197,17 +197,18 @@ class SearchFor4CCollaboratorForm extends Component {
                </div>
                {NBSP}
                <div>
-                  <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.setState(prevState => ({ dropdownOpen: !prevState.dropdownOpen }))}>
-                     <DropdownToggle caret>
-                        More Actions
-                        </DropdownToggle>
-                     <DropdownMenu>
-                        {/* <DropdownItem disabled>Export Search (coming soon)</DropdownItem> */}
-                        {/* <DropdownItem divider /> */}
-                        <DropdownItem disabled={isEmpty(this.state.queryData)} onClick={() => this.setState({ copyToClipBoardToggle: !this.state.copyToClipBoardToggle })}>Save Query</DropdownItem>
-                        <DropdownItem disabled onClick={() => this.setState({ pasteFromClipBoardToggle: !this.state.pasteFromClipBoardToggle })}>Paste Query (coming soon)</DropdownItem>
-                     </DropdownMenu>
-                  </Dropdown>
+                  <Button
+                     disabled={isEmpty(this.state.queryData)}
+                     onClick={() =>
+                        this.setState(
+                           {
+                              copyToClipBoardToggle:
+                                 !this.state.copyToClipBoardToggle
+                           })}
+                  ><span>{isEmpty(this.state.queryData) ?
+                     'Save Query (Create a query to enable)' :
+                     'Save Query'}</span>
+                  </Button>
                   <CopyToClipBoardModal
                      openStatus={this.state.copyToClipBoardToggle}
                      query={buildQueryString(this.state.queryData)}

@@ -1,3 +1,5 @@
 
 webserver/c4Lookup/static/
 **.vscode/*
+webserver/c4Lookup/.vscode/settings.json
+node_modules/.yarn-integrity

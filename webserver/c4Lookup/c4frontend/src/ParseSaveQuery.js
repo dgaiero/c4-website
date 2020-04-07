@@ -58,7 +58,6 @@ class ParseSaveQuery extends Component {
       let decoded_query;
       try {
          decoded_query = base64.decode(query);
-         console.log(decoded_query);
       }
       catch {
          return (

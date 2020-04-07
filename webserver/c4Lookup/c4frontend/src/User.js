@@ -9,7 +9,7 @@ import { NBSP } from './helper'
 import Obfuscate from 'react-obfuscate'
 import UserDetailModal from './AdditionalDataModal';
 
-function getUserTypes(shortUserType) {
+export function getUserTypes(shortUserType) {
    switch (shortUserType) {
       case "US":
          return { name: "University Faculty/Staff", color: "primary" };

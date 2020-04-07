@@ -12,6 +12,15 @@ import React, { Component } from 'react';
 import BaseModal from './AdditionalDataModal';
 import { connect } from 'react-redux'
 
+export function getCollaborationsFromIDs(collaborationIDs, collaborations) {
+   let displayText = '';
+   collaborationIDs.map(collaboration => (
+      displayText += toTitleCase(collaborations[collaboration].collaborationName) + ", "
+   ));
+   displayText = displayText.substring(0, displayText.length - 2);
+   return displayText;
+}
+
 class Collaborations extends Component {
    constructor(props) {
       super(props);

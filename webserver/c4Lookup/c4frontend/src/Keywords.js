@@ -34,6 +34,15 @@ function getKeywordSortOrder(shortKeywordSortOrder) {
    }
 }
 
+export function getKeywordsFromIDs(keywordIDs, keywords) {
+   let displayText = '';
+   keywordIDs.map(keyword => (
+      displayText += toTitleCase(keywords[keyword].keywordName)+ ", "
+   ));
+   displayText = displayText.substring(0, displayText.length - 2);
+   return displayText;
+}
+
 class Keywords extends Component {
    constructor(props) {
       super(props);

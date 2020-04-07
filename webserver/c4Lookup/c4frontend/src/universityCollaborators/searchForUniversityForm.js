@@ -21,6 +21,13 @@ import Select from 'react-select'
 import { buildQueryString } from './searchForUniversity'
 import { connect } from 'react-redux'
 import { withRouter } from "react-router";
+import ExportData from '../Export'
+import { getKeywordsFromIDs } from '../Keywords'
+import { getCollaborationsFromIDs } from '../Collaborations'
+import { getOrganizationsFromIDs } from '../Organizations'
+import { getUserTypes } from '../User'
+
+// const exportToCSV = ExportData();
 
 class SearchForUniversityForm extends Component {
    constructor(props) {
@@ -39,6 +46,7 @@ class SearchForUniversityForm extends Component {
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.exportData = this.exportData.bind(this);
       this.univOptions = this.getUnivertisyTypes();
       this.aKeywords = this.getKeywordTypes('AK');
       this.tKeywords = this.getKeywordTypes('TK');
@@ -105,6 +113,22 @@ class SearchForUniversityForm extends Component {
 
    }
 
+   exportData() {
+      const users = this.props.collaborators.items;
+      const exportUsers = users.map(user => ({
+         'First Name': user.firstName,
+         'Last Name': user.lastName,
+         'Email Address': user.emailAddress,
+         'Website': user.website,
+         'Organizations': getOrganizationsFromIDs(user.organization, this.props.orgs.items),
+         'User Type': getUserTypes(user.userType).name,
+         'Job Title': user.jobTitle,
+         'Description': user.description,
+         'Keywords': getKeywordsFromIDs(user.keywords, this.props.keywords.items),
+         'Collaborations': getCollaborationsFromIDs(user.collaborations, this.props.collaborations.items),
+      }));
+      ExportData(exportUsers, 'user_export');
+   }
 
 
    render() {
@@ -193,17 +217,26 @@ class SearchForUniversityForm extends Component {
                </div>
                {NBSP}
                <div>
-                  <Button
-                     disabled={isEmpty(this.state.queryData)}
-                     onClick={() => 
-                        this.setState(
-                           { copyToClipBoardToggle:
-                              !this.state.copyToClipBoardToggle
-                           })}
-                  ><span>{isEmpty(this.state.queryData) ?
-                     'Save Query (Create a query to enable)' :
-                     'Save Query'}</span>
-                  </Button>
+
+                  <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.setState(prevState => ({ dropdownOpen: !prevState.dropdownOpen }))}>
+                     <DropdownToggle caret>
+                        More Actions
+                        </DropdownToggle>
+                     <DropdownMenu>
+                        <DropdownItem disabled={this.props.collaborators.items.length === 0} onClick={this.exportData}>Export Search</DropdownItem>
+                        <DropdownItem divider />
+                        <DropdownItem disabled={isEmpty(this.state.queryData)}
+                           onClick={() =>
+                              this.setState(
+                                 {
+                                    copyToClipBoardToggle:
+                                       !this.state.copyToClipBoardToggle
+                                 })}
+                        ><span>{isEmpty(this.state.queryData) ?
+                           'Save Query (Create a query to enable)' :
+                           'Save Query'}</span></DropdownItem>
+                     </DropdownMenu>
+                  </Dropdown>
                   <CopyToClipBoardModal
                      openStatus={this.state.copyToClipBoardToggle}
                      query={buildQueryString(this.state.queryData)}

@@ -32,6 +32,15 @@ function getOrgType(shortOrgType) {
    }
 }
 
+export function getOrganizationsFromIDs(organizationIDs, organizations) {
+   let displayText = '';
+   organizationIDs.map(organization => (
+      displayText += organizations[organization].orgNameUnique + ", "
+   ));
+   displayText = displayText.substring(0, displayText.length - 2);
+   return displayText;
+}
+
 class Organizations extends Component {
    constructor(props) {
       super(props);

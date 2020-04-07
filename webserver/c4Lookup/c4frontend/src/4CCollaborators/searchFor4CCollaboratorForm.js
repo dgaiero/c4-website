@@ -21,6 +21,11 @@ import Select from 'react-select'
 import { buildQueryString } from './searchFor4CCollaborator'
 import { connect } from 'react-redux'
 import { withRouter } from "react-router";
+import ExportData from '../Export'
+import { getKeywordsFromIDs } from '../Keywords'
+import { getCollaborationsFromIDs } from '../Collaborations'
+import { getOrganizationsFromIDs } from '../Organizations'
+import { getUserTypes } from '../User'
 
 class SearchFor4CCollaboratorForm extends Component {
    constructor(props) {
@@ -39,6 +44,7 @@ class SearchFor4CCollaboratorForm extends Component {
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.exportData = this.exportData.bind(this);
       this.orgOptions = this.getOrgTypes();
       this.aKeywords = this.getKeywordTypes('AK');
       this.tKeywords = this.getKeywordTypes('TK');
@@ -105,7 +111,22 @@ class SearchFor4CCollaboratorForm extends Component {
 
    }
 
-
+   exportData() {
+      const users = this.props.collaborators.items;
+      const exportUsers = users.map(user => ({
+         'First Name': user.firstName,
+         'Last Name': user.lastName,
+         'Email Address': user.emailAddress,
+         'Website': user.website,
+         'Organizations': getOrganizationsFromIDs(user.organization, this.props.orgs.items),
+         'User Type': getUserTypes(user.userType).name,
+         'Job Title': user.jobTitle,
+         'Description': user.description,
+         'Keywords': getKeywordsFromIDs(user.keywords, this.props.keywords.items),
+         'Collaborations': getCollaborationsFromIDs(user.collaborations, this.props.collaborations.items),
+      }));
+      ExportData(exportUsers, 'user_export');
+   }
 
    render() {
 
@@ -127,7 +148,6 @@ class SearchFor4CCollaboratorForm extends Component {
                         closeOnSelect={false}
                         closeMenuOnSelect={false}
                      />
-                     {/* <FormText>This field is optional, you can leave it blank to select all organiztions.</FormText> */}
                   </FormGroup>
                </Col>
             </Row>
@@ -146,7 +166,6 @@ class SearchFor4CCollaboratorForm extends Component {
                         closeOnSelect={false}
                         closeMenuOnSelect={false}
                      />
-                     {/* <FormText>This field is optional, you can leave it blank to select all activity keywords. <b>The level indicators only indicate scope, not priority or importance.</b></FormText> */}
                   </FormGroup>
                </Col>
             </Row>
@@ -165,7 +184,6 @@ class SearchFor4CCollaboratorForm extends Component {
                         closeOnSelect={false}
                         closeMenuOnSelect={false}
                      />
-                     {/* <FormText>This field is optional, you can leave it blank to select all topical keywords. <b>The level indicators only indicate scope, not priority or importance.</b></FormText> */}
                   </FormGroup>
                </Col>
             </Row>
@@ -197,18 +215,25 @@ class SearchFor4CCollaboratorForm extends Component {
                </div>
                {NBSP}
                <div>
-                  <Button
-                     disabled={isEmpty(this.state.queryData)}
-                     onClick={() =>
-                        this.setState(
-                           {
-                              copyToClipBoardToggle:
-                                 !this.state.copyToClipBoardToggle
-                           })}
-                  ><span>{isEmpty(this.state.queryData) ?
-                     'Save Query (Create a query to enable)' :
-                     'Save Query'}</span>
-                  </Button>
+                  <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.setState(prevState => ({ dropdownOpen: !prevState.dropdownOpen }))}>
+                     <DropdownToggle caret>
+                        More Actions
+                        </DropdownToggle>
+                     <DropdownMenu>
+                        <DropdownItem disabled={this.props.collaborators.items.length === 0} onClick={this.exportData}>Export Search</DropdownItem>
+                        <DropdownItem divider />
+                        <DropdownItem disabled={isEmpty(this.state.queryData)}
+                           onClick={() =>
+                              this.setState(
+                                 {
+                                    copyToClipBoardToggle:
+                                       !this.state.copyToClipBoardToggle
+                                 })}
+                        ><span>{isEmpty(this.state.queryData) ?
+                           'Save Query (Create a query to enable)' :
+                           'Save Query'}</span></DropdownItem>
+                     </DropdownMenu>
+                  </Dropdown>
                   <CopyToClipBoardModal
                      openStatus={this.state.copyToClipBoardToggle}
                      query={buildQueryString(this.state.queryData)}
@@ -243,7 +268,7 @@ const mapStateToProps = state => ({
    orgs: state.orgs,
    keywords: state.keywords,
    collaborations: state.collaborations,
-   collaborators: state.orgCollaborators,
+   collaborators: state.C4Collaborators,
 })
 
 SearchFor4CCollaboratorForm = withRouter(SearchFor4CCollaboratorForm);

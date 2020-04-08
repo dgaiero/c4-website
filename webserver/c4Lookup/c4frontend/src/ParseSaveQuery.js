@@ -49,6 +49,8 @@ class ParseSaveQuery extends Component {
 
    render() {
       const { match, history } = this.props;
+      const re = /^(4CCollaborator|univCollaborator)\?((org|keyA|keyT|clb)=\d+(&|\n|\d))+$/g;
+      let valid = false;
       if (!match.params.id) {
          history.replace({ pathname: '/' });
       }
@@ -64,8 +66,26 @@ class ParseSaveQuery extends Component {
             <>
                <Title name="No Match Found" />
                <Jumbotron>
-                  <h1 className="display-3">No Match Found!</h1>
-                  <p className="lead">A match could not be found for the code <code>{query}</code></p>
+                  <h1 className="display-3">Malformatted String!</h1>
+                  <p className="lead">A match could not be found for the string <code>{query}</code></p>
+                  <hr className="my-2" />
+                  <p>You will be redirected to the homepage in {this.state.seconds} seconds</p>
+                  {this.state.seconds === 0 ? <Redirect to='/' /> : null}
+                  <p className="lead">
+                     <Button tag={RRNavLink} exact to="/" color="primary">Go Home</Button>
+                  </p>
+               </Jumbotron>
+            </>
+         )
+      }
+      if (!re.test(decoded_query)) {
+         return (
+            <>
+               <Title name="No Match Found" />
+               <Jumbotron>
+                  <h1 className="display-3">Malformatted String!</h1>
+                  <p className="lead">Regex test failed for the string <code>{query}</code></p>
+                  <p className="lead">Using regex <code>{re.toString()}</code></p>
                   <hr className="my-2" />
                   <p>You will be redirected to the homepage in {this.state.seconds} seconds</p>
                   {this.state.seconds === 0 ? <Redirect to='/' /> : null}
@@ -84,8 +104,8 @@ class ParseSaveQuery extends Component {
                <p className="lead">A match could be found for the code <code>{query}</code></p>
                <hr className="my-2" />
                <p>You will be redirected to <code>{decoded_query}</code> in {this.state.seconds} seconds</p>
-               {/* {this.state.seconds === 0 ? <Redirect to={decoded_query} /> : null} */}
-               <Redirect to={"/" + decoded_query} />
+               {this.state.seconds === 0 ? <Redirect to={decoded_query} /> : null}
+               {/* <Redirect to={"/" + decoded_query} /> */}
             </Jumbotron>
          </>
       )

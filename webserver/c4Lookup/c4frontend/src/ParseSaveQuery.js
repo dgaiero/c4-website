@@ -104,8 +104,8 @@ class ParseSaveQuery extends Component {
                <p className="lead">A match could be found for the code <code>{query}</code></p>
                <hr className="my-2" />
                <p>You will be redirected to <code>{decoded_query}</code> in {this.state.seconds} seconds</p>
-               {this.state.seconds === 0 ? <Redirect to={decoded_query} /> : null}
-               {/* <Redirect to={"/" + decoded_query} /> */}
+               {/* {this.state.seconds === 0 ? <Redirect to={decoded_query} /> : null} */}
+               <Redirect to={"/" + decoded_query} />
             </Jumbotron>
          </>
       )

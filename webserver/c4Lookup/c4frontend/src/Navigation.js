@@ -24,12 +24,12 @@ class Navigation extends Component {
             <NavbarToggler onClick={() => this.props.toggleNavBar()} />
             <Collapse isOpen={nav.navOpen} navbar>
                <Nav className="ml-auto" navbar>
-                  <NavItem>
+                  {/* <NavItem>
                      <NavLink tag={RRNavLink} exact to="/univCollaborator" activeClassName="active">Search for a University Collaborator</NavLink>
                   </NavItem>
                   <NavItem>
                      <NavLink tag={RRNavLink} exact to="/4CCollaborator" activeClassName="active">Search for a 4C Member</NavLink>
-                  </NavItem>
+                  </NavItem> */}
                   <NavItem>
                   </NavItem>
                </Nav>

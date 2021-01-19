@@ -6,6 +6,7 @@ import nav from './menuReducer'
 import orgs from './organizationReducer'
 import settings from './settingsReducer'
 import univCollaborators from './searchForUnivCollaboratorReducer';
+import collaborators from './searchForCollaboratorReducer';
 
 export default combineReducers({
    settings,
@@ -15,5 +16,5 @@ export default combineReducers({
    univCollaborators,
    C4Collaborators,
    collaborations,
-
+   collaborators,
 });

@@ -60,6 +60,20 @@ const LookingFor4CCollaboratorCard = () => {
    )
 }
 
+const LookingForCollaboratorCard = () => {
+   return (
+      <Card className="cardHideOverflow card-no-border shadow text-light" >
+         <div className="lookingForCollaboratorCardImage card-defaults">
+            <CardBody>
+               <h5 className='cardTitle'>Looking for a Collaborator?</h5>
+               <CardText>Interested in finding faculty, students, city, county, NGO, or regional staff?</CardText>
+            </CardBody>
+            <div className="card-footer-light"><Button color="light" tag={RRNavLink} exact to="/Collaborator">Search For a Collaborator</Button></div>
+         </div>
+      </Card>
+   )
+}
+
 class FrontPageCards extends Component {
    constructor(props) {
       super(props);
@@ -103,9 +117,10 @@ class FrontPageCards extends Component {
             <WelcomeJumbotron />
             <Container>
                <CardDeck className="card-deck-overrides">
-                  <LookingForUnivCollaboratorCard />
+                  <LookingForCollaboratorCard />
+                  {/* <LookingForUnivCollaboratorCard />
                   <LookingFor4CCollaboratorCard />
-                  {/* <UnderConstructionCard />
+                  <UnderConstructionCard />
                   <this.PasteQCode /> */}
                </CardDeck>
             </Container>

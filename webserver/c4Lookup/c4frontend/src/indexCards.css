@@ -35,6 +35,27 @@
    flex: 1 1 auto;
 }
 
+.lookingForCollaboratorCardImage {
+   background: linear-gradient(rgba(0, 0, 0, 0.5),
+         rgba(0, 0, 0, 0.5)),
+
+         url(https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1934&q=80);
+   background-repeat: no-repeat;
+   background-position-x: center;
+   background-position-y: 40%;
+   background-size: cover;
+}
+
+.lookingForGovCollaboratorCardImage {
+   background: linear-gradient(rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)),
+
+      url(https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1934&q=80);
+   background-repeat: no-repeat;
+   background-position: fixed;
+   background-size: cover;
+}
+
 .lookingForUnivCollaboratorCardImage {
    background: linear-gradient(rgba(0, 0, 0, 0.5),
          rgba(0, 0, 0, 0.5)),
@@ -50,16 +71,6 @@
       rgba(0, 0, 0, 0.5)),
 
       url(https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80);
-   background-repeat: no-repeat;
-   background-position: fixed;
-   background-size: cover;
-}
-
-.lookingForGovCollaboratorCardImage {
-   background: linear-gradient(rgba(0, 0, 0, 0.5),
-      rgba(0, 0, 0, 0.5)),
-
-      url(https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1934&q=80);
    background-repeat: no-repeat;
    background-position: fixed;
    background-size: cover;

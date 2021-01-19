@@ -3,7 +3,8 @@ import './App.css';
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
 
-import C4TableView from './4CCollaborators/TableView'
+import C4TableView from './4CCollaborators/TableView';
+import TableView from './Collaborators/TableView';
 // import ComingSoon from './ComingSoon'
 import FrontPageCards from './indexPage';
 import Loader from './loader';
@@ -43,6 +44,7 @@ class RootContainer extends Component {
                <Route path="/save/:id?" component={ParseSaveQuery} />
                <Route path="/univCollaborator/" exact component={UnivTableView} />
                <Route path="/4CCollaborator/" exact component={C4TableView} />
+               <Route path="/Collaborator" exact component={TableView} />
                <Route component={NotFound} status={404} />
             </Switch>
          </main>
@@ -54,6 +56,7 @@ const mapStateToProps = state => ({
    settings: state.settings,
    orgCollaborators: state.C4Collaborators,
    univCollaborators: state.univCollaborators,
+   collaborators: state.collaborators,
 })
 
 const mapDispatchToProps = {

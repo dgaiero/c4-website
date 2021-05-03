@@ -34,7 +34,7 @@ class WelcomeJumbotron extends Component {
                   <hr className="my-2 hr-light" />
                   <p>{settings.frontMessageSubText}</p>
                   <p className="lead">
-                        <Button href={'https://docs.google.com/forms/d/e/1FAIpQLSfaGZKNigVtrvtTorWCRFGMsvW_3lZtmTwG3WaoQZ_peN9vdg/viewform'}
+                        <Button href={'https://www.surveymonkey.com/r/5X3RL3B'}
                         color="light"  target="_blank" rel="noopener noreferrer">
                         Request Addition to Database</Button>
                   </p>

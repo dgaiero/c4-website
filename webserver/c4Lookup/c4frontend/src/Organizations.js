@@ -78,7 +78,7 @@ class Organizations extends Component {
       const organizationIDs = this.props.items;
 
       organizationIDs.map(organizationID => (
-         displayText += this.props.orgs[organizationID].orgName + ", "));
+         displayText += this.props.orgs[organizationID].orgName  + ", "));
       displayText = displayText.substring(0, displayText.length - 2)
       if (displayText.length > this.props.displayLength)
          displayText = displayText.substring(0, this.props.displayLength) + "..."

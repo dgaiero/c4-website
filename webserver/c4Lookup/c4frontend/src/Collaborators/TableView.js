@@ -18,6 +18,7 @@ import Loader from '../loader';
 import Loading from '../Loading'
 import Obfuscate from 'react-obfuscate'
 import Organizations from '../Organizations'
+import Department from '../Department'
 import PaginationWrapper from '../Pagination'
 import SearchForCollaborator from './SearchForCollaborator'
 import UserDetail from '../User'
@@ -70,6 +71,7 @@ class TableView extends Component {
          <tr key={item.id}>
             <th scope="row">{item.firstName} {item.lastName}</th>
             <td>{!this.props.orgsLoading || this.props.orgs === [] ? <Organizations items={item.organization} displayLength={20} /> : <Spinner color="primary" />}</td>
+            <td>{!this.props.orgsLoading || this.props.orgs === [] ? <Department items={item.organization} displayLength={20} /> : <Spinner color="primary" />}</td>
             <td><Obfuscate email={item.emailAddress} /></td>
             <td>{!this.props.keywordsLoading || this.props.keywords === [] ? <Keyword items={item.keywords} displayLength={25} /> : <Spinner color="primary" />}</td>
             <td>{!this.props.collaborationsLoading || this.props.collaborations === [] ? <Collaborations items={item.collaborations} displayLength={25} /> : <Spinner color="primary" />}</td>
@@ -126,6 +128,7 @@ class TableView extends Component {
                            <tr>
                               <th>Name</th>
                               <th>Organization(s)</th>
+                              <th>Department</th>
                               <th>Email Address</th>
                               <th>Keyword(s)</th>
                               <th>Collaboration(s)</th>

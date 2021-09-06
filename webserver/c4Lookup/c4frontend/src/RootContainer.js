@@ -9,6 +9,7 @@ import TableView from './Collaborators/TableView';
 import FrontPageCards from './indexPage';
 import Loader from './loader';
 import Loading from './Loading'
+import CollaboratorLinksResourcesModal from "./CollaboratorLinksResourcesModal";
 import Navigation from './Navigation'
 import NotFound from './404'
 import UnivTableView from './universityCollaborators/TableView'
@@ -19,14 +20,32 @@ import { fetchSettings } from './actions/settingsActions'
 import ParseSaveQuery from './ParseSaveQuery'
 // import DebugMessage from './DebugMessage'
 
-
 axios.defaults.baseURL = "https://api.centralcoastclimate.org"
 // axios.defaults.baseURL = "http://192.168.86.218:8000"
 
 class RootContainer extends Component {
 
+   constructor(props) {
+      super(props)
+      this.state = {
+         showCollaboratorLinksResourcesModal: false
+      }
+   }
+
    componentDidMount() {
       this.props.fetchSettings();
+   }
+
+   handleCollaboratorLinksResourcesModalOpen = () => {
+      this.setState({
+         showCollaboratorLinksResourcesModal: true
+      })
+   }
+
+   handleCollaboratorLinksResourcesModalClose = () => {
+      this.setState({
+         showCollaboratorLinksResourcesModal: false
+      })
    }
 
    render() {
@@ -37,8 +56,14 @@ class RootContainer extends Component {
       return (
          <main className="App content">
             <Loading body={loader} status={loadStatus} />
+            <CollaboratorLinksResourcesModal
+                isOpen={this.state.showCollaboratorLinksResourcesModal}
+                closeCollaboratorLinksResourcesModal={this.handleCollaboratorLinksResourcesModalClose}
+            />
             {/* <DebugMessage /> */}
-            <Navigation />
+            <Navigation
+                openCollaboratorLinksResourcesModal={this.handleCollaboratorLinksResourcesModalOpen}
+            />
             <Switch>
                <Route path="/" exact component={FrontPageCards} />
                <Route path="/save/:id?" component={ParseSaveQuery} />

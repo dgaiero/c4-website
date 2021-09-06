@@ -31,6 +31,13 @@ class Navigation extends Component {
                      <NavLink tag={RRNavLink} exact to="/4CCollaborator" activeClassName="active">Search for a 4C Member</NavLink>
                   </NavItem> */}
                   <NavItem>
+                     <NavLink
+                         style={{cursor: "pointer"}}
+                         activeClassName="active"
+                         onClick={this.props.openCollaboratorLinksResourcesModal}
+                     >
+                        Collaborator Links & Resources
+                     </NavLink>
                   </NavItem>
                </Nav>
             </Collapse>

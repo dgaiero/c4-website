@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap'
 
-class CollaboratorasResourcesModal extends React.Component {
-
+class CollaboratorsLinksResourcesModal extends React.Component {
 
     render() {
         return (
-            <Modal isOpen={this.props.isOpen} centered toggle={this.props.closeCollaboratorasResourcesModal}>
+            <Modal isOpen={this.props.isOpen} centered toggle={this.props.closeCollaboratorLinksResourcesModal}>
                 <ModalHeader>Organization Tools:</ModalHeader>
                 <ModalBody>
                     <a href="https://trello.com" target="_blank">Trello</a>
@@ -43,4 +42,4 @@ class CollaboratorasResourcesModal extends React.Component {
     }
 }
 
-export default CollaboratorasResourcesModal
+export default CollaboratorsLinksResourcesModal

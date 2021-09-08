@@ -18,21 +18,21 @@ class Navigation extends Component {
    render() {
       const {nav, settings} = this.props;
       return (
-
          <Navbar color="dark" dark expand="md">
             <NavbarBrand tag={RRNavLink} exact to="/">{settings.siteHeading}</NavbarBrand>
             <NavbarToggler onClick={() => this.props.toggleNavBar()} />
             <Collapse isOpen={nav.navOpen} navbar>
                <Nav className="ml-auto" navbar>
-                  {/* <NavItem>
-                     <NavLink tag={RRNavLink} exact to="/univCollaborator" activeClassName="active">Search for a University Collaborator</NavLink>
-                  </NavItem>
-                  <NavItem>
-                     <NavLink tag={RRNavLink} exact to="/4CCollaborator" activeClassName="active">Search for a 4C Member</NavLink>
-                  </NavItem> */}
                   <NavItem>
                      <NavLink
-                         style={{cursor: "pointer"}}
+                         style={
+                            {
+                               cursor: "pointer",
+                               fontSize: "20px",
+                               textTransform: "capitalize",
+                               color: "white"
+                            }
+                         }
                          activeClassName="active"
                          onClick={this.props.openCollaboratorLinksResourcesModal}
                      >
